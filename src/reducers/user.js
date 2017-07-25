@@ -1,42 +1,9 @@
-// ------------------------------------
-// Action types
-// ------------------------------------
-export const GET_COMMUNITIES_REQUEST = 'GET_COMMUNITIES_REQUEST';
-export const GET_COMMUNITIES_FAIL = 'GET_COMMUNITIES_FAIL';
-export const GET_COMMUNITIES_SUCCESS = 'GET_COMMUNITIES_SUCCESS';
+import {
+  GET_COMMUNITIES_REQUEST,
+  GET_COMMUNITIES_SUCCESS,
+  GET_COMMUNITIES_FAIL
+} from '../actions/user'
 
-// ------------------------------------
-// Actions
-// ------------------------------------
-export const getGroups = (communities) => {
-  return async (dispatch) => {
-    try {
-      dispatch({types: GET_COMMUNITIES_REQUEST});
-      const { data } = await VK.Api
-
-      VK.Auth.login((r) => {
-        if (r.session) {
-          let username = r.session.user.first_name;
-          console.log(username)
-        } else {
-        }
-      }, 4);
-
-      dispatch({
-        type: GET_COMMUNITIES_SUCCESS,
-        communities: communities
-      });
-    }
-    catch(e) {
-      console.log('error request');
-      dispatch({type: GET_COMMUNITIES_FAIL})
-    }
-  }
-};
-
-// ------------------------------------
-// Reducer
-// ------------------------------------
 const initialState = {
   isLoading: false,
   groups: []

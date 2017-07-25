@@ -36,6 +36,7 @@
     "webpack-dev-server": "^2.4.2"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "bootstrap": "^4.0.0-alpha.6",
     "classnames": "^2.2.5",
     "express": "^4.14.1",

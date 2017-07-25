@@ -11,10 +11,10 @@ module.exports = {
   entry: ['babel-polyfill', './src/index.js'],
   output: {
     filename: 'bundle.js',
-    path: path.join(__dirname, "public")
+    path: path.join(__dirname, "public/source")
   },
   devServer: {
-    contentBase: path.join(__dirname, "public"),
+    contentBase: path.join(__dirname, "public/source"),
     compress: true,
     port: 3000,
     historyApiFallback: true

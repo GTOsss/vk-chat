@@ -1,0 +1,5 @@
+const service = {
+  get: (url) => {
+
+  }
+}
