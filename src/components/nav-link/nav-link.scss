@@ -1,0 +1,9 @@
+.nav-item {
+  height: 3.2rem;
+  padding-top: 0.8rem;
+}
+
+.nav-item-active {
+  composes: nav-item;
+  background-color: #314963;
+}
