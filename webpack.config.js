@@ -7,6 +7,10 @@ const extractPlugin = new ExtractTextPlugin({
 });
 module.exports = {
   watch: true,
+  watchOptions: {
+    aggregateTimeout: 1000,
+    poll: 3000
+  },
   devtool: "inline-source-map",
   entry: ['babel-polyfill', './src/index.js'],
   output: {
