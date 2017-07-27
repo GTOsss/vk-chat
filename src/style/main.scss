@@ -13,3 +13,11 @@ body {
 .app-body {
   min-height: $body-height;
 }
+
+.panel {
+  border: #e3e4e8 1px solid;
+  background-color: white;
+  padding: 8px 16px 8px 16px;
+  margin: 15px 0 15px 0;
+  box-sizing: border-box;
+}

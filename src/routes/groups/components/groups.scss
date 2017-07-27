@@ -1,9 +1,15 @@
 @import '../../../style/variables';
+@import '../../../style/main';
+
+.wrap-scroll {
+  overflow-y: scroll;
+  height: $body-height;
+}
 
 .ul-screen {
-  height: $body-height;
-  overflow-y: scroll;
-  box-sizing: border-box;
-  border: #e3e4e8 1px solid;
-  background-color: white;
+  composes: panel;
+}
+
+.search-screen {
+  composes: panel;
 }
