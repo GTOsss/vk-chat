@@ -1,6 +1,9 @@
+@import '../../../style/variables';
+
 .ul-screen {
-  height: 80vh;
+  height: $body-height;
   overflow-y: scroll;
   box-sizing: border-box;
-  border: #507299 8px solid;
+  border: #e3e4e8 1px solid;
+  background-color: white;
 }

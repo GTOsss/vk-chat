@@ -7,9 +7,13 @@ import style from './nav-link.scss'
 const navItemStyles = cx('nav-item', 'nav-link',style['nav-item']);
 const navItemActiveStyle = cx('nav-item active', style['nav-item-active']);
 
-const NavLink = ({to, children, onClick}) => (
+const NavLink = ({to, children, onClick, noActive}) => (
   <li>
-    <Link className={navItemStyles} activeClassName={navItemActiveStyle} to={to}>{children}</Link>
+    <Link className={navItemStyles}
+          activeClassName={noActive ? '' : navItemActiveStyle}
+          to={to}>
+      {children}
+    </Link>
   </li>
 );
 

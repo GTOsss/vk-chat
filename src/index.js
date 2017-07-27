@@ -6,6 +6,7 @@ import createStore from './store/create-store'
 import Routes from './routes'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
+import './style/main.scss'
 
 const store = createStore();
 

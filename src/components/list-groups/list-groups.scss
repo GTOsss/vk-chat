@@ -5,17 +5,41 @@
 }
 
 .group-item{
-  height: 60px;
-  padding: 4px 2px 4px 2px;
+  position: relative;
+  cursor: pointer;
+  height: 74px;
+  padding: 12px 2px 12px 12px;
   border-bottom: 1px #a5a5a5 solid;
   display: flex;
   flex-direction: row;
+}
+
+.group-item:hover{
+  background-color: #f3f3f3;
+}
+
+.group-item:last-child{
+  border: none;
 }
 
 .group-photo{
   border-radius: 50%;
 }
 
+.group-text{
+  margin: 6px 0 0 12px;
+  color: #484848;
+  font-weight: 500;
+}
+
 .group-title{
   margin-left: 12px;
+  color: #314963;
+  font-weight: 600;
+}
+
+.mark-circle{
+  position: absolute;
+  right: 6px;
+  bottom: 8px;
 }

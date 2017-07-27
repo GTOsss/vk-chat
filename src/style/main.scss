@@ -1,0 +1,15 @@
+@import './variables.scss';
+
+body {
+  background-color: #edeef0;
+}
+
+.app{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.app-body {
+  min-height: $body-height;
+}
