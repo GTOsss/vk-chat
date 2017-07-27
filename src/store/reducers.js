@@ -1,5 +1,5 @@
-import userReducer from '../reducers/user';
+import user from '../reducers/user';
 
 export default {
-  userReducer
+  user
 };

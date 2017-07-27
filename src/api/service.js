@@ -1,5 +1,0 @@
-const service = {
-  get: (url) => {
-
-  }
-}

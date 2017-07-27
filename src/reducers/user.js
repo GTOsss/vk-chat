@@ -1,22 +1,22 @@
 import {
-  GET_COMMUNITIES_REQUEST,
-  GET_COMMUNITIES_SUCCESS,
-  GET_COMMUNITIES_FAIL
+  UPDATE_GROUPS_REQUEST,
+  UPDATE_GROUPS_SUCCESS,
+  UPDATE_GROUPS_FAIL
 } from '../actions/user'
 
 const initialState = {
-  isLoading: false,
+  isLoadingGroups: false,
   groups: []
 };
 
-export default function userReducer(state = initialState, action) {
+export default function user(state = initialState, action) {
   switch (action.type) {
-    case GET_COMMUNITIES_REQUEST:
-      return {...state, ...state.groups, isLoading: true};
-    case GET_COMMUNITIES_SUCCESS:
-      return {...state, ...action.groups, isLoading: false};
-    case GET_COMMUNITIES_FAIL:
-      return {...state, ...state.groups, isLoading: false};
+    case UPDATE_GROUPS_REQUEST:
+      return {...state, groups: [...state.groups], isLoadingGroups: true};
+    case UPDATE_GROUPS_SUCCESS:
+      return {...state, groups: [...action.groups], isLoadingGroups: false};
+    case UPDATE_GROUPS_FAIL:
+      return {...state, groups: [...state.groups], isLoadingGroups: false};
     default:
       return state
   }

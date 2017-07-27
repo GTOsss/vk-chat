@@ -1,3 +1,3 @@
-import Groups from './components/groups'
+import Groups from './containers/groups'
 
 export default Groups

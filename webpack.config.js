@@ -8,7 +8,7 @@ const extractPlugin = new ExtractTextPlugin({
 module.exports = {
   watch: true,
   watchOptions: {
-    aggregateTimeout: 1000,
+    aggregateTimeout: 500,
     poll: 3000
   },
   devtool: "inline-source-map",

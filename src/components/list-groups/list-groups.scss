@@ -1,0 +1,21 @@
+.ul-groups{
+  list-style-type: none;
+  font-size: 13px;
+  padding: 0;
+}
+
+.group-item{
+  height: 60px;
+  padding: 4px 2px 4px 2px;
+  border-bottom: 1px #a5a5a5 solid;
+  display: flex;
+  flex-direction: row;
+}
+
+.group-photo{
+  border-radius: 50%;
+}
+
+.group-title{
+  margin-left: 12px;
+}

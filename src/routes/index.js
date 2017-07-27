@@ -17,9 +17,9 @@ const vkInfo = {
 };
 
 const createRoutes = () => (
-  <Route path='/' component={Main} onEnter={(e) => redirect(e)} vkInfo={vkInfo}>
+  <Route path='/' component={Main} onEnter={(e) => redirect(e)}>
     <Route path='home' component={Home}  />
-    <Route path='groups' component={Groups} />
+    <Route path='groups' component={Groups} vkInfo={vkInfo} />
     <Route path={'friends'} component={Groups} />
   </Route>
 );
