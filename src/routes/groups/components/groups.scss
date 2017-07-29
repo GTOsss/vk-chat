@@ -13,3 +13,30 @@
 .search-screen {
   composes: panel;
 }
+
+.row {
+  composes: row;
+}
+
+.input-age {
+  width: 110px;
+}
+
+.label {
+  margin-right: 20px;
+  color: #656565;
+  font-size: 14px;
+  font-weight: 600;
+  padding-top: 2px;
+  margin-bottom: 2px;
+}
+
+.radio-group {
+  composes: row;
+  width: 50%;
+  justify-content: space-between;
+}
+
+.input-row {
+  padding: 3px 0 7px 0;
+}

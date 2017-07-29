@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 import * as usersAction from '../../../actions/user'
 
 class Groups extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.onClickItemListHandler = this.onClickItemListHandler.bind(this);
   }
@@ -19,10 +19,17 @@ class Groups extends React.Component {
     console.log(this.props.groups);
   }
 
+  OnSubmitHandle(values) {
+    console.log(values);
+  }
+
   render() {
     console.log(this.props.groups[1]);
+    const {props: {groups}, onClickItemListHandler, OnSubmitHandle} = this;
     return (
-      <GroupComponent groups={this.props.groups} onClickItemListHandler={this.onClickItemListHandler} />
+      <GroupComponent groups={groups}
+                      onClickItemListHandler={onClickItemListHandler}
+                      OnSubmitHandle={OnSubmitHandle}/>
     )
   }
 }

@@ -1,9 +1,10 @@
 import React from 'react'
 import ListGroups from '../../../components/list-groups'
+import SearchForm from './search-form'
 
 import style from './groups.scss'
 
-const Groups = ({groups, onClickItemListHandler}) => (
+const Groups = ({groups, onClickItemListHandler, OnSubmitHandle}) => (
   <div className={style['wrap-scroll']}>
     <div className='container-fluid'>
       <div className='row'>
@@ -14,7 +15,7 @@ const Groups = ({groups, onClickItemListHandler}) => (
         </div>
         <div className={'col-md-5'}>
           <div className={style['search-screen']}>
-            search params
+            <SearchForm onSubmit={OnSubmitHandle}/>
           </div>
         </div>
       </div>
