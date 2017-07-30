@@ -35,6 +35,10 @@
 
 .group-title{
   margin-left: 12px;
+  width: 340px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
   color: #314963;
   font-weight: 600;
 }

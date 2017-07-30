@@ -5,6 +5,7 @@ import {Field, reduxForm, formValueSelector} from 'redux-form'
 import cx from 'classnames'
 import * as searchFormActions from '../../../actions/search-form'
 import {RadioGroupSex, SelectAgeTo, SelectAgeFrom, SelectCity, SelectCountry} from './inputs'
+import Button from '../../../components/button'
 
 class Form extends React.Component {
   constructor(props){
@@ -61,7 +62,7 @@ class Form extends React.Component {
           <Field name='sex' component={(props)=> <RadioGroupSex {...props} currentValue={sex}/> }/>
         </div>
 
-        <button type='submit'>Submit</button>
+        <Button type='submit'>Поиск</Button>
       </form>
     )
   }

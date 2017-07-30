@@ -12,4 +12,7 @@
 
 .search-screen {
   composes: panel;
+  padding-bottom: 20px;
+  position: fixed;
+  margin-left: -20px;
 }
