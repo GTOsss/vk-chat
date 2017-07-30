@@ -1,6 +1,6 @@
 import React from 'react'
 import ListGroups from '../../../components/list-groups'
-import SearchForm from './search-form'
+import SearchUsersForm from '../../../components/forms/search-users'
 
 import style from './groups.scss'
 
@@ -15,7 +15,7 @@ const Groups = ({groups, onClickItemListHandler, OnSubmitHandle}) => (
         </div>
         <div className={'col-md-5'}>
           <div className={style['search-screen']}>
-            <SearchForm onSubmit={OnSubmitHandle}/>
+            <SearchUsersForm onSubmit={OnSubmitHandle}/>
           </div>
         </div>
       </div>

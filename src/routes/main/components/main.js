@@ -1,6 +1,6 @@
 import React from 'react'
 import NavBar from '../../../components/nav-bar'
-import NavLink from '../../../components/nav-link'
+import NavLink from '../../../components/nav-bar/nav-link'
 
 import style from '../../../style/main.scss'
 

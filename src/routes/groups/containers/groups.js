@@ -16,7 +16,6 @@ class Groups extends React.Component {
 
   onClickItemListHandler(i) {
     this.props.markGroup(i);
-    console.log(this.props.groups);
   }
 
   OnSubmitHandle(values) {
@@ -24,7 +23,6 @@ class Groups extends React.Component {
   }
 
   render() {
-    console.log(this.props.groups[1]);
     const {props: {groups}, onClickItemListHandler, OnSubmitHandle} = this;
     return (
       <GroupComponent groups={groups}
@@ -39,8 +37,6 @@ const mapStateToProps = (state, props) => ({
   groups: state.user.groups
 });
 
-const mapDispatchToProps = (dispatch) => (
-  bindActionCreators(usersAction, dispatch)
-);
+const mapDispatchToProps = (dispatch) => bindActionCreators(usersAction, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Groups)
