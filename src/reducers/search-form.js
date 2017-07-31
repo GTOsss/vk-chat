@@ -2,11 +2,10 @@ import {
   UPDATE_COUNTRY_REQUEST,
   UPDATE_COUNTRY_SUCCESS,
   UPDATE_COUNTRY_FAIL
-} from '../actions/search-form'
+} from '../constans'
 
 const initialState = {
   isLoadingCountries: false,
-  isLoadingCities: false,
   countries: [],
   cities: []
 };
@@ -18,7 +17,7 @@ export default function searchForm(state = initialState, action) {
     case UPDATE_COUNTRY_SUCCESS:
       return {...state, countries: [...action.countries], isLoadingCountries: false};
     case UPDATE_COUNTRY_FAIL:
-      return {...state, countries: [...state.countries],isLoadingCountries: false};
+      return {...state, countries: [...state.countries], isLoadingCountries: false};
     default:
       return state
   }

@@ -12,3 +12,12 @@ export const testResponse = (resp) => {
     throw new ErrorVkResponse(resp);
   }
 };
+
+export const vkApi = (method, params) => {
+  return new Promise((resolve) => {
+    VK.api(method, params, (response) => {
+         testResponse(response);
+         resolve(response);
+    });
+  })
+};

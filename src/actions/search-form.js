@@ -1,9 +1,10 @@
 import {testResponse} from '../services/vkService'
 import {formValueSelector} from 'redux-form'
-
-export const UPDATE_COUNTRY_REQUEST = 'UPDATE_COUNTRY_REQUEST';
-export const UPDATE_COUNTRY_SUCCESS = 'UPDATE_COUNTRY_SUCCESS';
-export const UPDATE_COUNTRY_FAIL = 'UPDATE_COUNTRY_FAIL';
+import {
+  UPDATE_COUNTRY_REQUEST,
+  UPDATE_COUNTRY_SUCCESS,
+  UPDATE_COUNTRY_FAIL
+} from '../constans'
 
 export const updateCountries = () => {
   return (dispatch, getState) => {
@@ -33,9 +34,7 @@ export const updateCountries = () => {
         });
       }
       catch(e) {
-        dispatch({
-          type: UPDATE_COUNTRY_FAIL
-        })
+        dispatch({type: UPDATE_COUNTRY_FAIL})
       }
     });
   }

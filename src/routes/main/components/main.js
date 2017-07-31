@@ -9,7 +9,7 @@ const TitleNavBarFooter = () => <span className='navbar-brand'>Info</span>;
 
 const Main = ({children, onChangeActiveLink, activeLinkIndex}) => (
   <div className={style['app']}>
-    <NavBar title={<TitleNavBar />}>
+    <NavBar title={<TitleNavBar/>}>
       <NavLink to='/home'>Меню</NavLink>
       <NavLink to='/groups'>Группы</NavLink>
       <NavLink to='/friends'>Друзья</NavLink>
@@ -17,7 +17,7 @@ const Main = ({children, onChangeActiveLink, activeLinkIndex}) => (
     <div className={style['app-body']}>
       {children}
     </div>
-    <NavBar title={<TitleNavBarFooter />}>
+    <NavBar title={<TitleNavBarFooter/>}>
       <NavLink to='#' noActive>Группа в вк</NavLink>
       <NavLink to='#' noActive>Автор</NavLink>
     </NavBar>

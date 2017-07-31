@@ -8,6 +8,7 @@ class Groups extends React.Component {
   constructor(props) {
     super(props);
     this.onClickItemListHandler = this.onClickItemListHandler.bind(this);
+    this.onSubmitHandle = this.onSubmitHandle.bind(this);
   }
 
   componentDidMount() {
@@ -18,22 +19,24 @@ class Groups extends React.Component {
     this.props.markGroup(i);
   }
 
-  OnSubmitHandle(values) {
-    console.log(values);
+  onSubmitHandle(values) {
+    const city = values.city ? values.city.value : null;
+    const accessToken = this.props.vkInfo.accessToken;
+    this.props.searchUsersInGroups({...values, city, accessToken});
   }
 
   render() {
-    const {props: {groups}, onClickItemListHandler, OnSubmitHandle} = this;
+    const {props: {groups}, onClickItemListHandler, onSubmitHandle} = this;
     return (
       <GroupComponent groups={groups}
                       onClickItemListHandler={onClickItemListHandler}
-                      OnSubmitHandle={OnSubmitHandle}/>
+                      onSubmitHandle={onSubmitHandle}/>
     )
   }
 }
 
-const mapStateToProps = (state, props) => ({
-  vkInfo: props.route.vkInfo,
+const mapStateToProps = (state) => ({
+  vkInfo: state.user.vkInfo,
   groups: state.user.groups
 });
 

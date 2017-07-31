@@ -4,7 +4,7 @@ import SearchUsersForm from '../../../components/forms/search-users'
 
 import style from './groups.scss'
 
-const Groups = ({groups, onClickItemListHandler, OnSubmitHandle}) => (
+const Groups = ({groups, onClickItemListHandler, onSubmitHandle}) => (
   <div className={style['wrap-scroll']}>
     <div className='container-fluid'>
       <div className='row'>
@@ -15,7 +15,7 @@ const Groups = ({groups, onClickItemListHandler, OnSubmitHandle}) => (
         </div>
         <div className={'col-md-5'}>
           <div className={style['search-screen']}>
-            <SearchUsersForm onSubmit={OnSubmitHandle}/>
+            <SearchUsersForm onSubmit={onSubmitHandle}/>
           </div>
         </div>
       </div>
