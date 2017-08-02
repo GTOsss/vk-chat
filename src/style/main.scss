@@ -4,7 +4,7 @@ body {
   background-color: #edeef0;
 }
 
-.app{
+.app {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -26,4 +26,75 @@ body {
   display: flex;
   flex-direction: row;
   width: 100%;
+}
+
+.body-scroll {
+  overflow-y: scroll;
+  height: $body-height;
+}
+
+.ul-default {
+  list-style-type: none;
+  font-size: 13px;
+  padding: 0;
+  margin: 0;
+}
+
+.li-default {
+  position: relative;
+  cursor: pointer;
+  height: 74px;
+  padding: 12px 2px 12px 12px;
+  border-bottom: 1px #a5a5a5 solid;
+  display: flex;
+  flex-direction: row;
+}
+
+.li-default:hover {
+  background-color: #f3f3f3;
+}
+
+.li-default:last-child {
+  border: none;
+}
+
+.text-default {
+  margin: 6px 0 0 12px;
+  color: #484848;
+  font-weight: 500;
+}
+
+.text-title {
+  margin-left: 12px;
+  width: 340px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #314963;
+  font-weight: 600;
+}
+
+.button-default {
+  width: 100%;
+  margin-top: 20px;
+  padding: 7px 16px 8px;
+  color: #fff;
+  background-color: #5e81a8;
+  border-radius: 2px;
+  box-sizing: border-box;
+  border: 0;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.button-default:hover {
+  background-color: #6a8eb1;
+}
+
+.button-default:active {
+  background-color: #5c7ca2;
+}
+
+.button-default:active, .button-default:focus {
+  outline: none;
 }

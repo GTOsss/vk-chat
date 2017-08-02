@@ -8,7 +8,7 @@ import {
 
 const initialState = {
   isLoadingGroups: false,
-  groups: [],
+  groups: []
 };
 
 export default function user(state = initialState, action) {

@@ -2,8 +2,7 @@
 @import '../../../style/main';
 
 .wrap-scroll {
-  overflow-y: scroll;
-  height: $body-height;
+  composes: body-scroll;
 }
 
 .ul-screen {

@@ -1,6 +1,6 @@
 import React from 'react'
-import ListGroups from '../../../components/list-groups'
-import SearchUsersForm from '../../../components/forms/search-users'
+import ListGroups from '../../../components/list-groups/index'
+import SearchUsersForm from '../../../components/forms/search-users/index'
 
 import style from './groups.scss'
 

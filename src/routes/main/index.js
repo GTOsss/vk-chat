@@ -1,3 +1,21 @@
-import Main from './containers/main'
+import React from 'react'
+import * as userActions from '../../actions/user'
+import MainComponent from './components/main'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 
-export default Main
+class Main extends React.Component {
+  componentDidMount() {
+    this.props.getVkInfo();
+  }
+
+  render() {
+    return (
+      <MainComponent {...this.props} />
+    )
+  }
+}
+
+const mapDispatchToProps = (dispatch) => bindActionCreators(userActions, dispatch);
+
+export default connect(null, mapDispatchToProps)(Main)

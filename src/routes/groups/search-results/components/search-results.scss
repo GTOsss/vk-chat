@@ -1,0 +1,9 @@
+@import '../../../../style/main';
+
+.wrap-scroll {
+  composes: body-scroll;
+}
+
+.ul-screen {
+  composes: panel;
+}

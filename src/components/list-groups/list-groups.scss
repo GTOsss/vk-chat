@@ -1,49 +1,26 @@
-.ul-groups{
-  list-style-type: none;
-  font-size: 13px;
-  padding: 0;
-  margin: 0;
+@import '../../style/main';
+
+.ul-groups {
+  composes: ul-default;
 }
 
-.group-item{
-  position: relative;
-  cursor: pointer;
-  height: 74px;
-  padding: 12px 2px 12px 12px;
-  border-bottom: 1px #a5a5a5 solid;
-  display: flex;
-  flex-direction: row;
+.group-item {
+  composes: li-default;
 }
 
-.group-item:hover{
-  background-color: #f3f3f3;
-}
-
-.group-item:last-child{
-  border: none;
-}
-
-.group-photo{
+.group-photo {
   border-radius: 50%;
 }
 
-.group-text{
-  margin: 6px 0 0 12px;
-  color: #484848;
-  font-weight: 500;
+.group-text {
+  composes: text-default;
 }
 
-.group-title{
-  margin-left: 12px;
-  width: 340px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  color: #314963;
-  font-weight: 600;
+.group-title {
+  composes: text-title;
 }
 
-.mark-circle{
+.mark-circle {
   position: absolute;
   right: 6px;
   bottom: 8px;
