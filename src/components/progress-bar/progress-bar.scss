@@ -1,0 +1,17 @@
+@import '../../style/main';
+
+.progress-bar-box {
+  border: 1px #ccc solid;
+  height: 24px;
+  width: 100%;
+  position: inherit;
+  padding: 1px 1px;
+}
+
+.text-label {
+  composes: text-default;
+  text-align: center;
+  width: 100%;
+  margin: 5px 0 10px 0;
+
+}

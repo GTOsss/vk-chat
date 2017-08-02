@@ -10,9 +10,9 @@ class SearchResults extends React.Component {
   }
 
   render() {
-    const {props: {searchResults, groupsCount, step}} = this;
+    const {props: {users, groupsCount, step}} = this;
     return (
-      <SearchResultsComponent searchResults={searchResults}
+      <SearchResultsComponent users={users}
                               groupsCount={groupsCount}
                               step={step} />
     )
@@ -21,7 +21,7 @@ class SearchResults extends React.Component {
 
 const mapStateToProps = (state) => ({
   users: state.searchResults.searchResults,
-  groupsCount: state.searchResults.searchResults,
+  groupsCount: state.searchResults.groupsCount,
   step: state.searchResults.step
 });
 

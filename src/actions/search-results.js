@@ -9,9 +9,8 @@ import {
 
 export const searchUsersInGroups = ({country, city, ageFrom, ageTo, sex, accessToken}) => {
   return async (dispatch, getState) => {
-    const groups = getState().user.groups;
+    const groups = getState().user.groups.filter((el) => el.isMarked);
     const length = groups.length;
-
     dispatch({
       type: SEARCH_USERS_IN_GROUPS_USERS_START,
       groupsCount: length
@@ -19,7 +18,6 @@ export const searchUsersInGroups = ({country, city, ageFrom, ageTo, sex, accessT
 
     let searchResults = [];
     for(let i = 0; i < length; i++) {
-      if(!groups[i].isMarked) { continue }
       const response = await vkApi('users.search', {
         'fields': 'photo_100, photo_max_orig, online, last_seen, ' +
         'followers_count, city, about, relation, status',

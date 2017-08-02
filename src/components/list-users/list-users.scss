@@ -5,11 +5,12 @@
 }
 
 .user-item {
-  composes: li-default
+  composes: li-default;
+  height: auto;
 }
 
 .user-photo {
-  border-radius: 50%;
+  border-radius: 15%;
 }
 
 .user-text {
@@ -19,4 +20,5 @@
 .user-title {
   composes: text-title;
 }
+
 

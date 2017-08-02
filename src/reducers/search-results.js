@@ -13,12 +13,11 @@ const initialState = {
 export default function searchResults(state = initialState, action) {
   switch (action.type) {
     case SEARCH_USERS_IN_GROUPS_USERS_START:
-      return {...state, searchResult: [...state.searchResults], groupsCount: action.groupsCount};
+      return {...initialState, groupsCount: action.groupsCount};
     case SEARCH_USERS_IN_GROUPS_USERS_STEP:
       return {
         ...state,
         searchResult: [...state.searchResults],
-        groupsCount: state.groupsCount,
         step: action.step
       };
     case SEARCH_USERS_IN_GROUPS_USERS_SUCCESS:

@@ -18,7 +18,6 @@ const createRoutes = () => (
     <Route path='groups' component={Groups}>
       <Route path='search-results' component={SearchResults}/>
     </Route>
-    <Route path={'friends'} component={Groups}/>
   </Route>
 );
 
