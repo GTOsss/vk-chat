@@ -21,4 +21,17 @@
   composes: text-title;
 }
 
+.ul-header-left-right {
+  border-top: 6px #507299 solid;
+  width: 30%;
+}
+
+.ul-header {
+  width: 40%;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  text-align: center;
+  background-color: #507299;
+  color: white;
+}
 
