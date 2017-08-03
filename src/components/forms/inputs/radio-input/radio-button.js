@@ -6,7 +6,7 @@ import style from './radio-input.scss'
 
 const InputRadio = ({name, children, className, id, onClick, active}) => (
   <div className={cx(style['wrap-radio'], className)} onClick={() => onClick()}>
-    {active ? <RadioActiveIcon size='16' color='#6F9FCD'/> : <RadioIcon size='16' color='#6F9FCD'/>}
+    {active ? <RadioActiveIcon size='16' color='#6786AB'/> : <RadioIcon size='16' color='#6786AB'/>}
     <label className={style['label']}>{children}</label>
   </div>
 );
