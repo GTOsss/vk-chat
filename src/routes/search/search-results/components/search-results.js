@@ -4,13 +4,13 @@ import ProgressInfo from './progress-info'
 
 import style from './search-results.scss'
 
-const SearchResults = ({users, groupsCount, step, progressGroup}) => (
+const SearchResults = ({users, groupsCount, step, progressGroup, groups}) => (
   <div className={style['wrap-scroll']}>
     <div className='container-fluid'>
       <div className='row'>
         <div className={'col-md-10 offset-1'}>
           { (users && users.length)
-            ? <ListUsers users={users}/>
+            ? <ListUsers users={users} groups={groups}/>
             : <ProgressInfo count={groupsCount} value={step} progressGroup={progressGroup}/> }
 
           { (users && users.length === 0 && step === groupsCount)

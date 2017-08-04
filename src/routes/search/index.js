@@ -30,11 +30,10 @@ class Groups extends React.Component {
       this.props.searchUsersInGroups({...values, city, accessToken});
     }
 
-    this.props.router.push('/groups/search-results');
+    this.props.router.push('/search/search-results');
   }
 
   render() {
-    console.log('children', this.props.children);
     const {props: {groups, children}, onClickItemListHandler, onSubmitHandle} = this;
     return (
       <div>

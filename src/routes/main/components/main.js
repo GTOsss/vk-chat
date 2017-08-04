@@ -11,7 +11,7 @@ const Main = ({children, onChangeActiveLink, activeLinkIndex}) => (
   <div className={style['app']}>
     <NavBar title={<TitleNavBar/>}>
       <NavLink to='/home'>Меню</NavLink>
-      <NavLink to='/groups'>Группы</NavLink>
+      <NavLink to='/search'>Поиск</NavLink>
       <NavLink to='/friends'>Друзья</NavLink>
     </NavBar>
     <div className={style['app-body']}>

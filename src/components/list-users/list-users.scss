@@ -35,3 +35,24 @@
   color: white;
 }
 
+.group-photo {
+  border-radius: 50%;
+}
+
+.group-items {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 4px;
+}
+
+.group-items-for-groups {
+  composes: group-items;
+  justify-content: center;
+  padding: 2px 0 6px 0;
+  border-bottom: 1px #a5a5a5 solid;
+  margin: 0;
+}
+
+.group-item {
+  margin: 0 2px;
+}

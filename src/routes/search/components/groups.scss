@@ -11,7 +11,8 @@
 
 .search-screen {
   composes: panel;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
+  padding-top: 0;
   position: fixed;
   margin-left: -20px;
 }
