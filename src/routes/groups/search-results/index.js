@@ -10,11 +10,12 @@ class SearchResults extends React.Component {
   }
 
   render() {
-    const {props: {users, groupsCount, step}} = this;
+    const {props: {users, groupsCount, step, progressGroup}} = this;
     return (
       <SearchResultsComponent users={users}
                               groupsCount={groupsCount}
-                              step={step} />
+                              step={step}
+                              progressGroup={progressGroup} />
     )
   }
 }
@@ -22,7 +23,8 @@ class SearchResults extends React.Component {
 const mapStateToProps = (state) => ({
   users: state.searchResults.searchResults,
   groupsCount: state.searchResults.groupsCount,
-  step: state.searchResults.step
+  step: state.searchResults.step,
+  progressGroup: state.searchResults.progressGroup
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(usersAction, dispatch);

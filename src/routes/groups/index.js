@@ -23,7 +23,13 @@ class Groups extends React.Component {
   onSubmitHandle(values) {
     const city = values.city ? values.city.value : null;
     const accessToken = this.props.vkInfo.accessToken;
-    this.props.searchUsersInGroups({...values, city, accessToken});
+
+    if(values.deepSearch) {
+      this.props.deepSearchInGroups(accessToken);
+    } else {
+      this.props.searchUsersInGroups({...values, city, accessToken});
+    }
+
     this.props.router.push('/groups/search-results');
   }
 

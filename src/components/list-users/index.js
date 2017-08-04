@@ -9,7 +9,7 @@ const createList = (users) => users.map((el, i) => (
   <a href={`https://www.vk.com/id${el.id}`} key={i} target='_blank'>
     <UserItem className={style['user-item']}
             name={`${el.first_name} ${el.last_name}`}
-            followersCount={`${addSpaceNumber(el.followers_count)} подписчиков`}
+            followersCount={`${addSpaceNumber(el.followers_count || 0)} подписчиков`}
             srcImg100={el.photo_100} />
   </a>
 ));
