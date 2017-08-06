@@ -11,7 +11,7 @@ const SearchResults = ({users, groupsCount, step, progressGroup, groups}) => (
         <div className={'col-md-10 offset-1'}>
           { (users && users.length)
             ? <ListUsers users={users} groups={groups}/>
-            : <ProgressInfo count={groupsCount} value={step} progressGroup={progressGroup}/> }
+            : <ProgressInfo count={groupsCount} value={step} progressGroup={progressGroup} groups={groups}/> }
 
           { (users && users.length === 0 && step === groupsCount)
             ? <div className={style['text']}>Поиск не дал результатов.</div> : '' }

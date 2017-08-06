@@ -1,5 +1,7 @@
 import React from 'react'
 import UserItem from './user-item'
+import HeaderListGroups from '../other/header-list-groups'
+import HeaderListPanel from '../other/header-list-panel'
 
 import style from './list-users.scss'
 
@@ -13,27 +15,10 @@ const createListUsers = (users) => users.map((el, i) => (
   </a>
 ));
 
-const createListGroups = (groups) => groups.map((el, i) => {
-  if(el.isMarked) {
-    return (
-      <div key={i} className={style['group-item']}>
-        <img src={el.photo_50} className={style['group-photo']}/>
-      </div>
-    )
-  }
-});
-
 const ListUsers = ({users, headerText, groups}) => (
   <ul className={style['ul-users']}>
-    {headerText ?
-      <div className={style['group-items']}>
-        <div className={style['ul-header-left-right']}/>
-        <div className={style['ul-header']}>{headerText}</div>
-        <div className={style['ul-header-left-right']}/>
-      </div> : ''}
-    <div className={style['group-items-for-groups']}>
-      {createListGroups(groups)}
-    </div>
+    {headerText ? <HeaderListPanel headerText={headerText}/> : ''}
+    <HeaderListGroups groups={groups}/>
     {users ? createListUsers(users) : ''}
   </ul>
 );

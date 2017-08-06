@@ -1,10 +1,10 @@
 import React from 'react'
 
-const Home = ({children}) => (
+const Menu = ({children}) => (
   <div>
     menu
     {children}
   </div>
 );
 
-export default Home
+export default Menu

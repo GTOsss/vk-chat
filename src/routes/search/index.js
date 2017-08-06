@@ -1,5 +1,5 @@
 import React from 'react'
-import GroupComponent from './components/groups'
+import GroupComponent from './components/search'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as usersAction from '../../actions/user'
@@ -34,12 +34,18 @@ class Groups extends React.Component {
   }
 
   render() {
-    const {props: {groups, children}, onClickItemListHandler, onSubmitHandle} = this;
+    const {
+      props: {groups, children},
+      onClickItemListHandler,
+      onSubmitHandle
+    } = this;
+
     return (
       <div>
         {children ? children :
           <GroupComponent groups={groups}
                           onClickItemListHandler={onClickItemListHandler}
+                          onClickItemHeaderListHandler={onClickItemListHandler}
                           onSubmitHandle={onSubmitHandle}/> }
       </div>
     )
