@@ -17,7 +17,7 @@ const createList = (groups, onClickItemListHandler) => groups.map((el, i) => (
              title={el.name}
              text={`${el.members_count.toString().replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ') } участников`}
              srcImg50={el.photo_50}
-             onClick={onClickItemListHandler ? () => onClickItemListHandler(i) : ''}
+             onClick={onClickItemListHandler ? () => onClickItemListHandler(el.id) : ''}
              isMarked={el.isMarked}/>
 ));
 

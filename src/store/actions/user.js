@@ -17,7 +17,15 @@ export const groupsFilter = (filterStr) => {
   return (dispatch, getState) => {
     if(filterStr === '') {
       let groups = getState().user.groups;
-      let markedGroups = groups.map((el) => el.isMarked && el.id);
+      let markedGroups = [];
+      groups.forEach((el) => {
+        if(el.isMarked) {
+          markedGroups.push({
+            id: el.id,
+            timeMarked: el.timeMarked
+          });
+        }
+      });
 
       dispatch({
         type: UPDATE_GROUPS_SUCCESS,
@@ -61,8 +69,9 @@ export const updateGroups = (userId, idMarkedGroups) => {
         if (idMarkedGroups && idMarkedGroups.length) {
           idMarkedGroups.forEach((el) => {
             for(let i = 0; i < items.length; i++) {
-              if(items[i].id === el) {
+              if(items[i].id === el.id) {
                 items[i].isMarked = true;
+                items[i].timeMarked = el.timeMarked;
                 break;
               }
             }
@@ -81,9 +90,9 @@ export const updateGroups = (userId, idMarkedGroups) => {
   }
 };
 
-export const markGroup = (i) => ({
+export const markGroup = (id) => ({
   type: MARK_GROUP,
-  indexGroup: i
+  idGroup: id
 });
 
 export const getVkInfo = () => {

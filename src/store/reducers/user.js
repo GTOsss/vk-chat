@@ -21,8 +21,13 @@ export default function user(state = initialState, action) {
       return {...state, groups: [...state.groups]};
     case MARK_GROUP:
       let newGroups = [...state.groups];
-      newGroups[action.indexGroup].isMarked = !newGroups[action.indexGroup].isMarked;
-      newGroups[action.indexGroup].timeMarked = Date.now();
+      for (let i = 0; i < newGroups.length; i++) {
+        if(newGroups[i].id === action.idGroup) {
+          newGroups[i].isMarked = !newGroups[i].isMarked;
+          newGroups[i].timeMarked = Date.now();
+          break;
+        }
+      }
       return {...state, groups: newGroups, isLoadingGroups: false};
     case UPDATE_VK_INFO:
       return {...state, groups: [...state.groups], vkInfo: action.vkInfo};

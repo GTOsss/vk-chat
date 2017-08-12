@@ -11,7 +11,7 @@ const createListGroups = (groups, onClick) => {
       return (
         <div key={i} className={style['group-item']}>
           <img src={el.photo_50}
-               onClick={onClick ? () => onClick(i) : ''}
+               onClick={onClick ? () => onClick(el.id) : ''}
                className={style['group-photo']}/>
         </div>
       )
