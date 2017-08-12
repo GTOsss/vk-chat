@@ -3,7 +3,7 @@ import {
   SEARCH_USERS_IN_GROUPS_STEP,
   SEARCH_USERS_IN_GROUP_STEP,
   SEARCH_USERS_IN_GROUPS_SUCCESS
-} from '../constans'
+} from '../constans/index'
 
 const initialState = {
   searchResults: [],

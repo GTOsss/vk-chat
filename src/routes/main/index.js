@@ -1,5 +1,5 @@
 import React from 'react'
-import * as userActions from '../../actions/user'
+import * as userActions from '../../store/actions/user'
 import MainComponent from './components/main'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'

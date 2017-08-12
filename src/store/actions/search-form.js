@@ -1,10 +1,10 @@
-import {testResponse} from '../services/vkService'
+import {testResponse} from '../../services/vkService'
 import {formValueSelector} from 'redux-form'
 import {
   UPDATE_COUNTRY_REQUEST,
   UPDATE_COUNTRY_SUCCESS,
   UPDATE_COUNTRY_FAIL
-} from '../constans'
+} from '../constans/index'
 
 export const updateCountries = () => {
   return (dispatch, getState) => {

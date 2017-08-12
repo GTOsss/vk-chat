@@ -1,11 +1,11 @@
 import React from 'react'
-import GroupComponent from './components/search'
+import SearchComponent from './components/search'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import * as usersAction from '../../actions/user'
-import * as searchResultsAction from '../../actions/search-results'
+import * as usersAction from '../../store/actions/user'
+import * as searchResultsAction from '../../store/actions/search-results'
 
-class Groups extends React.Component {
+class Search extends React.Component {
   constructor(props) {
     super(props);
     this.onClickItemListHandler = this.onClickItemListHandler.bind(this);
@@ -43,7 +43,7 @@ class Groups extends React.Component {
     return (
       <div>
         {children ? children :
-          <GroupComponent groups={groups}
+          <SearchComponent groups={groups}
                           onClickItemListHandler={onClickItemListHandler}
                           onClickItemHeaderListHandler={onClickItemListHandler}
                           onSubmitHandle={onSubmitHandle}/> }
@@ -62,4 +62,4 @@ const mapDispatchToProps = (dispatch) => ({
   ...bindActionCreators(searchResultsAction, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Groups)
+export default connect(mapStateToProps, mapDispatchToProps)(Search)

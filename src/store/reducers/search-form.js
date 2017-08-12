@@ -2,7 +2,7 @@ import {
   UPDATE_COUNTRY_REQUEST,
   UPDATE_COUNTRY_SUCCESS,
   UPDATE_COUNTRY_FAIL
-} from '../constans'
+} from '../constans/index'
 
 const initialState = {
   isLoadingCountries: false,

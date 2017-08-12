@@ -3,10 +3,12 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {Field, reduxForm, formValueSelector} from 'redux-form'
 import cx from 'classnames'
-import * as searchFormActions from '../../../actions/search-form'
+import * as searchFormActions from '../../../store/actions/search-form'
 import {RadioGroupSex, SelectAgeTo, SelectAgeFrom, SelectCity, SelectCountry} from './inputs'
 import Button from '../../../components/button'
 import Checkbox from '../inputs/checkbox'
+
+import style from './search-form.scss'
 
 class Form extends React.Component {
   constructor(props){
@@ -72,8 +74,6 @@ class Form extends React.Component {
     )
   }
 }
-
-import style from './search-form.scss'
 
 Form = reduxForm({form: 'searchParams'})(Form);
 

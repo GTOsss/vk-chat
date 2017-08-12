@@ -7,4 +7,5 @@ import {routerReducer} from 'react-router-redux'
 export default () => createStore(
   combineReducers({...reducers, form: formReducer, routing: routerReducer}),
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-  applyMiddleware(thunk));
+  applyMiddleware(thunk)
+);

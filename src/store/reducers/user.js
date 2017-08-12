@@ -4,7 +4,7 @@ import {
   UPDATE_GROUPS_FAIL,
   MARK_GROUP,
   UPDATE_VK_INFO
-} from '../constans'
+} from '../constans/index'
 
 const initialState = {
   isLoadingGroups: false,
@@ -22,6 +22,7 @@ export default function user(state = initialState, action) {
     case MARK_GROUP:
       let newGroups = [...state.groups];
       newGroups[action.indexGroup].isMarked = !newGroups[action.indexGroup].isMarked;
+      newGroups[action.indexGroup].timeMarked = Date.now();
       return {...state, groups: newGroups, isLoadingGroups: false};
     case UPDATE_VK_INFO:
       return {...state, groups: [...state.groups], vkInfo: action.vkInfo};

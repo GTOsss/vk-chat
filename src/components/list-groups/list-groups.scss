@@ -29,7 +29,6 @@
 .header-list-groups-text {
   composes: label-default;
   padding: 8px 0;
-  border-bottom: 1px #a5a5a5 solid;
   margin: 0;
   text-align: center;
   min-height: 50px;
@@ -38,6 +37,5 @@
 
 .header-list-groups {
   composes: header-list-groups-text;
-  border-bottom: 1px #a5a5a5 solid;
   line-height: inherit;
 }

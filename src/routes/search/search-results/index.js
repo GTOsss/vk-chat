@@ -2,7 +2,7 @@ import React from 'react'
 import SearchResultsComponent from './components/search-results'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import * as usersAction from '../../../actions/user'
+import * as usersAction from '../../../store/actions/user'
 
 class SearchResults extends React.Component {
   constructor(props) {

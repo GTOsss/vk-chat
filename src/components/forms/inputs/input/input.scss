@@ -1,3 +1,22 @@
+.wrap-input {
+  position: relative;
+}
+
 .input{
   composes: input from '../forms.scss'
+}
+
+.clear-btn {
+  font-size: 18px;
+  color: #a59999;
+  cursor: pointer;
+  width: 28px;
+  line-height: 25px;
+  position: absolute;
+  right: -9px;
+  top: 0;
+}
+
+.clear-btn:hover {
+  color: #D2021B;
 }

@@ -1,12 +1,12 @@
-import {vkApi} from '../services/vkService'
-import {intersectionArrays} from '../services/operations'
+import {vkApi} from '../../services/vkService'
+import {intersectionArrays} from '../../services/operations'
 import {
   SEARCH_USERS_IN_GROUPS_START,
   SEARCH_USERS_IN_GROUPS_STEP,
   SEARCH_USERS_IN_GROUP_STEP,
   SEARCH_USERS_IN_GROUPS_FAIL,
   SEARCH_USERS_IN_GROUPS_SUCCESS
-} from '../constans'
+} from '../constans/index'
 
 export const deepSearchInGroups = (accessToken) => {
   return async (dispatch, getState) => {
