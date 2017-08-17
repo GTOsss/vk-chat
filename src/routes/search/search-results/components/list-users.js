@@ -1,13 +1,13 @@
 import React from 'react'
 import ListUsersComponent from '../../../../components/list-users'
-import cx from 'classnames'
 
 import style from './search-results.scss'
 
-const listUsers = ({users, groups}) => (
+const listUsers = ({users, groups, searchParams}) => (
   <div className={style['ul-screen']}>
     { (users && users.length) ? <ListUsersComponent users={users}
                                                     groups={groups}
+                                                    searchParams={searchParams}
                                                     headerText={`Найдено ${users.length}`}/> : '' }
   </div>
 );

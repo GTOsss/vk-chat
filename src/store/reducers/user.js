@@ -32,6 +32,6 @@ export default function user(state = initialState, action) {
     case UPDATE_VK_INFO:
       return {...state, groups: [...state.groups], vkInfo: action.vkInfo};
     default:
-      return state
+      return state;
   }
 }

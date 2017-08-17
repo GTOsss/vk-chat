@@ -9,15 +9,17 @@ import {
 } from '../constans/index'
 import moment from 'moment'
 
-export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, accessToken}) => {
+export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, deepSearch, accessToken}) => {
   return async (dispatch, getState) => {
     const groups = getState().user.groups.filter((el) => el.isMarked);
     dispatch({
       type: SEARCH_USERS_IN_GROUPS_START,
-      groupsCount: groups.length
+      groupsCount: groups.length,
+      searchParams: {city, ageFrom, ageTo, sex, deepSearch}
     });
 
     let searchResults = [];
+    city = city && city.value;
     for(let i = 0; i < groups.length; i++) {
       let countMembers = groups[i].members_count;
       let countRequest = Math.ceil(countMembers / 1000);
@@ -26,6 +28,7 @@ export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, accessToken}) => 
       let counter = 0;
       let progress = 0;
       for(let j = 0; j <= countRequest; j++) {
+        let currentGroupMembersThisIter = [];
         const response = await vkApi('groups.getMembers', {
           'fields': 'photo_100, photo_max_orig, online, last_seen, ' +
           'followers_count, city, about, relation, status, sex, bdate',
@@ -34,6 +37,19 @@ export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, accessToken}) => 
           'count': 1000,
           'group_id': groups[i].id,
           'version': 5.67
+        });
+
+        currentGroupMembersThisIter = response.response.items.filter((el) => {
+          let filterCity = !city || (el.city && (city === el.city.id));
+          let filterSex = (!sex || sex === '0') || (sex.toString() === el.sex.toString());
+          let age = moment().diff(moment(el.bdate, 'DD.MM.YYYY'), 'years');
+          let isAgeFilter = (ageTo || ageFrom) && age;
+          if(isAgeFilter) {
+            ageTo = !ageTo ? 100 : ageTo;
+            ageFrom = !ageFrom ? 0 : ageFrom;
+          }
+          let filterAge = (!ageTo && !ageFrom) || isAgeFilter && ((age <= ageTo) && (age >= ageFrom));
+          return filterCity && filterSex && filterAge
         });
 
         if(counter >= onePercent) {
@@ -46,9 +62,7 @@ export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, accessToken}) => 
           });
         }
         counter++;
-
-        currentGroupMembers = [...currentGroupMembers, ...response.response.items];
-        console.log(countRequest);
+        currentGroupMembers = [...currentGroupMembers, ...currentGroupMembersThisIter];
       }
       searchResults.push(currentGroupMembers);
 
@@ -62,19 +76,6 @@ export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, accessToken}) => 
       return intersectionArrays(a, b);
     });
 
-    searchResults = searchResults.filter((el) => {
-      let filterCity = !city || (el.city && (city === el.city.id));
-      let filterSex = (!sex || sex === '0') || (sex.toString() === el.sex.toString());
-      let age = moment().diff(moment(el.bdate, 'DD.MM.YYYY'), 'years');
-      let isAgeFilter = (ageTo || ageFrom) && age;
-      if(isAgeFilter) {
-        ageTo = !ageTo ? 100 : ageTo;
-        ageFrom = !ageFrom ? 0 : ageFrom;
-      }
-      let filterAge = (!ageTo && !ageFrom) || isAgeFilter && ((age <= ageTo) && (age >= ageFrom));
-      return filterCity && filterSex && filterAge
-    });
-
     dispatch({
       type: SEARCH_USERS_IN_GROUPS_SUCCESS,
       searchResults: searchResults
@@ -82,15 +83,17 @@ export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, accessToken}) => 
   }
 };
 
-export const searchUsersInGroups = ({country, city, ageFrom, ageTo, sex, accessToken}) => {
+export const searchUsersInGroups = ({country, city, ageFrom, ageTo, sex, deepSearch, accessToken}) => {
   return async (dispatch, getState) => {
     const groups = getState().user.groups.filter((el) => el.isMarked);
     const length = groups.length;
     dispatch({
       type: SEARCH_USERS_IN_GROUPS_START,
-      groupsCount: length
+      groupsCount: length,
+      searchParams: {city, ageFrom, ageTo, sex, deepSearch}
     });
 
+    city = city && city.value;
     let searchResults = [];
     for(let i = 0; i < length; i++) {
       const response = await vkApi('users.search', {

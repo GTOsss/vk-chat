@@ -20,3 +20,14 @@
 .user-title {
   composes: text-title;
 }
+
+.wrap-button-save {
+  border-bottom: 1px #a5a5a5 solid;
+  padding-bottom: 8px;
+}
+
+.button-save {
+  width: 50%;
+  margin: 0 auto;
+  display: block;
+}

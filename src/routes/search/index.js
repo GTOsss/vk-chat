@@ -21,13 +21,11 @@ class Search extends React.Component {
   }
 
   onSubmitHandle(values) {
-    const city = values.city ? values.city.value : null;
     const accessToken = this.props.vkInfo.accessToken;
-
     if(values.deepSearch) {
-      this.props.deepSearchInGroups({...values, city, accessToken});
+      this.props.deepSearchInGroups({...values, accessToken});
     } else {
-      this.props.searchUsersInGroups({...values, city, accessToken});
+      this.props.searchUsersInGroups({...values, accessToken});
     }
 
     this.props.router.push('/search/search-results');

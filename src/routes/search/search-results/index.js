@@ -10,13 +10,14 @@ class SearchResults extends React.Component {
   }
 
   render() {
-    const {props: {users, groupsCount, step, progressGroup, groups}} = this;
+    const {props: {users, groupsCount, step, progressGroup, groups, searchParams}} = this;
     return (
       <SearchResultsComponent users={users}
                               groupsCount={groupsCount}
                               step={step}
                               groups={groups}
-                              progressGroup={progressGroup} />
+                              progressGroup={progressGroup}
+                              searchParams={searchParams} />
     )
   }
 }
@@ -26,6 +27,7 @@ const mapStateToProps = (state) => ({
   groups: state.user.groups,
   groupsCount: state.searchResults.groupsCount,
   step: state.searchResults.step,
+  searchParams: state.searchResults.searchParams,
   progressGroup: state.searchResults.progressGroup
 });
 

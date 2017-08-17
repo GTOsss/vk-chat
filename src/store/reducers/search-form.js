@@ -19,6 +19,6 @@ export default function searchForm(state = initialState, action) {
     case UPDATE_COUNTRY_FAIL:
       return {...state, countries: [...state.countries], isLoadingCountries: false};
     default:
-      return state
+      return state;
   }
 }

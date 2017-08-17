@@ -15,7 +15,7 @@ const initialState = {
 export default function searchResults(state = initialState, action) {
   switch (action.type) {
     case SEARCH_USERS_IN_GROUPS_START:
-      return {...initialState, groupsCount: action.groupsCount};
+      return {...initialState, groupsCount: action.groupsCount, searchParams: action.searchParams};
     case SEARCH_USERS_IN_GROUPS_STEP:
       return {
         ...state,
@@ -32,6 +32,6 @@ export default function searchResults(state = initialState, action) {
         progressGroup: action.progress
       };
     default:
-      return state
+      return state;
   }
 }
