@@ -25,7 +25,7 @@ class Search extends React.Component {
     const accessToken = this.props.vkInfo.accessToken;
 
     if(values.deepSearch) {
-      this.props.deepSearchInGroups(accessToken);
+      this.props.deepSearchInGroups({...values, city, accessToken});
     } else {
       this.props.searchUsersInGroups({...values, city, accessToken});
     }

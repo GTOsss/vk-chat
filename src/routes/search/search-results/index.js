@@ -11,7 +11,6 @@ class SearchResults extends React.Component {
 
   render() {
     const {props: {users, groupsCount, step, progressGroup, groups}} = this;
-    console.log(groups);
     return (
       <SearchResultsComponent users={users}
                               groupsCount={groupsCount}

@@ -43,6 +43,7 @@
     "express-static": "^1.0.3",
     "font-awesome": "^4.7.0",
     "get-url-param": "^1.0.1",
+    "moment": "^2.18.1",
     "prop-types": "^15.5.10",
     "query-string": "^4.3.2",
     "react": "^15.6.1",

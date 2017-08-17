@@ -7,8 +7,9 @@ import {
   SEARCH_USERS_IN_GROUPS_FAIL,
   SEARCH_USERS_IN_GROUPS_SUCCESS
 } from '../constans/index'
+import moment from 'moment'
 
-export const deepSearchInGroups = (accessToken) => {
+export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, accessToken}) => {
   return async (dispatch, getState) => {
     const groups = getState().user.groups.filter((el) => el.isMarked);
     dispatch({
@@ -27,7 +28,7 @@ export const deepSearchInGroups = (accessToken) => {
       for(let j = 0; j <= countRequest; j++) {
         const response = await vkApi('groups.getMembers', {
           'fields': 'photo_100, photo_max_orig, online, last_seen, ' +
-          'followers_count, city, about, relation, status',
+          'followers_count, city, about, relation, status, sex, bdate',
           'access_token': accessToken,
           'offset': j * 1000,
           'count': 1000,
@@ -59,6 +60,19 @@ export const deepSearchInGroups = (accessToken) => {
 
     searchResults = searchResults.reduce((a, b) => {
       return intersectionArrays(a, b);
+    });
+
+    searchResults = searchResults.filter((el) => {
+      let filterCity = !city || (el.city && (city === el.city.id));
+      let filterSex = (!sex || sex === '0') || (sex.toString() === el.sex.toString());
+      let age = moment().diff(moment(el.bdate, 'DD.MM.YYYY'), 'years');
+      let isAgeFilter = (ageTo || ageFrom) && age;
+      if(isAgeFilter) {
+        ageTo = !ageTo ? 100 : ageTo;
+        ageFrom = !ageFrom ? 0 : ageFrom;
+      }
+      let filterAge = (!ageTo && !ageFrom) || isAgeFilter && ((age <= ageTo) && (age >= ageFrom));
+      return filterCity && filterSex && filterAge
     });
 
     dispatch({
