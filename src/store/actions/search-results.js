@@ -1,4 +1,4 @@
-import {vkApi} from '../../services/vkService'
+import {vkApi} from '../../services/vk-service'
 import {intersectionArrays} from '../../services/operations'
 import {
   SEARCH_USERS_IN_GROUPS_START,

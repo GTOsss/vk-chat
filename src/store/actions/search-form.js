@@ -1,4 +1,4 @@
-import {testResponse} from '../../services/vkService'
+import {testResponse} from '../../services/vk-service'
 import {formValueSelector} from 'redux-form'
 import {
   UPDATE_COUNTRY_REQUEST,

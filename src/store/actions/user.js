@@ -1,4 +1,4 @@
-import {testResponse} from '../../services/vkService'
+import {testResponse} from '../../services/vk-service'
 import {levenshtein} from '../../services/operations'
 import {
   UPDATE_GROUPS_REQUEST,
