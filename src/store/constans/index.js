@@ -27,3 +27,4 @@ export const SEARCH_USERS_IN_GROUP_STEP = 'SEARCH_USERS_IN_GROUP_STEP';
 // search-objects
 export const ADD_OBJECT = 'ADD_OBJECT';
 export const DELETE_OBJECT = 'DELETE_OBJECT';
+export const MARK_OBJECT = 'MARK_OBJECT'

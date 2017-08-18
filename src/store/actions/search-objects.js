@@ -1,4 +1,4 @@
-import {ADD_OBJECT, DELETE_OBJECT} from '../constans'
+import {ADD_OBJECT, DELETE_OBJECT, MARK_OBJECT} from '../constans'
 import {localStorageMod, constsLocalStorage} from '../../services/local-storage'
 
 
@@ -36,5 +36,12 @@ export const loadObjectsFromLocalStorage = () => {
         });
       });
     }
+  }
+};
+
+export const markObject = (id) => {
+  return {
+    type: MARK_OBJECT,
+    id: id
   }
 };

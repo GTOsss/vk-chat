@@ -1,4 +1,4 @@
-import {ADD_OBJECT, DELETE_OBJECT} from '../constans'
+import {ADD_OBJECT, DELETE_OBJECT, MARK_OBJECT} from '../constans'
 
 const initialState = {
   objects: []
@@ -11,6 +11,15 @@ export default function searchObjects(state = initialState, action) {
     case DELETE_OBJECT:
       let objects = state.objects.filter((el) => { return el.id !== action.id });
       return {...state, objects};
+    case MARK_OBJECT:
+      let newObjects = [...state.objects];
+      for (let i = 0; i < newObjects.length; i++) {
+        if (newObjects[i].id === action.id) {
+          newObjects[i].isMarked = !newObjects[i].isMarked;
+          break;
+        }
+      }
+      return {...state, objects: newObjects};
     default:
       return state;
   }

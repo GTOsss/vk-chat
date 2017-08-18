@@ -15,10 +15,7 @@
   border-top: none;
   background-color: #d4d4d4;
   margin: 12px 0;
-}
-
-.li-item {
-  composes: li-default;
+  position: relative;
 }
 
 .wrap-scroll {
@@ -33,7 +30,10 @@
   width: 100%;
 }
 
-.bottom-panel {
-
+.mark-circle {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  cursor: pointer;
 }
 

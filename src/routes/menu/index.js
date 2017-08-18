@@ -6,11 +6,16 @@ import * as searchObjectsActions from '../../store/actions/search-objects'
 
 class Menu extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
+    this.onIconClickHandle = this.onIconClickHandle.bind(this);
   }
 
   onSubmitHandle(values) {
 
+  }
+
+  onIconClickHandle(id) {
+    this.props.markObject(id);
   }
 
   render() {
@@ -19,7 +24,8 @@ class Menu extends React.Component {
     return (
       <div>
         { children ? children : <MenuComponent searchObjects={searchObjects}
-                                               onSubmitHandle={this.onSubmitHandle} /> }
+                                               onSubmitHandle={this.onSubmitHandle}
+                                               iconClickHandler={this.onIconClickHandle} /> }
       </div>
     )
   }
@@ -30,7 +36,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  ...bindActionCreators(dispatch, searchObjectsActions)
+  ...bindActionCreators(searchObjectsActions, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Menu)
