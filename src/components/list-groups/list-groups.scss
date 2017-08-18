@@ -39,3 +39,8 @@
   composes: header-list-groups-text;
   line-height: inherit;
 }
+
+.ul-screen {
+  composes: panel;
+  padding-top: 0;
+}

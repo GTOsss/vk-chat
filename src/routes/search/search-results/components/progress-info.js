@@ -7,7 +7,7 @@ import style from './search-results.scss'
 
 const ProgressInfo = ({count, value, progressGroup, groups, searchParams}) => (
   <div className={style['panel']}>
-    <HeaderListPanel headerText={'Выбранные группы'}/>
+    <HeaderListPanel headerText={'Поиск в группах'}/>
     <HeaderListGroups groups={groups}/>
     <SearchParams searchParams={searchParams}/>
     { progressGroup

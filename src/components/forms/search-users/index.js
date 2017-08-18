@@ -29,10 +29,10 @@ class Form extends React.Component {
   }
 
   render() {
-    const {handleSubmit, ageFrom, ageTo, sex, country, updateCountries, countries, isLoadingCountries,
+    const {handleSubmit, isHideAdditional, ageFrom, ageTo, sex, country, updateCountries, countries, isLoadingCountries,
       updateCities, city, deepSearch} = this.props;
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={style['search-screen']}>
         <label className={style['label']}>Регион</label>
         <div className={style['input']}>
           <Field name='country'
@@ -63,11 +63,16 @@ class Form extends React.Component {
           <Field name='sex' component={(props)=> <RadioGroupSex {...props} currentValue={sex}/> }/>
         </div>
 
-        <label className={style['label']}>Дополнительно</label>
-        <Field name='deepSearch'
-               component={(props) =>  <Checkbox {...props} color='#6786AB' size='18' active={deepSearch}>
-                                        Глубокий поиск
-                                      </Checkbox> }/>
+        {!isHideAdditional
+          ?   <div>
+                <label className={style['label']}>Дополнительно</label>
+                <Field name='deepSearch'
+                       component={(props) => <Checkbox {...props} color='#6786AB' size='18' active={deepSearch}>
+                         Глубокий поиск
+                       </Checkbox>}/>
+              </div>
+          : '' }
+
 
         <Button type='submit'>Поиск</Button>
       </form>

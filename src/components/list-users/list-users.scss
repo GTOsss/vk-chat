@@ -31,3 +31,8 @@
   margin: 0 auto;
   display: block;
 }
+
+.ul-screen {
+  composes: panel;
+  padding-top: 0;
+}

@@ -1,0 +1,39 @@
+@import '../../style/main';
+
+.ul-screen {
+  composes: panel;
+  padding-top: 0;
+}
+
+.ul-groups {
+  composes: ul-default;
+}
+
+.ul-groups-item {
+  composes: ul-default;
+  border: #507299 3px solid;
+  border-top: none;
+  background-color: #d4d4d4;
+  margin: 12px 0;
+}
+
+.li-item {
+  composes: li-default;
+}
+
+.wrap-scroll {
+  composes: body-scroll;
+}
+
+.text {
+  composes: text-title;
+  composes: panel;
+  text-align: center;
+  border: none;
+  width: 100%;
+}
+
+.bottom-panel {
+
+}
+

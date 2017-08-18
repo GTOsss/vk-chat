@@ -22,17 +22,19 @@ const createList = (groups, onClickItemListHandler) => groups.map((el, i) => (
 ));
 
 const ListGroups = ({groups, onClickItemListHandler, onClickItemHeaderListHandler}) => (
-  <ul className={style['ul-groups']}>
-    <HeaderListPanel headerText='Выбранные группы'/>
-    {isMarked(groups)
-      ? <HeaderListGroups groups={groups} className={[style['header-list-groups']]}
-                          onClick={onClickItemHeaderListHandler}/>
-      : <div className={style['header-list-groups-text']}>Выберите группы из списка</div>}
+  <div className={style['ul-screen']}>
+    <ul className={style['ul-groups']}>
+      <HeaderListPanel headerText='Выбранные группы'/>
+      {isMarked(groups)
+        ? <HeaderListGroups groups={groups} className={[style['header-list-groups']]}
+                            onClick={onClickItemHeaderListHandler}/>
+        : <div className={style['header-list-groups-text']}>Выберите группы из списка</div>}
 
-    <GroupsFilter/>
+      <GroupsFilter/>
 
-    {groups ? createList(groups, onClickItemListHandler) : ''}
-  </ul>
+      {groups ? createList(groups, onClickItemListHandler) : ''}
+    </ul>
+  </div>
 );
 
 export default ListGroups

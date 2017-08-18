@@ -12,7 +12,7 @@ const redirect = (e) => {
 
 const createRoutes = () => (
   <Route path='/' component={Main} onEnter={(e) => redirect(e)}>
-    <Route path='home' component={Menu}/>
+    <Route path='menu' component={Menu}/>
     <Route path='search' component={Groups}>
       <Route path='search-results' component={SearchResults}/>
     </Route>

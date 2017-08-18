@@ -33,23 +33,25 @@ class ListUsers extends React.Component {
   render(){
     const {users, headerText, groups, searchParams, addObject} = this.props;
     return(
-      <ul className={style['ul-users']}>
-        {headerText ? <HeaderListPanel headerText={headerText}/> : ''}
-        <HeaderListGroups groups={groups}/>
-        <SearchParams searchParams={searchParams}/>
-        <div className={style['wrap-button-save']}>
-          {this.state.btnSaveShow ?
-              <Button className={style['button-save']}
-                      onClick={() => {
-                        this.setState({btnSaveShow: !this.state.btnSaveShow});
-                        addObject({users, searchParams, id: Date.now()});
-                      }}>
-                Сохранить результаты поиска
-              </Button>
-            : ''}
-        </div>
-        {users ? this.createListUsers(users) : ''}
-      </ul>
+      <div className={style['ul-screen']}>
+        <ul className={style['ul-users']}>
+          {headerText ? <HeaderListPanel headerText={headerText}/> : ''}
+          <HeaderListGroups groups={groups}/>
+          <SearchParams searchParams={searchParams}/>
+          <div className={style['wrap-button-save']}>
+            {this.state.btnSaveShow ?
+                <Button className={style['button-save']}
+                        onClick={() => {
+                          this.setState({btnSaveShow: !this.state.btnSaveShow});
+                          addObject({users, searchParams, id: Date.now(), groups});
+                        }}>
+                  Сохранить результаты поиска
+                </Button>
+              : ''}
+          </div>
+          {users ? this.createListUsers(users) : ''}
+        </ul>
+      </div>
     )
   }
 }

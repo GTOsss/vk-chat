@@ -4,7 +4,7 @@ import ListUsersComponent from '../../../../components/list-users'
 import style from './search-results.scss'
 
 const listUsers = ({users, groups, searchParams}) => (
-  <div className={style['ul-screen']}>
+  <div>
     { (users && users.length) ? <ListUsersComponent users={users}
                                                     groups={groups}
                                                     searchParams={searchParams}

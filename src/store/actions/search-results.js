@@ -31,7 +31,7 @@ export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, deepSearch, acces
         let currentGroupMembersThisIter = [];
         const response = await vkApi('groups.getMembers', {
           'fields': 'photo_100, photo_max_orig, online, last_seen, ' +
-          'followers_count, city, about, relation, status, sex, bdate',
+          'followers_count, city, about, relation, status, sex, bdate, deactivated',
           'access_token': accessToken,
           'offset': j * 1000,
           'count': 1000,
@@ -49,7 +49,7 @@ export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, deepSearch, acces
             ageFrom = !ageFrom ? 0 : ageFrom;
           }
           let filterAge = (!ageTo && !ageFrom) || isAgeFilter && ((age <= ageTo) && (age >= ageFrom));
-          return filterCity && filterSex && filterAge
+          return filterCity && filterSex && filterAge && !el.deactivated
         });
 
         if(counter >= onePercent) {

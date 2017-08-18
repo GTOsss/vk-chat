@@ -24,3 +24,9 @@
   composes: row;
 }
 
+.search-screen {
+  composes: panel;
+  padding-bottom: 10px;
+  padding-top: 0;
+  position: fixed;
+}
