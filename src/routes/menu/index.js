@@ -10,6 +10,20 @@ class Menu extends React.Component {
     this.onIconClickHandle = this.onIconClickHandle.bind(this);
   }
 
+  componentWillMount() {
+    const {firebase, vkInfo: {viewerId}} = this.props;
+    firebase.database().ref(`users/${viewerId}/searchObjects/info`).on('value', (searchObjects) => {
+      let arraySearchObjects = [];
+      searchObjects = searchObjects.val();
+      for (let name in searchObjects) {
+        if(searchObjects.hasOwnProperty(name))
+          arraySearchObjects.push({...searchObjects[name], id: name})
+      }
+
+      this.props.updateSearchObjects(arraySearchObjects);
+    });
+  }
+
   onSubmitHandle(values) {
 
   }
@@ -19,7 +33,7 @@ class Menu extends React.Component {
   }
 
   render() {
-    const {searchObjects, children} = this.props;
+    const {children, searchObjects} = this.props;
 
     return (
       <div>
@@ -32,6 +46,8 @@ class Menu extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  vkInfo: state.user.vkInfo,
+  firebase: state.user.firebase,
   searchObjects: state.searchObjects.objects
 });
 

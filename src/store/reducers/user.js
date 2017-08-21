@@ -3,7 +3,8 @@ import {
   UPDATE_GROUPS_SUCCESS,
   UPDATE_GROUPS_FAIL,
   MARK_GROUP,
-  UPDATE_VK_INFO
+  UPDATE_VK_INFO,
+  INIT_FIREBASE
 } from '../constans/index'
 
 const initialState = {
@@ -31,6 +32,8 @@ export default function user(state = initialState, action) {
       return {...state, groups: newGroups, isLoadingGroups: false};
     case UPDATE_VK_INFO:
       return {...state, groups: [...state.groups], vkInfo: action.vkInfo};
+    case INIT_FIREBASE:
+      return {...state, groups: [...state.groups], firebase: action.firebase};
     default:
       return state;
   }

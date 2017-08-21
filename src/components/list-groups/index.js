@@ -12,14 +12,21 @@ const isMarked = (groups) => {
   }
 };
 
-const createList = (groups, onClickItemListHandler) => groups.map((el, i) => (
-  <GroupItem key={i}
-             title={el.name}
-             text={`${el.members_count.toString().replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ') } участников`}
-             srcImg50={el.photo_50}
-             onClick={onClickItemListHandler ? () => onClickItemListHandler(el.id) : ''}
-             isMarked={el.isMarked}/>
-));
+const createList = (groups, onClickItemListHandler) => {
+  let items = [];
+  for (let i = 0; i < Math.min(100, groups.length); i++) {
+    let el = groups[i];
+    items.push(
+      <GroupItem key={i}
+                 title={el.name}
+                 text={`${el.members_count.toString().replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')} участников`}
+                 srcImg50={el.photo_50}
+                 onClick={onClickItemListHandler ? () => onClickItemListHandler(el.id) : ''}
+                 isMarked={el.isMarked}/>
+    );
+  }
+  return items;
+};
 
 const ListGroups = ({groups, onClickItemListHandler, onClickItemHeaderListHandler}) => (
   <div className={style['ul-screen']}>

@@ -4,7 +4,4 @@ export const localStorageMod = {
   clear : () => localStorage.clear()
 };
 
-export const constsLocalStorage = {
-  listObjectKeys: 'listObjectsKeys'
-};
 

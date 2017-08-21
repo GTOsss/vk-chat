@@ -41,6 +41,7 @@
     "classnames": "^2.2.5",
     "express": "^4.14.1",
     "express-static": "^1.0.3",
+    "firebase": "^4.3.0",
     "font-awesome": "^4.7.0",
     "get-url-param": "^1.0.1",
     "moment": "^2.18.1",

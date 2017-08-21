@@ -1,4 +1,4 @@
-import {vkApi} from '../../services/vk-service'
+import {vkApi, vkApiTimeout} from '../../services/vk-service'
 import {intersectionArrays} from '../../services/operations'
 import {
   SEARCH_USERS_IN_GROUPS_START,
@@ -10,6 +10,7 @@ import {
 import moment from 'moment'
 
 export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, deepSearch, accessToken}) => {
+  const fields = `${city ? 'city,' : ''} ${sex ? 'sex,' : ''} ${ageTo || ageFrom ? 'bdate,' : ''} deactivated`;
   return async (dispatch, getState) => {
     const groups = getState().user.groups.filter((el) => el.isMarked);
     dispatch({
@@ -29,15 +30,14 @@ export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, deepSearch, acces
       let progress = 0;
       for(let j = 0; j <= countRequest; j++) {
         let currentGroupMembersThisIter = [];
-        const response = await vkApi('groups.getMembers', {
-          'fields': 'photo_100, photo_max_orig, online, last_seen, ' +
-          'followers_count, city, about, relation, status, sex, bdate, deactivated',
-          'access_token': accessToken,
-          'offset': j * 1000,
-          'count': 1000,
-          'group_id': groups[i].id,
-          'version': 5.67
-        });
+        let response = await vkApiTimeout('groups.getMembers', {
+            'fields': fields,
+            'access_token': accessToken,
+            'offset': j * 1000,
+            'count': 1000,
+            'group_id': groups[i].id,
+            'version': 5.67
+        }, 200);
 
         currentGroupMembersThisIter = response.response.items.filter((el) => {
           let filterCity = !city || (el.city && (city === el.city.id));

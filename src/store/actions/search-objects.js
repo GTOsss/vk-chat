@@ -1,20 +1,35 @@
-import {ADD_OBJECT, DELETE_OBJECT, MARK_OBJECT} from '../constans'
-import {localStorageMod, constsLocalStorage} from '../../services/local-storage'
-
+import {ADD_OBJECT, DELETE_OBJECT, MARK_OBJECT, CLEAR} from '../constans'
 
 export const addObject = (object) => {
-  let listObjectKeys = localStorageMod.get(constsLocalStorage.listObjectKeys);
-  if(listObjectKeys && listObjectKeys.length) {
-    listObjectKeys = [...listObjectKeys, object.id];
-  } else {
-    listObjectKeys = [object.id];
-  }
-  localStorageMod.set(constsLocalStorage.listObjectKeys, listObjectKeys);
-  localStorageMod.set(object.id, object);
+  return (dispatch, getState) => {
+    object.groups = object.groups.map((el) => (el.isMarked ? {
+      isMarked: el.isMarked,
+      id: el.id,
+      name: el.name,
+      photo_50: el.photo_50
+    } : null)).filter((el) => el);
+    object.users = object.users.map((el) => el.id);
 
-  return {
-    type: ADD_OBJECT,
-    object: object
+    for(let propName in object.searchParams) {
+      if(object.searchParams.hasOwnProperty(propName) && !object.searchParams[propName])
+        delete object.searchParams[propName];
+    }
+
+    let dbObject = {
+      info: {
+        usersCount: object.users.length,
+        groups: object.groups,
+        searchParams: object.searchParams
+      },
+      users: JSON.stringify(object.users)
+    };
+
+    const {firebase, vkInfo: {viewerId}} = getState().user;
+    let refKey = firebase.database().ref(`/users/${viewerId}/searchObjects`).push().key;
+    let updates = {};
+    updates[`/users/${viewerId}/searchObjects/users/${refKey}`] = dbObject.users;
+    updates[`/users/${viewerId}/searchObjects/info/${refKey}`] = dbObject.info;
+    firebase.database().ref().update(updates);
   }
 };
 
@@ -25,17 +40,15 @@ export const deleteObject = (id) => {
   }
 };
 
-export const loadObjectsFromLocalStorage = () => {
+export const updateSearchObjects = (objects) => {
   return (dispatch) => {
-    let listObjectKeys = localStorageMod.get(constsLocalStorage.listObjectKeys);
-    if(listObjectKeys && listObjectKeys.length) {
-      listObjectKeys.forEach((el) => {
-        dispatch({
-          type: ADD_OBJECT,
-          object: localStorageMod.get(el)
-        });
+    dispatch({type: CLEAR});
+    objects.forEach((el) => {
+      dispatch({
+        type: ADD_OBJECT,
+        object: el
       });
-    }
+    });
   }
 };
 

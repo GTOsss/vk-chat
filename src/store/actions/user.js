@@ -1,5 +1,7 @@
 import {testResponse} from '../../services/vk-service'
 import {levenshtein} from '../../services/operations'
+import * as firebase from 'firebase'
+let getURLParam = require('get-url-param');
 import {
   UPDATE_GROUPS_REQUEST,
   UPDATE_GROUPS_FAIL,
@@ -9,9 +11,9 @@ import {
   UPDATE_USER_INFO_FAIL,
   UPDATE_USER_INFO_SUCCESS,
   UPDATE_VK_INFO,
+  INIT_FIREBASE,
   GROUPS_FILTER
 } from '../constans/index'
-let getURLParam = require('get-url-param');
 
 export const groupsFilter = (filterStr) => {
   return (dispatch, getState) => {
@@ -106,6 +108,26 @@ export const getVkInfo = () => {
     dispatch({
       type: UPDATE_VK_INFO,
       vkInfo: vkInfo
+    });
+  }
+};
+
+export const initializeFirebase = () => {
+  return (dispatch) => {
+    const config = {
+      apiKey: "AIzaSyCcUm2_CN1k8v5tEgD36ie01Uirh7Xgq3Q",
+      authDomain: "vkchat-a2407.firebaseapp.com",
+      databaseURL: "https://vkchat-a2407.firebaseio.com",
+      projectId: "vkchat-a2407",
+      storageBucket: "vkchat-a2407.appspot.com",
+      messagingSenderId: "780824054637"
+    };
+
+    firebase.initializeApp(config);
+
+    dispatch({
+      type: INIT_FIREBASE,
+      firebase: firebase
     });
   }
 };

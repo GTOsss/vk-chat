@@ -21,3 +21,14 @@ export const vkApi = (method, params) => {
     });
   })
 };
+
+export const vkApiTimeout = (method, params, time) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      VK.api(method, params, (response) => {
+        testResponse(response);
+        resolve(response);
+      })
+    }, time);
+  })
+};
