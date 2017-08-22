@@ -48,7 +48,7 @@ class ListUsers extends React.Component {
                 <Button className={style['button-save']}
                         onClick={() => {
                           this.setState({btnSaveShow: !this.state.btnSaveShow});
-                          addObject({users, searchParams, id: Date.now(), groups});
+                          addObject({users, searchParams, groups});
                         }}>
                   Сохранить результаты поиска
                 </Button>

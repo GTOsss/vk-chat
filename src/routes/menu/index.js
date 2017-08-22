@@ -14,17 +14,7 @@ class Menu extends React.Component {
   }
 
   componentWillMount() {
-    const {firebase, vkInfo: {viewerId}} = this.props;
-    firebase.database().ref(`users/${viewerId}/searchObjects/info`).on('value', (searchObjects) => {
-      let arraySearchObjects = [];
-      searchObjects = searchObjects.val();
-      for (let name in searchObjects) {
-        if(searchObjects.hasOwnProperty(name))
-          arraySearchObjects.push({...searchObjects[name], id: name})
-      }
-
-      this.props.updateSearchObjects(arraySearchObjects);
-    });
+    this.props.updateSearchObjects();
   }
 
   onSubmitHandle(values) {
@@ -43,23 +33,23 @@ class Menu extends React.Component {
   }
 
   render() {
-    const {children, searchObjects} = this.props;
-
+    const {children, searchObjects, loadingObj} = this.props;
+    console.log('loading: ', loadingObj.searchObjects);
     return (
       <div>
         { children ? children : <MenuComponent searchObjects={searchObjects}
                                                onSubmitHandle={this.onSubmitHandle}
                                                iconClickHandler={this.onIconClickHandle}
-                                               deleteClickHandler={this.onDeleteClickHandler} /> }
+                                               deleteClickHandler={this.onDeleteClickHandler}
+                                               loading={loadingObj.searchObjects} /> }
       </div>
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-  vkInfo: state.user.vkInfo,
-  firebase: state.user.firebase,
-  searchObjects: state.searchObjects.objects
+  searchObjects: state.searchObjects.objects,
+  loadingObj: state.loading.loadingObj
 });
 
 const mapDispatchToProps = (dispatch) => ({

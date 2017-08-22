@@ -1,4 +1,4 @@
-import {ADD_OBJECT, DELETE_OBJECT, MARK_OBJECT, CLEAR} from '../constans'
+import {ADD_OBJECT, MARK_OBJECT, CLEAR, TOGGLE} from '../constans'
 
 export const addObject = (object) => {
   return (dispatch, getState) => {
@@ -41,14 +41,40 @@ export const deleteObject = (id) => {
   }
 };
 
-export const updateSearchObjects = (objects) => {
-  return (dispatch) => {
-    dispatch({type: CLEAR});
-    objects.forEach((el) => {
+export const updateSearchObjects = () => {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: TOGGLE,
+      loadingObj: {searchObjects: true}
+    });
+    dispatch({
+      type: CLEAR
+    });
+
+    const {firebase, vkInfo: {viewerId}} = getState().user;
+    firebase.database().ref(`users/${viewerId}/searchObjects/info`).on('value', (searchObjects) => {
       dispatch({
-        type: ADD_OBJECT,
-        object: el
+        type: CLEAR
       });
+
+      let objects = [];
+      searchObjects = searchObjects.val();
+      for (let name in searchObjects) {
+        if(searchObjects.hasOwnProperty(name))
+          objects.push({...searchObjects[name], id: name})
+      }
+
+      objects.forEach((el) => {
+        dispatch({
+          type: ADD_OBJECT,
+          object: el
+        });
+      });
+
+      dispatch({
+        type: TOGGLE,
+        loadingObj: {searchObjects: false}
+      })
     });
   }
 };
