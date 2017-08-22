@@ -1,5 +1,5 @@
 import React from 'react'
-import ListUsersComponent from '../../../../components/list-users'
+import ListUsersComponent from '../../list-users/index'
 
 import style from './search-results.scss'
 

@@ -3,7 +3,7 @@ import ItemSearchObject from './search-object-item'
 
 import style from './list-search-objects.scss'
 
-const createListSearchObjects = (searchObjects, iconClickHandler) => {
+const createListSearchObjects = (searchObjects, iconClickHandler, deleteClickHandler) => {
   let items = [];
   for (let i = 0; i < Math.min(20, searchObjects.length); i++) {
     let el = searchObjects[i];
@@ -14,17 +14,18 @@ const createListSearchObjects = (searchObjects, iconClickHandler) => {
         groups={el.groups}
         countResults={el.usersCount}
         active={el.isMarked}
-        onClick={() => iconClickHandler(el.id)} />
+        onClick={() => iconClickHandler(el.id)}
+        deleteOnClick={() => deleteClickHandler(el.id)} />
     )
   }
   return items;
 };
 
-const ListSearchObjects = ({searchObjects, iconClickHandler}) => (
+const ListSearchObjects = ({searchObjects, iconClickHandler, deleteClickHandler}) => (
   <div className={style['ul-screen']}>
     <ul className={style['ul-groups']}>
       {searchObjects && searchObjects.length
-        ? createListSearchObjects(searchObjects, iconClickHandler)
+        ? createListSearchObjects(searchObjects, iconClickHandler, deleteClickHandler)
         : <div className={style['text']}>
               Резульаты поисков еще не были сохранены
           </div>}

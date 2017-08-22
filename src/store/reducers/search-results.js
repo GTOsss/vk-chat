@@ -3,10 +3,11 @@ import {
   SEARCH_USERS_IN_GROUPS_STEP,
   SEARCH_USERS_IN_GROUP_STEP,
   SEARCH_USERS_IN_GROUPS_SUCCESS
-} from '../constans/index'
+} from '../constans'
 
 const initialState = {
   searchResults: [],
+  groups: [],
   groupsCount: 0,
   step: 0,
   progressGroup: 0
@@ -15,7 +16,13 @@ const initialState = {
 export default function searchResults(state = initialState, action) {
   switch (action.type) {
     case SEARCH_USERS_IN_GROUPS_START:
-      return {...initialState, groupsCount: action.groupsCount, searchParams: action.searchParams};
+      let groups = [];
+      if (action.groups && action.groups.length) {
+        groups = [...action.groups]
+      }
+
+      return {...initialState, groupsCount: action.groupsCount,
+        searchParams: action.searchParams, groups};
     case SEARCH_USERS_IN_GROUPS_STEP:
       return {
         ...state,

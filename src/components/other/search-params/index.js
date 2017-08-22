@@ -30,7 +30,7 @@ const createTableParams = ({city, ageFrom, ageTo, sex, deepSearch}) => {
 
 const HeaderListPanel = ({searchParams}) => (
   <div>
-    {createTableParams(searchParams)}
+    {createTableParams({...searchParams})}
   </div>
 );
 

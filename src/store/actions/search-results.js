@@ -9,6 +9,88 @@ import {
 } from '../constans/index'
 import moment from 'moment'
 
+const validateUser = (el, {city, ageFrom, ageTo, sex}) => {
+  let filterCity = !city || (el.city && (city === el.city.id));
+  let filterSex = (!sex || sex === '0') || (sex.toString() === el.sex.toString());
+  let age = moment().diff(moment(el.bdate, 'DD.MM.YYYY'), 'years');
+  let isAgeFilter = (ageTo || ageFrom) && age;
+  if(isAgeFilter) {
+    ageTo = !ageTo ? 100 : ageTo;
+    ageFrom = !ageFrom ? 0 : ageFrom;
+  }
+  let filterAge = (!ageTo && !ageFrom) || isAgeFilter && ((age <= ageTo) && (age >= ageFrom));
+  return filterCity && filterSex && filterAge && !el.deactivated
+};
+
+export const searchInSearchObjects = ({city, ageFrom, ageTo, sex}) => {
+  return async (dispatch, getState) => {
+    const {searchObjects: {objects: searchObjects}, user: {firebase, vkInfo: {viewerId}}} = getState();
+    let groups = [];
+    let objects = searchObjects.filter((el) => {
+      if(el.isMarked) {
+        groups = [...groups, ...el.groups];
+      }
+      return el.isMarked
+    });
+
+    dispatch({
+      type: SEARCH_USERS_IN_GROUPS_START,
+      groupsCount: groups.length,
+      searchParams: {city, ageFrom, ageTo, sex, deepSearch: 'searchObjects'},
+      groups
+    });
+
+    let arraysUsers = [];
+    for (let i = 0; i < objects.length; i++) {
+      let users = await firebase.database()
+        .ref(`/users/${viewerId}/searchObjects/users/${objects[i].id}`).once('value');
+      arraysUsers.push(users.val());
+    }
+
+    let resultArrays = [];
+    for (let i = 0; i < arraysUsers.length; i++) {
+      let el = arraysUsers[i];
+      let currentUsers = [];
+      let ids = JSON.parse(el);
+
+      let countIter = ids.length / 500;
+      for (let j = 0; j < countIter; j++) {
+        let response = await vkApi('users.get', {
+          'user_ids': ids.splice(0,500).join(','),
+          'fields': 'city, bdate, sex',
+          'version': 5.68
+        });
+
+        response = response.response.filter((el) => {
+          return validateUser(el, {city, ageFrom, ageTo, sex});
+        });
+
+        currentUsers = currentUsers.concat(response);
+
+        dispatch({
+          type: SEARCH_USERS_IN_GROUP_STEP,
+          progress: j / countIter * 100
+        });
+      }
+      resultArrays.push(currentUsers);
+
+      dispatch({
+        type: SEARCH_USERS_IN_GROUPS_STEP,
+        step: i+1
+      });
+    }
+
+    let searchResults = resultArrays.reduce((a, b) => {
+      return intersectionArrays(a, b);
+    });
+
+    dispatch({
+      type: SEARCH_USERS_IN_GROUPS_SUCCESS,
+      searchResults
+    });
+  }
+};
+
 export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, deepSearch, accessToken}) => {
   const fields = `${city ? 'city,' : ''} ${sex ? 'sex,' : ''} ${ageTo || ageFrom ? 'bdate,' : ''} deactivated`;
   return async (dispatch, getState) => {
@@ -26,8 +108,6 @@ export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, deepSearch, acces
       let countRequest = Math.ceil(countMembers / 1000);
       let currentGroupMembers = [];
       const onePercent = (countRequest / 100);
-      let counter = 0;
-      let progress = 0;
       for(let j = 0; j <= countRequest; j++) {
         let currentGroupMembersThisIter = [];
         let response = await vkApiTimeout('groups.getMembers', {
@@ -40,18 +120,11 @@ export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, deepSearch, acces
         }, 200);
 
         currentGroupMembersThisIter = response.response.items.filter((el) => {
-          let filterCity = !city || (el.city && (city === el.city.id));
-          let filterSex = (!sex || sex === '0') || (sex.toString() === el.sex.toString());
-          let age = moment().diff(moment(el.bdate, 'DD.MM.YYYY'), 'years');
-          let isAgeFilter = (ageTo || ageFrom) && age;
-          if(isAgeFilter) {
-            ageTo = !ageTo ? 100 : ageTo;
-            ageFrom = !ageFrom ? 0 : ageFrom;
-          }
-          let filterAge = (!ageTo && !ageFrom) || isAgeFilter && ((age <= ageTo) && (age >= ageFrom));
-          return filterCity && filterSex && filterAge && !el.deactivated
+          return validateUser(el, {city, ageFrom, ageTo, sex});
         });
 
+        let counter = 0;
+        let progress = 0;
         if(counter >= onePercent) {
           counter = 0;
           progress = j / countRequest * 100;
@@ -62,6 +135,7 @@ export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, deepSearch, acces
           });
         }
         counter++;
+
         currentGroupMembers = [...currentGroupMembers, ...currentGroupMembersThisIter];
       }
       searchResults.push(currentGroupMembers);

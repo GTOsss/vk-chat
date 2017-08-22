@@ -37,3 +37,14 @@
   cursor: pointer;
 }
 
+.delete-icon {
+  composes: mark-circle;
+  top: 12px;
+  bottom: 0;
+  color: #314963;
+}
+
+.delete-icon:hover {
+  color: #861b18;
+}
+

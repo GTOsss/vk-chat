@@ -1,8 +1,8 @@
 import React from 'react'
-import ProgressBar from '../../../../components/progress-bar'
-import HeaderListPanel from '../../../../components/other/header-list-panel'
-import HeaderListGroups from '../../../../components/other/header-list-groups'
-import SearchParams from '../../../../components/other/search-params'
+import ProgressBar from '../../progress-bar/index'
+import HeaderListPanel from '../../other/header-list-panel/index'
+import HeaderListGroups from '../../other/header-list-groups/index'
+import SearchParams from '../../other/search-params/index'
 import style from './search-results.scss'
 
 const ProgressInfo = ({count, value, progressGroup, groups, searchParams}) => (

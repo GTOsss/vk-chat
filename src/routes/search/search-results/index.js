@@ -1,5 +1,5 @@
 import React from 'react'
-import SearchResultsComponent from './components/search-results'
+import SearchResultsComponent from '../../../components/blocks/search-results'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as usersAction from '../../../store/actions/user'
@@ -10,26 +10,23 @@ class SearchResults extends React.Component {
   }
 
   render() {
-    const {props: {users, groupsCount, step, progressGroup, groups, searchParams}} = this;
     return (
-      <SearchResultsComponent users={users}
-                              groupsCount={groupsCount}
-                              step={step}
-                              groups={groups}
-                              progressGroup={progressGroup}
-                              searchParams={searchParams} />
+      <SearchResultsComponent {...this.props} />
     )
   }
 }
 
-const mapStateToProps = (state) => ({
-  users: state.searchResults.searchResults,
-  groups: state.user.groups,
-  groupsCount: state.searchResults.groupsCount,
-  step: state.searchResults.step,
-  searchParams: state.searchResults.searchParams,
-  progressGroup: state.searchResults.progressGroup
-});
+const mapStateToProps = (state) => {
+  console.log(state);
+  return ({
+    users: state.searchResults.searchResults,
+    groups: state.user.groups,
+    groupsCount: state.searchResults.groupsCount,
+    step: state.searchResults.step,
+    searchParams: state.searchResults.searchParams,
+    progressGroup: state.searchResults.progressGroup,
+  })
+};
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(usersAction, dispatch);
 

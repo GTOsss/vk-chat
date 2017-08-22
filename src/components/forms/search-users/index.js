@@ -29,7 +29,8 @@ class Form extends React.Component {
   }
 
   render() {
-    const {handleSubmit, isHideAdditional, ageFrom, ageTo, sex, country, updateCountries, countries, isLoadingCountries,
+    const {handleSubmit, isHideAdditional, ageFrom, ageTo, sex, country,
+      updateCountries, countries, isLoadingCountries,
       updateCities, city, deepSearch} = this.props;
     return (
       <form onSubmit={handleSubmit} className={style['search-screen']}>

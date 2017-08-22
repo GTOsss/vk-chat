@@ -34,9 +34,10 @@ export const addObject = (object) => {
 };
 
 export const deleteObject = (id) => {
-  return {
-    type: DELETE_OBJECT,
-    id: id
+  return (dispatch, getState) => {
+    const {firebase, vkInfo: {viewerId}} = getState().user;
+    firebase.database().ref(`/users/${viewerId}/searchObjects/users/${id}`).remove();
+    firebase.database().ref(`/users/${viewerId}/searchObjects/info/${id}`).remove();
   }
 };
 
