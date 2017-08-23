@@ -1,5 +1,5 @@
 import {vkApi, vkApiTimeout} from '../../services/vk-service'
-import {intersectionArrays} from '../../services/operations'
+import {intersectionArrays, validateUser} from '../../services/operations'
 import {
   SEARCH_USERS_IN_GROUPS_START,
   SEARCH_USERS_IN_GROUPS_STEP,
@@ -7,20 +7,6 @@ import {
   SEARCH_USERS_IN_GROUPS_FAIL,
   SEARCH_USERS_IN_GROUPS_SUCCESS
 } from '../constans/index'
-import moment from 'moment'
-
-const validateUser = (el, {city, ageFrom, ageTo, sex}) => {
-  let filterCity = !city || (el.city && (city === el.city.id));
-  let filterSex = (!sex || sex === '0') || (sex.toString() === el.sex.toString());
-  let age = moment().diff(moment(el.bdate, 'DD.MM.YYYY'), 'years');
-  let isAgeFilter = (ageTo || ageFrom) && age;
-  if(isAgeFilter) {
-    ageTo = !ageTo ? 100 : ageTo;
-    ageFrom = !ageFrom ? 0 : ageFrom;
-  }
-  let filterAge = (!ageTo && !ageFrom) || isAgeFilter && ((age <= ageTo) && (age >= ageFrom));
-  return filterCity && filterSex && filterAge && !el.deactivated
-};
 
 export const searchInSearchObjects = ({city, ageFrom, ageTo, sex}) => {
   return async (dispatch, getState) => {

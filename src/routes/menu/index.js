@@ -34,7 +34,6 @@ class Menu extends React.Component {
 
   render() {
     const {children, searchObjects, loadingObj} = this.props;
-    console.log('loading: ', loadingObj.searchObjects);
     return (
       <div>
         { children ? children : <MenuComponent searchObjects={searchObjects}

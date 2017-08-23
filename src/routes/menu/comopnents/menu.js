@@ -1,5 +1,5 @@
 import React from 'react'
-import ListSearchObjects from '../../../components/list-search-objects'
+import ListSearchObjects from '../../../components/lists/list-search-objects'
 import SearchUsersForm from '../../../components/forms/search-users'
 import Loader from '../../../components/loader'
 import cx from 'classnames'

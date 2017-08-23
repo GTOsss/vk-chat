@@ -17,7 +17,6 @@ class SearchResults extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return ({
     users: state.searchResults.searchResults,
     groups: state.user.groups,

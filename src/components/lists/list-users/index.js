@@ -1,12 +1,12 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as searchObjectsActions from '../../store/actions/search-objects'
+import * as searchObjectsActions from '../../../store/actions/search-objects'
 import UserItem from './user-item'
-import HeaderListGroups from '../other/header-list-groups'
-import SearchParams from '../other/search-params';
-import HeaderListPanel from '../other/header-list-panel'
-import Button from '../../components/button'
+import HeaderListGroups from '../../other/header-list-groups/index'
+import SearchParams from '../../other/search-params/index';
+import HeaderListPanel from '../../other/header-list-panel/index'
+import Button from '../../forms/inputs/button/index'
 
 import style from './list-users.scss'
 

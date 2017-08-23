@@ -5,7 +5,7 @@ import {Field, reduxForm, formValueSelector} from 'redux-form'
 import cx from 'classnames'
 import * as searchFormActions from '../../../store/actions/search-form'
 import {RadioGroupSex, SelectAgeTo, SelectAgeFrom, SelectCity, SelectCountry} from './inputs'
-import Button from '../../../components/button'
+import Button from '../inputs/button'
 import Checkbox from '../inputs/checkbox'
 
 import style from './search-form.scss'

@@ -1,8 +1,8 @@
 import React from 'react'
 import GroupItem from './group-item'
-import HeaderListGroups from '../other/header-list-groups'
-import HeaderListPanel from '../other/header-list-panel'
-import GroupsFilter from '../forms/groups-filter'
+import HeaderListGroups from '../../other/header-list-groups/index'
+import HeaderListPanel from '../../other/header-list-panel/index'
+import GroupsFilter from '../../forms/groups-filter/index'
 
 import style from './list-groups.scss'
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import ListGroups from '../../../components/list-groups/index'
+import ListGroups from '../../../components/lists/list-groups/index'
 import SearchUsersForm from '../../../components/forms/search-users/index'
 import Loader from '../../../components/loader'
 

@@ -1,7 +1,5 @@
 import React from 'react'
-import ListUsersComponent from '../../list-users/index'
-
-import style from './search-results.scss'
+import ListUsersComponent from '../../lists/list-users/index'
 
 const listUsers = ({users, groups, searchParams}) => (
   <div>
