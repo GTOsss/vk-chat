@@ -1,4 +1,4 @@
-import {ADD_OBJECT, MARK_OBJECT, CLEAR, TOGGLE} from '../constans'
+import {ADD_OBJECT, MARK_OBJECT, CLEAR, TOGGLE_LOADING} from '../constans'
 
 export const addObject = (object) => {
   return (dispatch, getState) => {
@@ -44,7 +44,7 @@ export const deleteObject = (id) => {
 export const updateSearchObjects = () => {
   return async (dispatch, getState) => {
     dispatch({
-      type: TOGGLE,
+      type: TOGGLE_LOADING,
       loadingObj: {searchObjects: true}
     });
     dispatch({
@@ -72,7 +72,7 @@ export const updateSearchObjects = () => {
       });
 
       dispatch({
-        type: TOGGLE,
+        type: TOGGLE_LOADING,
         loadingObj: {searchObjects: false}
       })
     });

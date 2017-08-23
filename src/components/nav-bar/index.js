@@ -11,11 +11,11 @@ const NavBar = ({title, children}) => (
     <nav className={navbarStyle}>
       <button className='navbar-toggler navbar-toggler-right'
               type='button'
-              data-toggle='collapse'
+              data-TOGGLE_LOADING='collapse'
               data-target='#navbarTogglerDemo02'
               aria-controls='navbarTogglerDemo02'
               aria-expanded='false'
-              aria-label='Toggle navigation'>
+              aria-label='TOGGLE_LOADING navigation'>
         <span className='navbar-toggler-icon' />
       </button>
       {title ? title : ''}

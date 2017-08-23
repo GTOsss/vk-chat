@@ -1,5 +1,4 @@
 import {
-  UPDATE_GROUPS_REQUEST,
   UPDATE_GROUPS_SUCCESS,
   UPDATE_GROUPS_FAIL,
   MARK_GROUP,
@@ -8,14 +7,11 @@ import {
 } from '../constans/index'
 
 const initialState = {
-  isLoadingGroups: false,
   groups: []
 };
 
 export default function user(state = initialState, action) {
   switch (action.type) {
-    case UPDATE_GROUPS_REQUEST:
-      return {...state, groups: [...state.groups], isLoadingGroups: true};
     case UPDATE_GROUPS_SUCCESS:
       return {...state, groups: [...action.groups]};
     case UPDATE_GROUPS_FAIL:

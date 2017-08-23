@@ -3,16 +3,12 @@ import {levenshtein} from '../../services/operations'
 import * as firebase from 'firebase'
 let getURLParam = require('get-url-param');
 import {
-  UPDATE_GROUPS_REQUEST,
   UPDATE_GROUPS_FAIL,
   UPDATE_GROUPS_SUCCESS,
   MARK_GROUP,
-  UPDATE_USER_INFO_REQUEST,
-  UPDATE_USER_INFO_FAIL,
-  UPDATE_USER_INFO_SUCCESS,
+  TOGGLE_LOADING,
   UPDATE_VK_INFO,
-  INIT_FIREBASE,
-  GROUPS_FILTER
+  INIT_FIREBASE
 } from '../constans/index'
 
 export const groupsFilter = (filterStr) => {
@@ -54,7 +50,11 @@ export const groupsFilter = (filterStr) => {
 
 export const updateGroups = (userId, idMarkedGroups) => {
   return (dispatch) => {
-    dispatch({type: UPDATE_GROUPS_REQUEST});
+    dispatch({
+      type: TOGGLE_LOADING,
+      loadingObj: {groups: true}
+    });
+
     VK.api('groups.get', {
       'user_id': userId,
       'extended': 1,
@@ -88,6 +88,11 @@ export const updateGroups = (userId, idMarkedGroups) => {
       catch (e) {
         dispatch({type: UPDATE_GROUPS_FAIL})
       }
+
+      dispatch({
+        type: TOGGLE_LOADING,
+        loadingObj: {groups: false}
+      });
     });
   }
 };

@@ -22,7 +22,7 @@ class Search extends React.Component {
 
   onSubmitHandle(values) {
     const accessToken = this.props.vkInfo.accessToken;
-    if(values.deepSearch) {
+    if (values.deepSearch) {
       this.props.deepSearchInGroups({...values, accessToken});
     } else {
       this.props.searchUsersInGroups({...values, accessToken});
@@ -33,7 +33,7 @@ class Search extends React.Component {
 
   render() {
     const {
-      props: {groups, children},
+      props: {groups, children, loadingObj},
       onClickItemListHandler,
       onSubmitHandle
     } = this;
@@ -42,9 +42,10 @@ class Search extends React.Component {
       <div>
         {children ? children :
           <SearchComponent groups={groups}
-                          onClickItemListHandler={onClickItemListHandler}
-                          onClickItemHeaderListHandler={onClickItemListHandler}
-                          onSubmitHandle={onSubmitHandle}/> }
+                           onClickItemListHandler={onClickItemListHandler}
+                           onClickItemHeaderListHandler={onClickItemListHandler}
+                           onSubmitHandle={onSubmitHandle}
+                           loading={loadingObj.groups}/>}
       </div>
     )
   }
@@ -52,7 +53,8 @@ class Search extends React.Component {
 
 const mapStateToProps = (state) => ({
   vkInfo: state.user.vkInfo,
-  groups: state.user.groups
+  groups: state.user.groups,
+  loadingObj: state.loading.loadingObj
 });
 
 const mapDispatchToProps = (dispatch) => ({

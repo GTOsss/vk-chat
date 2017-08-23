@@ -11,19 +11,21 @@ const Menu = ({searchObjects, loading, onSubmitHandle, iconClickHandler, deleteC
     <div className='container-fluid'>
       {loading
         ? <Loader/>
-        : <div className='row'>
-          <div className={cx('col-md-6 offset-1', style['col-fix'])}>
-            <ListSearchObjects searchObjects={searchObjects}
-                               iconClickHandler={iconClickHandler}
-                               deleteClickHandler={deleteClickHandler}/>
+        : (
+          <div className='row'>
+            <div className={cx('col-md-6 offset-1', style['col-fix'])}>
+              <ListSearchObjects searchObjects={searchObjects}
+                                 iconClickHandler={iconClickHandler}
+                                 deleteClickHandler={deleteClickHandler}/>
 
+            </div>
+            <div className={cx('col-md-3', style['col-fix'])}>
+              {searchObjects && searchObjects.length
+                ? <SearchUsersForm onSubmit={onSubmitHandle} isHideAdditional/>
+                : ''}
+            </div>
           </div>
-          <div className={cx('col-md-3', style['col-fix'])}>
-            {searchObjects && searchObjects.length
-              ? <SearchUsersForm onSubmit={onSubmitHandle} isHideAdditional/>
-              : ''}
-          </div>
-        </div>}
+        )}
     </div>
   </div>
 );
