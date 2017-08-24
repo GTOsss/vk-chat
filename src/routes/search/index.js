@@ -10,10 +10,25 @@ class Search extends React.Component {
     super(props);
     this.onClickItemListHandler = this.onClickItemListHandler.bind(this);
     this.onSubmitHandle = this.onSubmitHandle.bind(this);
+    this.refSetList = this.refSetList.bind(this);
+    this.onScrollHandler = this.onScrollHandler.bind(this);
   }
 
   componentDidMount() {
     this.props.updateGroups(this.props.vkInfo.viewerId);
+  }
+
+  componentDidUpdate(previousProps) {
+    if(previousProps.groups.length !== this.props.groups.length){
+      this.load = false;
+    }
+  }
+
+  onScrollHandler({target}) {
+    if(!this.load && (target.scrollTop + target.clientHeight + 100 >= this.list.clientHeight)) {
+      this.props.loadSliceGroups(this.props.groups.length, 100);
+      this.load = true;
+    }
   }
 
   onClickItemListHandler(i) {
@@ -31,6 +46,10 @@ class Search extends React.Component {
     this.props.router.push('/search/search-results');
   }
 
+  refSetList(el) {
+    this.list = el;
+  }
+
   render() {
     const {
       props: {groups, children, loadingObj},
@@ -45,7 +64,10 @@ class Search extends React.Component {
                            onClickItemListHandler={onClickItemListHandler}
                            onClickItemHeaderListHandler={onClickItemListHandler}
                            onSubmitHandle={onSubmitHandle}
-                           loading={loadingObj.groups}/>}
+                           loading={loadingObj.groups}
+                           sliceLoading={loadingObj.sliceGroups}
+                           setRefList={this.refSetList}
+                           onScrollHandler={this.onScrollHandler}/>}
       </div>
     )
   }

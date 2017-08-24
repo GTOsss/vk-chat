@@ -1,23 +1,26 @@
-import {testResponse} from '../../services/vk-service'
+import {testResponse, vkApi} from '../../services/vk-service'
 import {levenshtein} from '../../services/operations'
 import * as firebase from 'firebase'
-let getURLParam = require('get-url-param');
 import {
   UPDATE_GROUPS_FAIL,
   UPDATE_GROUPS_SUCCESS,
+  UPDATE_SLICE_GROUPS_SUCCESS,
   MARK_GROUP,
   TOGGLE_LOADING,
   UPDATE_VK_INFO,
   INIT_FIREBASE
 } from '../constans/index'
 
+let getURLParam = require('get-url-param');
+
+
 export const groupsFilter = (filterStr) => {
   return (dispatch, getState) => {
-    if(filterStr === '') {
+    if (filterStr === '') {
       let groups = getState().user.groups;
       let markedGroups = [];
       groups.forEach((el) => {
-        if(el.isMarked) {
+        if (el.isMarked) {
           markedGroups.push({
             id: el.id,
             timeMarked: el.timeMarked
@@ -61,7 +64,7 @@ export const updateGroups = (userId, idMarkedGroups) => {
       'filter': 0,
       'fields': 'members_count',
       'offset': 0,
-      'count': 999,
+      'count': 10,
       'version': 5.67
     }, (resp) => {
       try {
@@ -70,8 +73,8 @@ export const updateGroups = (userId, idMarkedGroups) => {
 
         if (idMarkedGroups && idMarkedGroups.length) {
           idMarkedGroups.forEach((el) => {
-            for(let i = 0; i < items.length; i++) {
-              if(items[i].id === el.id) {
+            for (let i = 0; i < items.length; i++) {
+              if (items[i].id === el.id) {
                 items[i].isMarked = true;
                 items[i].timeMarked = el.timeMarked;
                 break;
@@ -97,6 +100,36 @@ export const updateGroups = (userId, idMarkedGroups) => {
   }
 };
 
+export const loadSliceGroups = (offset, count) => {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: TOGGLE_LOADING,
+      loadingObj: {sliceGroups: true}
+    });
+
+    const {user: {vkInfo: {viewerId}}} = getState();
+    const {response: {items}} = await vkApi('groups.get', {
+      'user_id': viewerId,
+      'extended': 1,
+      'filter': 0,
+      'fields': 'members_count',
+      'offset': offset,
+      'count': count,
+      'version': 5.67
+    });
+
+    dispatch({
+      type: UPDATE_SLICE_GROUPS_SUCCESS,
+      groups: items
+    });
+
+    dispatch({
+      type: TOGGLE_LOADING,
+      loadingObj: {sliceGroups: false}
+    });
+  }
+};
+
 export const markGroup = (id) => ({
   type: MARK_GROUP,
   idGroup: id
@@ -106,7 +139,7 @@ export const getVkInfo = () => {
   return (dispatch) => {
     const vkInfo = {
       viewerId: getURLParam(frameHref, 'viewer_id'),
-      viewerType:  getURLParam(frameHref, 'viewer_type'),
+      viewerType: getURLParam(frameHref, 'viewer_type'),
       language: getURLParam(frameHref, 'language'),
       accessToken: getURLParam(frameHref, 'access_token')
     };

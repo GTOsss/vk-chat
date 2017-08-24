@@ -7,8 +7,9 @@ import cx from 'classnames'
 
 import style from './search.scss'
 
-const Groups = ({groups, onClickItemListHandler, onSubmitHandle, onClickItemHeaderListHandler, loading}) => (
-  <div className={style['wrap-scroll']}>
+const Groups = ({groups, onClickItemListHandler, onSubmitHandle, onClickItemHeaderListHandler, loading,
+                  onScrollHandler, setRefList, sliceLoading}) => (
+  <div className={style['wrap-scroll']} onScroll={onScrollHandler}>
     <div className='container-fluid'>
       {loading
         ? (
@@ -17,11 +18,13 @@ const Groups = ({groups, onClickItemListHandler, onSubmitHandle, onClickItemHead
           </div>
         )
         : (
-          <div className='row'>
+          <div className='row' ref={setRefList}>
             <div className={cx('col-md-6 offset-1', style['col-fix'])}>
               <ListGroups groups={groups}
                           onClickItemListHandler={onClickItemListHandler}
                           onClickItemHeaderListHandler={onClickItemHeaderListHandler}/>
+              {sliceLoading ? <Loader size={24}
+                                      styleHTML={{lineHeight: '80px', marginTop: '-15px'}}/> : ''}
             </div>
             <div className={cx('col-md-4', style['col-fix'])}>
               <SearchUsersForm onSubmit={onSubmitHandle}/>

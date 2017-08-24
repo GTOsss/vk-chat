@@ -1,5 +1,6 @@
 import {
   UPDATE_GROUPS_SUCCESS,
+  UPDATE_SLICE_GROUPS_SUCCESS,
   UPDATE_GROUPS_FAIL,
   MARK_GROUP,
   UPDATE_VK_INFO,
@@ -14,6 +15,8 @@ export default function user(state = initialState, action) {
   switch (action.type) {
     case UPDATE_GROUPS_SUCCESS:
       return {...state, groups: [...action.groups]};
+    case UPDATE_SLICE_GROUPS_SUCCESS:
+      return {...state, groups: [...state.groups, ...action.groups]};
     case UPDATE_GROUPS_FAIL:
       return {...state, groups: [...state.groups]};
     case MARK_GROUP:
