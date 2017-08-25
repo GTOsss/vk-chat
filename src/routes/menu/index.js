@@ -18,8 +18,7 @@ class Menu extends React.Component {
   }
 
   onSubmitHandle(values) {
-    let accessToken = this.props.vkInfo.accessToken;
-    this.props.searchInSearchObjects({...values, accessToken});
+    this.props.searchInSearchObjects({...values});
 
     this.props.router.push('/menu/search-results');
   }

@@ -23,8 +23,7 @@ const Groups = ({groups, onClickItemListHandler, onSubmitHandle, onClickItemHead
               <ListGroups groups={groups}
                           onClickItemListHandler={onClickItemListHandler}
                           onClickItemHeaderListHandler={onClickItemHeaderListHandler}/>
-              {sliceLoading ? <Loader size={24}
-                                      styleHTML={{lineHeight: '80px', marginTop: '-15px'}}/> : ''}
+              {sliceLoading ? <Loader mini/> : ''}
             </div>
             <div className={cx('col-md-4', style['col-fix'])}>
               <SearchUsersForm onSubmit={onSubmitHandle}/>

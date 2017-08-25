@@ -13,7 +13,6 @@ import {
 
 let getURLParam = require('get-url-param');
 
-
 export const groupsFilter = (filterStr) => {
   return (dispatch, getState) => {
     if (filterStr === '') {
@@ -64,7 +63,7 @@ export const updateGroups = (userId, idMarkedGroups) => {
       'filter': 0,
       'fields': 'members_count',
       'offset': 0,
-      'count': 10,
+      'count': 100,
       'version': 5.67
     }, (resp) => {
       try {

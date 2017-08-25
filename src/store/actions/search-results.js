@@ -5,11 +5,16 @@ import {
   SEARCH_USERS_IN_GROUPS_STEP,
   SEARCH_USERS_IN_GROUP_STEP,
   SEARCH_USERS_IN_GROUPS_FAIL,
-  SEARCH_USERS_IN_GROUPS_SUCCESS
+  LOAD_SLICE_USERS_SUCCESS,
+  SEARCH_USERS_IN_GROUPS_SUCCESS,
+  TOGGLE_LOADING,
+  CLEAR_USERS
 } from '../constans/index'
 
 export const searchInSearchObjects = ({city, ageFrom, ageTo, sex}) => {
   return async (dispatch, getState) => {
+    dispatch({type: CLEAR_USERS});
+
     const {searchObjects: {objects: searchObjects}, user: {firebase, vkInfo: {viewerId}}} = getState();
     let groups = [];
     let objects = searchObjects.filter((el) => {
@@ -51,7 +56,7 @@ export const searchInSearchObjects = ({city, ageFrom, ageTo, sex}) => {
           return validateUser(el, {city, ageFrom, ageTo, sex});
         });
 
-        currentUsers = currentUsers.concat(response);
+        currentUsers = currentUsers.concat(response.map((el) => el.id));
 
         dispatch({
           type: SEARCH_USERS_IN_GROUP_STEP,
@@ -74,12 +79,15 @@ export const searchInSearchObjects = ({city, ageFrom, ageTo, sex}) => {
       type: SEARCH_USERS_IN_GROUPS_SUCCESS,
       searchResults
     });
+
+    loadSliceUsers(0, 20)(dispatch, getState);
   }
 };
 
 export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, deepSearch, accessToken}) => {
   const fields = `${city ? 'city,' : ''} ${sex ? 'sex,' : ''} ${ageTo || ageFrom ? 'bdate,' : ''} deactivated`;
   return async (dispatch, getState) => {
+    dispatch({type: CLEAR_USERS});
     const groups = getState().user.groups.filter((el) => el.isMarked);
     dispatch({
       type: SEARCH_USERS_IN_GROUPS_START,
@@ -94,6 +102,8 @@ export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, deepSearch, acces
       let countRequest = Math.ceil(countMembers / 1000);
       let currentGroupMembers = [];
       const onePercent = (countRequest / 100);
+      let counter = 0;
+      let progress = 0;
       for(let j = 0; j <= countRequest; j++) {
         let currentGroupMembersThisIter = [];
         let response = await vkApiTimeout('groups.getMembers', {
@@ -109,8 +119,6 @@ export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, deepSearch, acces
           return validateUser(el, {city, ageFrom, ageTo, sex});
         });
 
-        let counter = 0;
-        let progress = 0;
         if(counter >= onePercent) {
           counter = 0;
           progress = j / countRequest * 100;
@@ -124,7 +132,7 @@ export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, deepSearch, acces
 
         currentGroupMembers = [...currentGroupMembers, ...currentGroupMembersThisIter];
       }
-      searchResults.push(currentGroupMembers);
+      searchResults.push(currentGroupMembers.map((el) => el.id));
 
       dispatch({
         type: SEARCH_USERS_IN_GROUPS_STEP,
@@ -140,11 +148,14 @@ export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, deepSearch, acces
       type: SEARCH_USERS_IN_GROUPS_SUCCESS,
       searchResults: searchResults
     });
+
+    loadSliceUsers(0, 20)(dispatch, getState);
   }
 };
 
 export const searchUsersInGroups = ({country, city, ageFrom, ageTo, sex, deepSearch, accessToken}) => {
   return async (dispatch, getState) => {
+    dispatch({type: CLEAR_USERS});
     const groups = getState().user.groups.filter((el) => el.isMarked);
     const length = groups.length;
     dispatch({
@@ -157,11 +168,9 @@ export const searchUsersInGroups = ({country, city, ageFrom, ageTo, sex, deepSea
     let searchResults = [];
     for(let i = 0; i < length; i++) {
       const response = await vkApi('users.search', {
-        'fields': 'photo_100, photo_max_orig, online, last_seen, ' +
-        'followers_count, city, about, relation, status',
         'access_token': accessToken,
         'offset': 0,
-        'count': 999,
+        'count': 1000,
         'country': country ? country : undefined,
         'city': city ? city : undefined,
         'sex': sex ? sex : undefined,
@@ -176,7 +185,7 @@ export const searchUsersInGroups = ({country, city, ageFrom, ageTo, sex, deepSea
         step: i+1
       });
 
-      searchResults.push(response.response.items);
+      searchResults.push(response.response.items.map((el) => el.id));
     }
 
     searchResults = searchResults.reduce((a, b) => {
@@ -185,7 +194,36 @@ export const searchUsersInGroups = ({country, city, ageFrom, ageTo, sex, deepSea
 
     dispatch({
       type: SEARCH_USERS_IN_GROUPS_SUCCESS,
-      searchResults: searchResults
+      searchResults
+    });
+
+    loadSliceUsers(0, 20)(dispatch, getState);
+  }
+};
+
+export const loadSliceUsers = (offset, count) => {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: TOGGLE_LOADING,
+      loadingObj: {sliceUsers: true}
+    });
+
+    let searchResults = getState().searchResults.searchResults;
+
+    let resp = await vkApi('users.get', {
+      user_ids: searchResults.slice(offset, offset+count).join(','),
+      fields: 'photo_100, followers_count'
+    });
+    let users = resp.response;
+
+    dispatch({
+      type: LOAD_SLICE_USERS_SUCCESS,
+      users: users ? users : []
+    });
+
+    dispatch({
+      type: TOGGLE_LOADING,
+      loadingObj: {sliceUsers: false}
     });
   }
 };

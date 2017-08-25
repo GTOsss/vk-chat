@@ -1,4 +1,4 @@
-import {ADD_OBJECT, DELETE_OBJECT, MARK_OBJECT, CLEAR} from '../constans'
+import {ADD_OBJECT, DELETE_OBJECT, MARK_OBJECT, CLEAR_SEARCH_OBJECTS} from '../constans'
 
 const initialState = {
   objects: []
@@ -20,7 +20,7 @@ export default function searchObjects(state = initialState, action) {
         }
       }
       return {...state, objects: newObjects};
-    case CLEAR:
+    case CLEAR_SEARCH_OBJECTS:
       return {...state, objects: []};
     default:
       return state;

@@ -21,18 +21,13 @@ class ListUsers extends React.Component {
   }
 
   createListUsers(users) {
-    let items = [];
-    for (let i = 0; i < Math.min(100, users.length); i++) {
-      let el = users[i];
-      items.push(
-        <a href={`https://www.vk.com/id${el.id}`} key={i} target='_blank' className={style['user-item']}>
-          <UserItem name={`${el.first_name} ${el.last_name}`}
-                    followersCount={`${this.addSpaceNumber(el.followers_count || 0)} подписчиков`}
-                    srcImg100={el.photo_100} />
-        </a>
-      );
-    }
-    return items;
+    return users.map((el, i) => (
+      <a href={`https://www.vk.com/id${el.id}`} key={i} target='_blank' className={style['user-item']}>
+        <UserItem name={`${el.first_name} ${el.last_name}`}
+                  followersCount={`${this.addSpaceNumber(el.followers_count || 0)} подписчиков`}
+                  srcImg100={el.photo_100} />
+      </a>
+    ));
   }
 
   render(){

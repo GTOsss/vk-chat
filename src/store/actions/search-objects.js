@@ -1,4 +1,4 @@
-import {ADD_OBJECT, MARK_OBJECT, CLEAR, TOGGLE_LOADING} from '../constans'
+import {ADD_OBJECT, MARK_OBJECT, CLEAR_SEARCH_OBJECTS, TOGGLE_LOADING} from '../constans'
 
 export const addObject = (object) => {
   return (dispatch, getState) => {
@@ -48,13 +48,13 @@ export const updateSearchObjects = () => {
       loadingObj: {searchObjects: true}
     });
     dispatch({
-      type: CLEAR
+      type: CLEAR_SEARCH_OBJECTS
     });
 
     const {firebase, vkInfo: {viewerId}} = getState().user;
     firebase.database().ref(`users/${viewerId}/searchObjects/info`).on('value', (searchObjects) => {
       dispatch({
-        type: CLEAR
+        type: CLEAR_SEARCH_OBJECTS
       });
 
       let objects = [];

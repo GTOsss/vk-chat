@@ -1,9 +1,7 @@
 import moment from 'moment'
 
 export const intersectionArrays = (ar1, ar2) => {
-  return ar1.filter(function(a) {
-    return true === this.has(a.id);
-  }, ar2.reduce((hash, b) => hash.add(b.id), new Set()));
+  return ar1.filter((el) => ar2.indexOf(el) !== -1);
 };
 
 export const validateUser = (el, {city, ageFrom, ageTo, sex}) => {
