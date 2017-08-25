@@ -3,7 +3,7 @@ import ItemSearchObject from './search-object-item'
 
 import style from './list-search-objects.scss'
 
-const createListSearchObjects = (searchObjects, iconClickHandler, deleteClickHandler) =>
+const createListSearchObjects = (searchObjects, iconClickHandler, modalToggle) =>
   searchObjects.map((el, i) => (
     <ItemSearchObject
       key={i}
@@ -12,14 +12,14 @@ const createListSearchObjects = (searchObjects, iconClickHandler, deleteClickHan
       countResults={el.usersCount}
       active={el.isMarked}
       onClick={() => iconClickHandler(el.id)}
-      deleteOnClick={() => deleteClickHandler(el.id)} />
+      deleteOnClick={() => modalToggle(el.id)} />
 ));
 
-const ListSearchObjects = ({searchObjects, iconClickHandler, deleteClickHandler}) => (
+const ListSearchObjects = ({searchObjects, iconClickHandler, modalToggle}) => (
   <div className={style['ul-screen']}>
     <ul className={style['ul-groups']}>
       {searchObjects && searchObjects.length
-        ? createListSearchObjects(searchObjects, iconClickHandler, deleteClickHandler)
+        ? createListSearchObjects(searchObjects, iconClickHandler, modalToggle)
         : <div className={style['text']}>
               Резульаты поисков еще не были сохранены
           </div>}

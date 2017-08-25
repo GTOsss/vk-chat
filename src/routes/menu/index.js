@@ -8,9 +8,11 @@ import * as searchResultsActions from '../../store/actions/search-results'
 class Menu extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {isModalOpen: false};
     this.onIconClickHandle = this.onIconClickHandle.bind(this);
-    this.onDeleteClickHandler = this.onDeleteClickHandler.bind(this);
+    this.deleteSearchObject = this.deleteSearchObject.bind(this);
     this.onSubmitHandle = this.onSubmitHandle.bind(this);
+    this.modalToggle = this.modalToggle.bind(this);
   }
 
   componentWillMount() {
@@ -27,8 +29,18 @@ class Menu extends React.Component {
     this.props.markObject(id);
   }
 
-  onDeleteClickHandler(id) {
-    this.props.deleteObject(id);
+  deleteSearchObject() {
+    if(this.state.currentId) {
+      this.props.deleteObject(this.state.currentId);
+    }
+    this.setState({isModalOpen: false})
+  }
+
+  modalToggle(id) {
+    this.setState({
+      isModalOpen: !this.state.isModalOpen,
+      currentId: id
+    });
   }
 
   render() {
@@ -38,8 +50,10 @@ class Menu extends React.Component {
         { children ? children : <MenuComponent searchObjects={searchObjects}
                                                onSubmitHandle={this.onSubmitHandle}
                                                iconClickHandler={this.onIconClickHandle}
-                                               deleteClickHandler={this.onDeleteClickHandler}
-                                               loading={loadingObj.searchObjects} /> }
+                                               loading={loadingObj.searchObjects}
+                                               isModalOpen={this.state.isModalOpen}
+                                               modalToggle={this.modalToggle}
+                                               deleteSearchObject={this.deleteSearchObject}/> }
       </div>
     )
   }
