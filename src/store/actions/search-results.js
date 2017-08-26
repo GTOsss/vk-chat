@@ -8,7 +8,8 @@ import {
   LOAD_SLICE_USERS_SUCCESS,
   SEARCH_USERS_IN_GROUPS_SUCCESS,
   TOGGLE_LOADING,
-  CLEAR_USERS
+  CLEAR_USERS,
+  CURRENT_GROUP_SEARCH
 } from '../constans/index'
 
 export const searchInSearchObjects = ({city, ageFrom, ageTo, sex}) => {
@@ -98,6 +99,10 @@ export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, deepSearch, acces
     let searchResults = [];
     city = city && city.value;
     for(let i = 0; i < groups.length; i++) {
+      dispatch({
+        type: CURRENT_GROUP_SEARCH,
+        group: groups[i]
+      });
       let countMembers = groups[i].members_count;
       let countRequest = Math.ceil(countMembers / 1000);
       let currentGroupMembers = [];

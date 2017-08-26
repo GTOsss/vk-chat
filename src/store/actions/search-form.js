@@ -43,7 +43,6 @@ export const updateCountries = () => {
 
 export const updateCities = (input, callback) => {
   return (dispatch, getState) => {
-    console.log(getState().loading.loadingObj.citiesTimerId);
     clearTimeout(getState().loading.loadingObj.citiesTimerId);
     dispatch({
       type: TOGGLE_LOADING,

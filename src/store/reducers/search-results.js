@@ -4,7 +4,8 @@ import {
   SEARCH_USERS_IN_GROUP_STEP,
   SEARCH_USERS_IN_GROUPS_SUCCESS,
   LOAD_SLICE_USERS_SUCCESS,
-  CLEAR_USERS
+  CLEAR_USERS,
+  CURRENT_GROUP_SEARCH
 } from '../constans'
 
 const initialState = {
@@ -18,6 +19,11 @@ const initialState = {
 
 export default function searchResults(state = initialState, action) {
   switch (action.type) {
+    case CURRENT_GROUP_SEARCH:
+      return {
+        ...state,
+        currentGroupSearch: action.group
+      };
     case CLEAR_USERS:
       return {...state, users: [], step: 0, progressGroup: 0};
     case SEARCH_USERS_IN_GROUPS_START:
