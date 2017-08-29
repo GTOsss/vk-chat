@@ -7,24 +7,29 @@ import {connect} from 'react-redux'
 import style from './search-results.scss'
 
 const SearchResults = ({users, groupsCount, step, progressGroup, setRefList, loadingSlice, currentMembersCount,
-                         groups, searchParams, onScroll, setRefLis, usersCount}) => (
+                         groups, searchParams, onScroll, usersCount, noSearch}) => (
   <div className={style['wrap-scroll']} onScroll={onScroll}>
     <div className='container-fluid'>
       <div className='row' ref={setRefList}>
         <div className={'col-md-10 offset-1'}>
+          {noSearch && loadingSlice ? <Loader/> : ''}
           {(users && users.length)
             ?
               <div>
-                <ListUsers users={users} usersCount={usersCount} groups={groups} searchParams={searchParams}/>
+                <ListUsers users={users}
+                           usersCount={usersCount}
+                           groups={groups}
+                           searchParams={searchParams}
+                           noSearch={noSearch}/>
                 {loadingSlice ? <Loader mini/> : '' }
               </div>
-            : <ProgressInfo count={groupsCount}
-                            value={step}
-                            progressGroup={progressGroup}
-                            groups={groups}
-                            searchParams={searchParams}
-                            currentMembersCount={currentMembersCount}/>}
-          {(usersCount === 0 && step === groupsCount)
+            :  !noSearch ? <ProgressInfo count={groupsCount}
+                              value={step}
+                              progressGroup={progressGroup}
+                              groups={groups}
+                              searchParams={searchParams}
+                              currentMembersCount={currentMembersCount}/> : '' }
+          {(usersCount === 0 && step === groupsCount) && !noSearch
             ? <div className={style['text']}>Поиск не дал результатов.</div> : ''}
         </div>
       </div>

@@ -5,7 +5,8 @@ import {
   SEARCH_USERS_IN_GROUPS_SUCCESS,
   LOAD_SLICE_USERS_SUCCESS,
   CLEAR_USERS,
-  CURRENT_GROUP_SEARCH
+  CURRENT_GROUP_SEARCH,
+  SET_INFO_OBJECT_SEARCH
 } from '../constans'
 
 const initialState = {
@@ -22,16 +23,27 @@ export default function searchResults(state = initialState, action) {
     case CURRENT_GROUP_SEARCH:
       return {
         ...state,
-        currentGroupSearch: action.group
+        currentGroupSearch: action.group,
+        noSearch: false
       };
     case CLEAR_USERS:
       return {...state, users: [], step: 0, progressGroup: 0};
+    case SET_INFO_OBJECT_SEARCH:
+      return {
+        ...state,
+        usersCount: action.usersCount,
+        searchParams: action.searchParams,
+        searchResults: action.searchResults,
+        groups: action.groups && action.groups.length ? [...action.groups] : [],
+        noSearch: true
+      };
     case SEARCH_USERS_IN_GROUPS_START:
       return {
         ...state,
         groupsCount: action.groupsCount,
         searchParams: action.searchParams,
-        groups: action.groups && action.groups.length ? [...action.groups] : []
+        groups: action.groups && action.groups.length ? [...action.groups] : [],
+        noSearch: false
       };
     case SEARCH_USERS_IN_GROUPS_STEP:
       return {

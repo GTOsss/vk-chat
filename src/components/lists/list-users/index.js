@@ -31,7 +31,7 @@ class ListUsers extends React.Component {
   }
 
   render(){
-    const {users, headerText, groups, searchParams, addObject} = this.props;
+    const {users, headerText, groups, searchParams, addObject, noSearch} = this.props;
     return(
       <div className={style['ul-screen']}>
         <ul className={style['ul-users']}>
@@ -39,11 +39,11 @@ class ListUsers extends React.Component {
           <HeaderListGroups groups={groups}/>
           <SearchParams searchParams={searchParams}/>
           <div className={style['wrap-button-save']}>
-            {this.state.btnSaveShow ?
+            {this.state.btnSaveShow && !noSearch ?
                 <Button className={style['button-save']}
                         onClick={() => {
                           this.setState({btnSaveShow: !this.state.btnSaveShow});
-                          addObject({users, searchParams, groups});
+                          addObject();
                         }}>
                   Сохранить результаты поиска
                 </Button>

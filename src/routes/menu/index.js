@@ -13,6 +13,7 @@ class Menu extends React.Component {
     this.deleteSearchObject = this.deleteSearchObject.bind(this);
     this.onSubmitHandle = this.onSubmitHandle.bind(this);
     this.modalToggle = this.modalToggle.bind(this);
+    this.headerClickHandler = this.headerClickHandler.bind(this);
   }
 
   componentWillMount() {
@@ -21,7 +22,6 @@ class Menu extends React.Component {
 
   onSubmitHandle(values) {
     this.props.searchInSearchObjects({...values});
-
     this.props.router.push('/menu/search-results');
   }
 
@@ -43,6 +43,11 @@ class Menu extends React.Component {
     });
   }
 
+  headerClickHandler(obj) {
+    this.props.loadUsers(obj);
+    this.props.router.push('/menu/search-results');
+  }
+
   render() {
     const {children, searchObjects, loadingObj} = this.props;
     return (
@@ -53,7 +58,8 @@ class Menu extends React.Component {
                                                loading={loadingObj.searchObjects}
                                                isModalOpen={this.state.isModalOpen}
                                                modalToggle={this.modalToggle}
-                                               deleteSearchObject={this.deleteSearchObject}/> }
+                                               deleteSearchObject={this.deleteSearchObject}
+                                               headerClickHandler={this.headerClickHandler}/> }
       </div>
     )
   }

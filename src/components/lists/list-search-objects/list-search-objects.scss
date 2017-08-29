@@ -48,3 +48,10 @@
   color: #861b18;
 }
 
+.header-title {
+  cursor: pointer;
+}
+
+.header-title:hover {
+  text-decoration: underline;
+}

@@ -1,30 +1,43 @@
-import {ADD_OBJECT, MARK_OBJECT, CLEAR_SEARCH_OBJECTS, TOGGLE_LOADING} from '../constans'
+import {vkApi} from '../../services/vk-service'
+import {
+  ADD_OBJECT,
+  MARK_OBJECT,
+  CLEAR_SEARCH_OBJECTS,
+  TOGGLE_LOADING,
+  LOAD_SLICE_USERS_SUCCESS,
+  SET_INFO_OBJECT_SEARCH,
+  CLEAR_USERS
+} from '../constans'
 
-export const addObject = (object) => {
+export const addObject = () => {
   return (dispatch, getState) => {
-    object.groups = object.groups.map((el) => (el.isMarked ? {
+    let {
+      user: {groups, firebase, vkInfo: {viewerId}},
+      searchResults: {searchParams, searchResults: users}
+    } = getState();
+
+    groups = groups.map((el) => (el.isMarked ? {
       isMarked: el.isMarked,
       id: el.id,
       name: el.name,
       photo_50: el.photo_50
     } : null)).filter((el) => el);
-    object.users = object.users.map((el) => el.id);
 
-    for(let propName in object.searchParams) {
-      if(object.searchParams.hasOwnProperty(propName) && !object.searchParams[propName])
-        delete object.searchParams[propName];
+    for(let propName in searchParams) {
+      if(searchParams.hasOwnProperty(propName) && !searchParams[propName])
+        delete searchParams[propName];
     }
 
     let dbObject = {
       info: {
-        usersCount: object.users.length,
-        groups: object.groups,
-        searchParams: object.searchParams
+        usersCount: users.length,
+        groups: groups,
+        searchParams: searchParams
       },
-      users: JSON.stringify(object.users)
+      users: JSON.stringify(users)
     };
 
-    const {firebase, vkInfo: {viewerId}} = getState().user;
+    const {} = getState().user;
     let refKey = firebase.database().ref(`/users/${viewerId}/searchObjects`).push().key;
     let updates = {};
     updates[`/users/${viewerId}/searchObjects/users/${refKey}`] = dbObject.users;
@@ -83,5 +96,45 @@ export const markObject = (id) => {
   return {
     type: MARK_OBJECT,
     id: id
+  }
+};
+
+export const loadUsers = ({id, city, ageFrom, ageTo, sex, groups, usersCount}) => {
+  return async (dispatch, getState) => {
+    dispatch({type: CLEAR_USERS});
+
+    dispatch({
+      type: TOGGLE_LOADING,
+      loadingObj: {sliceUsers: true}
+    });
+
+    const {user: {firebase, vkInfo: {viewerId}}} = getState();
+    let url = `/users/${viewerId}/searchObjects/users/${id}`;
+    let usersIds = await firebase.database().ref(url).once('value');
+    usersIds = JSON.parse(usersIds.val());
+
+    dispatch({
+      type: SET_INFO_OBJECT_SEARCH,
+      usersCount,
+      groups,
+      searchParams: {city, ageFrom, ageTo, sex, deepSearch: 'searchObjects'},
+      searchResults: usersIds
+    });
+
+    let resp = await vkApi('users.get', {
+      user_ids: usersIds.slice(0, 20).join(','),
+      fields: 'photo_100, followers_count'
+    });
+    let users = resp.response;
+
+    dispatch({
+      type: LOAD_SLICE_USERS_SUCCESS,
+      users: users ? users : []
+    });
+
+    dispatch({
+      type: TOGGLE_LOADING,
+      loadingObj: {sliceUsers: false}
+    });
   }
 };

@@ -8,9 +8,12 @@ import DeleteIcon from 'react-icons/lib/fa/times-circle-o';
 
 import style from './list-search-objects.scss'
 
-const ItemSearchObject = ({searchParams, groups, countResults, active, onClick, deleteOnClick}) => (
+const ItemSearchObject = ({searchParams, groups, countResults, active, onClick, deleteOnClick,
+                            headerClickHandler}) => (
   <div className={style['ul-groups-item']}>
-    <HeaderListPanel headerText={`Результатов поиска: ${countResults}`}/>
+    <HeaderListPanel headerText={`Результатов поиска: ${countResults}`}
+                     className={style['header-title']}
+                     headerClickHandler={headerClickHandler}/>
     <HeaderListGroups groups={groups}/>
     <SearchParams searchParams={searchParams}/>
     { active
