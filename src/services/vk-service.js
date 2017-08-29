@@ -16,19 +16,46 @@ export const testResponse = (resp) => {
 export const vkApi = (method, params) => {
   return new Promise((resolve) => {
     VK.api(method, params, (response) => {
-         testResponse(response);
-         resolve(response);
+      testResponse(response);
+      resolve(response);
     });
   })
 };
 
-export const vkApiTimeout = (method, params, time) => {
-  return new Promise((resolve) => {
+export const vkApiTimeout = async (method, params, time, timeoutError = 5000) => {
+  for(let i = 0; i < 5; i++) {
+    let result = await vkApiTimeoutRequest(method, params, time, timeoutError);
+    if(result !== 'timeout') {
+      return new Promise((resolve) => {
+        resolve(result);
+      });
+    }
+  }
+
+  return new Promise((resolve, reject) => {
+    reject(`Timeout error (${timeoutError*5/100}s)`);
+  })
+};
+
+const vkApiTimeoutRequest = (method, params, time, timeoutError) => {
+  let timerId;
+
+  let requestPromise = new Promise((resolve) => {
     setTimeout(() => {
       VK.api(method, params, (response) => {
+        clearTimeout(timerId);
         testResponse(response);
         resolve(response);
       })
     }, time);
-  })
+  });
+
+  let timeoutPromise = new Promise((resolve) => {
+    timerId = setTimeout(() => {
+      console.warn('timeout');
+      resolve('timeout');
+    }, timeoutError)
+  });
+
+  return Promise.race([requestPromise, timeoutPromise])
 };

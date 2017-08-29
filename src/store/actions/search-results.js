@@ -47,11 +47,11 @@ export const searchInSearchObjects = ({city, ageFrom, ageTo, sex}) => {
 
       let countIter = ids.length / 500;
       for (let j = 0; j < countIter; j++) {
-        let response = await vkApi('users.get', {
+        let response = await vkApiTimeout('users.get', {
           'user_ids': ids.splice(0,500).join(','),
           'fields': 'city, bdate, sex',
           'version': 5.68
-        });
+        }, 0);
 
         response = response.response.filter((el) => {
           return validateUser(el, {city, ageFrom, ageTo, sex});
@@ -111,14 +111,20 @@ export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, deepSearch, acces
       let progress = 0;
       for(let j = 0; j <= countRequest; j++) {
         let currentGroupMembersThisIter = [];
-        let response = await vkApiTimeout('groups.getMembers', {
+        let response;
+
+        try {
+          response = await vkApiTimeout('groups.getMembers', {
             'fields': fields,
             'access_token': accessToken,
             'offset': j * 1000,
             'count': 1000,
             'group_id': groups[i].id,
             'version': 5.67
-        }, 200);
+          }, 200);
+        } catch (e) {
+          console.error(e);
+        }
 
         currentGroupMembersThisIter = response.response.items.filter((el) => {
           return validateUser(el, {city, ageFrom, ageTo, sex});
