@@ -1,0 +1,31 @@
+.breadcrumb {
+  height: 3.2rem;
+  margin: 0;
+  border-radius: 0;
+  background-color: #507299;
+  list-style-type: none;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 3.2rem;
+
+  li {
+    float: left;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  li:before {
+    content: '/';
+    padding: 0 8px;
+  }
+
+  li:nth-last-child(1):before {
+    content: '';
+    padding: 0;
+  }
+
+  .breadcrumb-item {
+    color: rgba(255, 255, 255, 0.5);
+    float: left;
+  }
+}
+
