@@ -7,13 +7,27 @@ import HeaderListGroups from '../../other/header-list-groups/index'
 import SearchParams from '../../other/search-params/index';
 import HeaderListPanel from '../../other/header-list-panel/index'
 import Button from '../../forms/inputs/button/index'
+import {Modal, ModalBody, ModalFooter} from 'reactstrap'
 
 import style from './list-users.scss'
 
 class ListUsers extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {btnSaveShow: true}
+    this.state = {isModalOpen: false};
+    this.modalToggle = this.modalToggle.bind(this);
+    this.okModalHandler = this.okModalHandler.bind(this);
+  }
+
+  okModalHandler() {
+    this.props.showOrderBoxModal();
+    this.setState({isModalOpen: false});
+  }
+
+  modalToggle() {
+    this.setState({
+      isModalOpen: !this.state.isModalOpen,
+    });
   }
 
   addSpaceNumber(number) {
@@ -31,24 +45,33 @@ class ListUsers extends React.Component {
   }
 
   render(){
-    const {users, headerText, groups, searchParams, addObject, noSearch} = this.props;
+    const {users, headerText, groups, searchParams, noSearch, btnSaveShow, addObject} = this.props;
     return(
       <div className={style['ul-screen']}>
+        <Modal isOpen={this.state.isModalOpen} toggle={this.modalToggle}>
+          <ModalBody>
+            Данная функция платная. 1 месяц - 7 голосов.
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={this.okModalHandler}>Оплатить</Button>
+            <Button onClick={this.modalToggle}>Отмена</Button>
+          </ModalFooter>
+        </Modal>
+
+
         <ul className={style['ul-users']}>
           {headerText ? <HeaderListPanel headerText={headerText}/> : ''}
           <HeaderListGroups groups={groups}/>
           <SearchParams searchParams={searchParams}/>
           <div className={style['wrap-button-save']}>
-            {this.state.btnSaveShow && !noSearch ?
+            {btnSaveShow && !noSearch ?
                 <Button className={style['button-save']}
-                        onClick={() => {
-                          this.setState({btnSaveShow: !this.state.btnSaveShow});
-                          addObject();
-                        }}>
+                        onClick={() => addObject(this.modalToggle)}>
                   Сохранить результаты поиска
                 </Button>
               : ''}
           </div>
+
           {users ? this.createListUsers(users) : ''}
         </ul>
       </div>
@@ -56,8 +79,12 @@ class ListUsers extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  btnSaveShow: state.searchResults.btnSaveShow
+});
+
 const mapDispatchToProps = (dispatch) => ({
   ...bindActionCreators(searchObjectsActions, dispatch)
 });
 
-export default connect(null, mapDispatchToProps)(ListUsers)
+export default connect(mapStateToProps, mapDispatchToProps)(ListUsers)

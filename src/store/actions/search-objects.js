@@ -1,4 +1,5 @@
-import {vkApi} from '../../services/vk-service'
+import {vkApi, showOrderBox} from '../../services/vk-service'
+import moment from 'moment'
 import {
   ADD_OBJECT,
   MARK_OBJECT,
@@ -6,44 +7,82 @@ import {
   TOGGLE_LOADING,
   LOAD_SLICE_USERS_SUCCESS,
   SET_INFO_OBJECT_SEARCH,
-  CLEAR_USERS
+  CLEAR_USERS,
+  SAVE_OBJECT
 } from '../constans'
 
-export const addObject = () => {
-  return (dispatch, getState) => {
+export const addObject = (toggleModal) => {
+  return async (dispatch, getState) => {
     let {
-      user: {groups, firebase, vkInfo: {viewerId}},
-      searchResults: {searchParams, searchResults: users}
+      user: {vkInfo: {viewerId}, firebase}
     } = getState();
+    let userInfo = await firebase.database().ref(`/users/${viewerId}/info`).once('value');
+    userInfo = userInfo.val();
 
-    groups = groups.map((el) => (el.isMarked ? {
-      isMarked: el.isMarked,
-      id: el.id,
-      name: el.name,
-      photo_50: el.photo_50
-    } : null)).filter((el) => el);
+    let dateTo = userInfo && userInfo.dateTo;
+    let dateNow = await vkApi('utils.getServerTime');
+    dateNow = moment(dateNow.response, 'X');
+    dateTo = moment(dateTo, 'X');
 
-    for(let propName in searchParams) {
-      if(searchParams.hasOwnProperty(propName) && !searchParams[propName])
-        delete searchParams[propName];
+    if(dateNow.isBefore(dateTo)) {
+      addObjectInDB(dispatch, getState);
+    } else {
+      toggleModal();
     }
+  };
+};
 
-    let dbObject = {
-      info: {
-        usersCount: users.length,
-        groups: groups,
-        searchParams: searchParams
-      },
-      users: JSON.stringify(users)
-    };
-
-    const {} = getState().user;
-    let refKey = firebase.database().ref(`/users/${viewerId}/searchObjects`).push().key;
-    let updates = {};
-    updates[`/users/${viewerId}/searchObjects/users/${refKey}`] = dbObject.users;
-    updates[`/users/${viewerId}/searchObjects/info/${refKey}`] = dbObject.info;
-    firebase.database().ref().update(updates);
+export const showOrderBoxModal = () => {
+  return async (dispatch, getState) => {
+    try {
+      let result = await showOrderBox();
+      if(result) {
+        addObjectInDB(dispatch, getState);
+      }
+    } catch (e) {
+      console.error(e);
+    }
   }
+};
+
+export const addObjectInDB = (dispatch, getState) => {
+  let {
+    user: {groups, firebase, vkInfo: {viewerId}},
+    searchResults: {searchParams, searchResults: users}
+  } = getState();
+
+  groups = groups.map((el) => (el.isMarked ? {
+    isMarked: el.isMarked,
+    id: el.id,
+    name: el.name,
+    photo_50: el.photo_50
+  } : null)).filter((el) => el);
+
+  for (let propName in searchParams) {
+    if (searchParams.hasOwnProperty(propName) && !searchParams[propName])
+      delete searchParams[propName];
+  }
+
+  let dbObject = {
+    info: {
+      usersCount: users.length,
+      groups: groups,
+      searchParams: searchParams
+    },
+    users: JSON.stringify(users)
+  };
+
+  const {} = getState().user;
+  let refKey = firebase.database().ref(`/users/${viewerId}/searchObjects`).push().key;
+  let updates = {};
+  updates[`/users/${viewerId}/searchObjects/users/${refKey}`] = dbObject.users;
+  updates[`/users/${viewerId}/searchObjects/info/${refKey}`] = dbObject.info;
+  firebase.database().ref().update(updates);
+
+  dispatch({
+    type: SAVE_OBJECT,
+    btnSaveShow: false
+  });
 };
 
 export const deleteObject = (id) => {
@@ -73,7 +112,7 @@ export const updateSearchObjects = () => {
       let objects = [];
       searchObjects = searchObjects.val();
       for (let name in searchObjects) {
-        if(searchObjects.hasOwnProperty(name))
+        if (searchObjects.hasOwnProperty(name))
           objects.push({...searchObjects[name], id: name})
       }
 

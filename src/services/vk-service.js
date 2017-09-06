@@ -59,3 +59,38 @@ const vkApiTimeoutRequest = (method, params, time, timeoutError) => {
 
   return Promise.race([requestPromise, timeoutPromise])
 };
+
+export const showOrderBox = () => {
+  let params = {
+    type: 'votes',
+    votes: 7
+  };
+
+  return new Promise((resolve, reject) => {
+    const clearCallbacks = () => {
+      VK.removeCallback('onOrderSuccess', onSuccess);
+      VK.removeCallback('onOrderFail', onFail);
+      VK.removeCallback('onOrderCancel', onCancel);
+    };
+
+    const onSuccess = (res) => {
+      resolve(res);
+      clearCallbacks();
+    };
+
+    const onFail = () => {
+      reject('Order fail.');
+      clearCallbacks();
+    };
+
+    const onCancel = () => {
+      reject('Order cancel.');
+      clearCallbacks();
+    };
+
+    VK.addCallback('onOrderSuccess', onSuccess);
+    VK.addCallback('onOrderFail', onFail);
+    VK.addCallback('onOrderCancel', onCancel);
+    VK.callMethod('showOrderBox', params);
+  });
+};

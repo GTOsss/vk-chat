@@ -24,6 +24,7 @@ export const SET_INFO_OBJECT_SEARCH = 'SET_INFO_OBJECT_SEARCH';
 
 // search-objects
 export const ADD_OBJECT = 'ADD_OBJECT';
+export const SAVE_OBJECT = 'SAVE_OBJECT';
 export const MARK_OBJECT = 'MARK_OBJECT';
 export const CLEAR_SEARCH_OBJECTS = 'CLEAR_SEARCH_OBJECTS';
 

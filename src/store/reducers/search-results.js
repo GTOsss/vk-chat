@@ -6,7 +6,8 @@ import {
   LOAD_SLICE_USERS_SUCCESS,
   CLEAR_USERS,
   CURRENT_GROUP_SEARCH,
-  SET_INFO_OBJECT_SEARCH
+  SET_INFO_OBJECT_SEARCH,
+  SAVE_OBJECT
 } from '../constans'
 
 const initialState = {
@@ -15,11 +16,14 @@ const initialState = {
   groups: [],
   groupsCount: 0,
   step: 0,
-  progressGroup: 0
+  progressGroup: 0,
+  btnSaveShow: true
 };
 
 export default function searchResults(state = initialState, action) {
   switch (action.type) {
+    case SAVE_OBJECT:
+      return {...state, btnSaveShow: action.btnSaveShow};
     case CURRENT_GROUP_SEARCH:
       return {
         ...state,
@@ -58,7 +62,8 @@ export default function searchResults(state = initialState, action) {
     case SEARCH_USERS_IN_GROUPS_SUCCESS:
       return {
         ...state,
-        searchResults: action.searchResults && action.searchResults.length ? [...action.searchResults] : []
+        searchResults: action.searchResults && action.searchResults.length ? [...action.searchResults] : [],
+        btnSaveShow: true
       };
     case LOAD_SLICE_USERS_SUCCESS:
       return {
