@@ -11,7 +11,6 @@ import {
   SAVE_OBJECT
 } from '../constans'
 
-
 export const addObject = (toggleModal) => {
   return async (dispatch, getState) => {
     let {
