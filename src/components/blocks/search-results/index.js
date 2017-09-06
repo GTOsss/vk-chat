@@ -20,7 +20,8 @@ const SearchResults = ({users, groupsCount, step, progressGroup, setRefList, loa
                            usersCount={usersCount}
                            groups={groups}
                            searchParams={searchParams}
-                           noSearch={noSearch}/>
+                           noSearch={noSearch}
+                           isSearchSO/>
                 {loadingSlice ? <Loader mini/> : '' }
               </div>
             :  !noSearch ? <ProgressInfo count={groupsCount}

@@ -45,7 +45,7 @@ class ListUsers extends React.Component {
   }
 
   render(){
-    const {users, headerText, groups, searchParams, noSearch, btnSaveShow, addObject} = this.props;
+    const {users, headerText, groups, searchParams, noSearch, btnSaveShow, addObject, isSearchSO} = this.props;
     return(
       <div className={style['ul-screen']}>
         <Modal isOpen={this.state.isModalOpen} toggle={this.modalToggle}>
@@ -58,7 +58,6 @@ class ListUsers extends React.Component {
           </ModalFooter>
         </Modal>
 
-
         <ul className={style['ul-users']}>
           {headerText ? <HeaderListPanel headerText={headerText}/> : ''}
           <HeaderListGroups groups={groups}/>
@@ -66,7 +65,7 @@ class ListUsers extends React.Component {
           <div className={style['wrap-button-save']}>
             {btnSaveShow && !noSearch ?
                 <Button className={style['button-save']}
-                        onClick={() => addObject(this.modalToggle)}>
+                        onClick={() => addObject(this.modalToggle, isSearchSO)}>
                   Сохранить результаты поиска
                 </Button>
               : ''}

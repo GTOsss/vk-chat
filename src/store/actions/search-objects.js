@@ -11,7 +11,7 @@ import {
   SAVE_OBJECT
 } from '../constans'
 
-export const addObject = (toggleModal) => {
+export const addObject = (toggleModal, isSearchSO) => {
   return async (dispatch, getState) => {
     let {
       user: {vkInfo: {viewerId}, firebase}
@@ -25,7 +25,7 @@ export const addObject = (toggleModal) => {
     dateTo = moment(dateTo, 'X');
 
     if(dateNow.isBefore(dateTo)) {
-      addObjectInDB(dispatch, getState);
+      addObjectInDB(dispatch, getState, isSearchSO);
     } else {
       toggleModal();
     }
@@ -45,18 +45,28 @@ export const showOrderBoxModal = () => {
   }
 };
 
-export const addObjectInDB = (dispatch, getState) => {
+export const addObjectInDB = (dispatch, getState, isSearchSO) => {
   let {
     user: {groups, firebase, vkInfo: {viewerId}},
-    searchResults: {searchParams, searchResults: users}
+    searchResults: {searchParams, searchResults: users},
+    searchObjects: {objects: searchObjects}
   } = getState();
 
-  groups = groups.map((el) => (el.isMarked ? {
-    isMarked: el.isMarked,
-    id: el.id,
-    name: el.name,
-    photo_50: el.photo_50
-  } : null)).filter((el) => el);
+  if(isSearchSO) {
+    groups = [];
+    searchObjects.forEach((el) => {
+      if(el.isMarked) {
+        groups = [...groups, ...el.groups];
+      }
+    });
+  } else {
+    groups = groups.map((el) => (el.isMarked ? {
+      isMarked: el.isMarked,
+      id: el.id,
+      name: el.name,
+      photo_50: el.photo_50
+    } : null)).filter((el) => el);
+  }
 
   for (let propName in searchParams) {
     if (searchParams.hasOwnProperty(propName) && !searchParams[propName])
