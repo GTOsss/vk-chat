@@ -31,7 +31,7 @@ class Form extends React.Component {
   render() {
     const {handleSubmit, isHideAdditional, ageFrom, ageTo, sex, country,
       updateCountries, countries, isLoadingCountries,
-      updateCities, city, deepSearch} = this.props;
+      updateCities, city, deepSearch, isBtnSearchDisable} = this.props;
     return (
       <form onSubmit={handleSubmit} className={style['search-screen']}>
         <label className={style['label']}>Регион</label>
@@ -75,7 +75,7 @@ class Form extends React.Component {
           : '' }
 
 
-        <Button type='submit'>Поиск</Button>
+        <Button type='submit' disabled={isBtnSearchDisable}>Поиск</Button>
       </form>
     )
   }

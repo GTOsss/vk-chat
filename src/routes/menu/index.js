@@ -48,6 +48,15 @@ class Menu extends React.Component {
     this.props.router.push('/menu/search-results');
   }
 
+  isBtnSearchDisable(searchObjects) {
+    for(let i = 0; i < searchObjects.length; i++) {
+      if(searchObjects[i].isMarked) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   render() {
     const {children, searchObjects, loadingObj} = this.props;
     return (
@@ -59,7 +68,8 @@ class Menu extends React.Component {
                                                isModalOpen={this.state.isModalOpen}
                                                modalToggle={this.modalToggle}
                                                deleteSearchObject={this.deleteSearchObject}
-                                               headerClickHandler={this.headerClickHandler}/> }
+                                               headerClickHandler={this.headerClickHandler}
+                                               isBtnSearchDisable={this.isBtnSearchDisable(searchObjects)}/> }
       </div>
     )
   }

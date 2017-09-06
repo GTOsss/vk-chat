@@ -9,7 +9,7 @@ import Button from '../../../components/forms/inputs/button'
 import style from './menu.scss'
 
 const Menu = ({searchObjects, loading, onSubmitHandle, iconClickHandler, deleteSearchObject,
-                isModalOpen, modalToggle, headerClickHandler}) => (
+                isModalOpen, modalToggle, headerClickHandler, isBtnSearchDisable}) => (
   <div className={style['wrap-scroll']}>
     <div className='container-fluid'>
       {loading
@@ -33,7 +33,9 @@ const Menu = ({searchObjects, loading, onSubmitHandle, iconClickHandler, deleteS
             </div>
             <div className={cx('col-md-3', style['col-fix'])}>
               {searchObjects && searchObjects.length
-                ? <SearchUsersForm onSubmit={onSubmitHandle} isHideAdditional/>
+                ? <SearchUsersForm onSubmit={onSubmitHandle}
+                                   isHideAdditional
+                                   isBtnSearchDisable={isBtnSearchDisable}/>
                 : ''}
             </div>
           </div>

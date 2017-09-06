@@ -3,8 +3,10 @@ import cx from 'classnames'
 
 import style from './button.scss'
 
-const Button = ({children, type, onClick, className}) => (
-  <button className={cx(className, style['button'])} type={type} onClick={(e)=>{onClick && onClick(e)}}>
+const Button = ({children, type, onClick, className, disabled}) => (
+  <button className={cx(className, disabled ? style['button-dis'] : style['button'])}
+          type={!disabled ? type : 'button'}
+          onClick={(e)=>{!disabled && onClick && onClick(e)}}>
     {children}
   </button>
 );

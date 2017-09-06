@@ -50,6 +50,15 @@ class Search extends React.Component {
     this.list = el;
   }
 
+  isBtnSearchDisable(groups) {
+    for(let i = 0; i < groups.length; i++) {
+      if(groups[i].isMarked) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   render() {
     const {
       props: {groups, children, loadingObj},
@@ -67,7 +76,8 @@ class Search extends React.Component {
                            loading={loadingObj.groups}
                            sliceLoading={loadingObj.sliceGroups}
                            setRefList={this.refSetList}
-                           onScrollHandler={this.onScrollHandler}/>}
+                           onScrollHandler={this.onScrollHandler}
+                           isBtnSearchDisable={this.isBtnSearchDisable(groups)}/>}
       </div>
     )
   }

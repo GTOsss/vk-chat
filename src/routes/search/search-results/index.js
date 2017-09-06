@@ -33,7 +33,7 @@ class SearchResults extends React.Component {
     return (
       <SearchResultsComponent {...this.props}
                               onScroll={this.onScrollHandler}
-                              setRefList={this.setRefList} />
+                              setRefList={this.setRefList}/>
     )
   }
 }

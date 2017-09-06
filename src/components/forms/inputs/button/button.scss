@@ -3,3 +3,7 @@
 .button {
   composes: button-default;
 }
+
+.button-dis {
+  composes: button-disable;
+}

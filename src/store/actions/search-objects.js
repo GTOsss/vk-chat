@@ -45,6 +45,14 @@ export const showOrderBoxModal = () => {
   }
 };
 
+export const deleteObject = (id) => {
+  return (dispatch, getState) => {
+    const {firebase, vkInfo: {viewerId}} = getState().user;
+    firebase.database().ref(`/users/${viewerId}/searchObjects/users/${id}`).remove();
+    firebase.database().ref(`/users/${viewerId}/searchObjects/info/${id}`).remove();
+  }
+};
+
 export const addObjectInDB = (dispatch, getState, isSearchSO) => {
   let {
     user: {groups, firebase, vkInfo: {viewerId}},
@@ -93,14 +101,6 @@ export const addObjectInDB = (dispatch, getState, isSearchSO) => {
     type: SAVE_OBJECT,
     btnSaveShow: false
   });
-};
-
-export const deleteObject = (id) => {
-  return (dispatch, getState) => {
-    const {firebase, vkInfo: {viewerId}} = getState().user;
-    firebase.database().ref(`/users/${viewerId}/searchObjects/users/${id}`).remove();
-    firebase.database().ref(`/users/${viewerId}/searchObjects/info/${id}`).remove();
-  }
 };
 
 export const updateSearchObjects = () => {

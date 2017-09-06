@@ -7,7 +7,7 @@ import {connect} from 'react-redux'
 import style from './search-results.scss'
 
 const SearchResults = ({users, groupsCount, step, progressGroup, setRefList, loadingSlice, currentMembersCount,
-                         groups, searchParams, onScroll, usersCount, noSearch}) => (
+                         groups, searchParams, onScroll, usersCount, noSearch, isSearchSO}) => (
   <div className={style['wrap-scroll']} onScroll={onScroll}>
     <div className='container-fluid'>
       <div className='row' ref={setRefList}>
@@ -21,7 +21,7 @@ const SearchResults = ({users, groupsCount, step, progressGroup, setRefList, loa
                            groups={groups}
                            searchParams={searchParams}
                            noSearch={noSearch}
-                           isSearchSO/>
+                           isSearchSO={isSearchSO}/>
                 {loadingSlice ? <Loader mini/> : '' }
               </div>
             :  !noSearch ? <ProgressInfo count={groupsCount}

@@ -108,6 +108,15 @@ body {
   outline: none;
 }
 
+.button-disable {
+  composes: button-default;
+  background-color: #c4c4c4;
+}
+
+.button-disable:hover {
+  background-color: #c4c4c4;
+}
+
 .padding-fix {
   padding: 0 5px;
 }
