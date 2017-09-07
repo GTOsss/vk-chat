@@ -12,11 +12,11 @@ body {
 }
 
 .app-body {
+  z-index: 0;
   min-height: $body-height;
 }
 
 .panel {
-  z-index: -2;
   border: #e3e4e8 1px solid;
   background-color: white;
   padding: 8px 16px;

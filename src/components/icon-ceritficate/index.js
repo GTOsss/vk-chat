@@ -9,11 +9,13 @@ const IconCertificate = ({profile}) => (
     <div className={style['hover-show-info']}>
       <IconCrt size={38} color='#ffffff'/>
     </div>
-    <div className={style['window-info']}>
-      Сохранение результатов поиска: до {' '}
-      <strong>
-        {(profile && profile.dateTo) ? moment(profile.dateTo, 'X').format('DD.MM.YYYY') : ''}
-      </strong>
+    <div className={style['wrap-info']}>
+      <div className={style['window-info']}>
+        Сохранение результатов поиска: до {' '}
+        <strong>
+          {(profile && profile.dateTo) ? moment(profile.dateTo, 'X').format('DD.MM.YYYY') : ''}
+        </strong>
+      </div>
     </div>
   </div>
 );
