@@ -8,7 +8,8 @@ import {
   MARK_GROUP,
   TOGGLE_LOADING,
   UPDATE_VK_INFO,
-  INIT_FIREBASE
+  INIT_FIREBASE,
+  LOAD_PROFILE
 } from '../constans/index'
 
 let getURLParam = require('get-url-param');
@@ -134,37 +135,55 @@ export const markGroup = (id) => ({
   idGroup: id
 });
 
-export const getVkInfo = () => {
-  return (dispatch) => {
-    const vkInfo = {
-      viewerId: getURLParam(frameHref, 'viewer_id'),
-      viewerType: getURLParam(frameHref, 'viewer_type'),
-      language: getURLParam(frameHref, 'language'),
-      accessToken: getURLParam(frameHref, 'access_token')
-    };
-    dispatch({
-      type: UPDATE_VK_INFO,
-      vkInfo: vkInfo
-    });
-  }
+const getVkInfo = (dispatch) => {
+  const vkInfo = {
+    viewerId: getURLParam(frameHref, 'viewer_id'),
+    viewerType: getURLParam(frameHref, 'viewer_type'),
+    language: getURLParam(frameHref, 'language'),
+    accessToken: getURLParam(frameHref, 'access_token')
+  };
+  dispatch({
+    type: UPDATE_VK_INFO,
+    vkInfo: vkInfo
+  });
 };
 
-export const initializeFirebase = () => {
-  return (dispatch) => {
-    const config = {
-      apiKey: "AIzaSyCcUm2_CN1k8v5tEgD36ie01Uirh7Xgq3Q",
-      authDomain: "vkchat-a2407.firebaseapp.com",
-      databaseURL: "https://vkchat-a2407.firebaseio.com",
-      projectId: "vkchat-a2407",
-      storageBucket: "vkchat-a2407.appspot.com",
-      messagingSenderId: "780824054637"
-    };
+const initializeFirebase = (dispatch) => {
+  const config = {
+    apiKey: "AIzaSyCcUm2_CN1k8v5tEgD36ie01Uirh7Xgq3Q",
+    authDomain: "vkchat-a2407.firebaseapp.com",
+    databaseURL: "https://vkchat-a2407.firebaseio.com",
+    projectId: "vkchat-a2407",
+    storageBucket: "vkchat-a2407.appspot.com",
+    messagingSenderId: "780824054637"
+  };
 
-    firebase.initializeApp(config);
+  firebase.initializeApp(config);
 
-    dispatch({
-      type: INIT_FIREBASE,
-      firebase: firebase
-    });
+  dispatch({
+    type: INIT_FIREBASE,
+    firebase: firebase
+  });
+};
+
+const loadProfile = async (dispatch, getState) => {
+  let {
+    user: {firebase, vkInfo: {viewerId}},
+  } = getState();
+
+  let dateTo = await firebase.database().ref(`/users/${viewerId}/info`).once('value');
+  dateTo = dateTo.val();
+
+  dispatch({
+    type: LOAD_PROFILE,
+    profile: dateTo
+  });
+};
+
+export const init = () => {
+  return (dispatch, getState) => {
+    getVkInfo(dispatch);
+    initializeFirebase(dispatch);
+    loadProfile(dispatch, getState);
   }
 };

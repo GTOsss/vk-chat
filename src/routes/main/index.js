@@ -6,8 +6,7 @@ import {bindActionCreators} from 'redux'
 
 class Main extends React.Component {
   componentWillMount() {
-    this.props.getVkInfo();
-    this.props.initializeFirebase();
+    this.props.init();
   }
 
   render() {
@@ -17,8 +16,12 @@ class Main extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  profile: state.user.profile
+});
+
 const mapDispatchToProps = (dispatch) => ({
   ...bindActionCreators(userActions, dispatch),
 });
 
-export default connect(null, mapDispatchToProps)(Main)
+export default connect(mapStateToProps, mapDispatchToProps)(Main)

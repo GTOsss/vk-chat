@@ -4,7 +4,8 @@ import {
   UPDATE_GROUPS_FAIL,
   MARK_GROUP,
   UPDATE_VK_INFO,
-  INIT_FIREBASE
+  INIT_FIREBASE,
+  LOAD_PROFILE
 } from '../constans/index'
 
 const initialState = {
@@ -33,6 +34,8 @@ export default function user(state = initialState, action) {
       return {...state, groups: [...state.groups], vkInfo: action.vkInfo};
     case INIT_FIREBASE:
       return {...state, groups: [...state.groups], firebase: action.firebase};
+    case LOAD_PROFILE:
+      return {...state, groups: [...state.groups], profile: action.profile};
     default:
       return state;
   }
