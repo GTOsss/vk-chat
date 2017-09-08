@@ -52,12 +52,13 @@ export default function searchResults(state = initialState, action) {
     case SEARCH_USERS_IN_GROUPS_STEP:
       return {
         ...state,
-        step: action.step
+        step: action.step,
+        progressGroup: 0.1,
       };
     case SEARCH_USERS_IN_GROUP_STEP:
       return {
         ...state,
-        progressGroup: action.progress
+        progressGroup: action.progress,
       };
     case SEARCH_USERS_IN_GROUPS_SUCCESS:
       return {
