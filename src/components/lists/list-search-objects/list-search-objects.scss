@@ -26,8 +26,14 @@
   composes: text-title;
   composes: panel;
   text-align: center;
-  border: none;
-  width: 100%;
+  width: 830px;
+  margin: 0 auto;
+  left: 0;
+  border: 1px solid #edeef0;
+  border-left: none;
+  position: absolute;
+  padding-top: 20px;
+  white-space: normal;
 }
 
 .mark-circle {

@@ -22,7 +22,11 @@ const ListSearchObjects = ({searchObjects, iconClickHandler, modalToggle, header
       {searchObjects && searchObjects.length
         ? createListSearchObjects(searchObjects, iconClickHandler, modalToggle, headerClickHandler)
         : <div className={style['text']}>
-              Резульаты поисков еще не были сохранены
+            <h5>Резульаты поисков еще не были сохранены.</h5>
+            <p>
+              Здесь будет отображаться список результатов поиска если его сохранить. В сохраненных результатах
+              так же можно произвести поиск или отфильтровать пользователей (как это делается в поиске по группам).
+            </p>
           </div>}
     </ul>
   </div>
