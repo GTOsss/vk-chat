@@ -1,4 +1,5 @@
 import {vkApi, showOrderBox} from '../../services/vk-service'
+import {loadProfile} from '../actions/user'
 import moment from 'moment'
 import {
   ADD_OBJECT,
@@ -38,6 +39,7 @@ export const showOrderBoxModal = () => {
       let result = await showOrderBox();
       if(result) {
         addObjectInDB(dispatch, getState);
+        loadProfile(dispatch, getState);
       }
     } catch (e) {
       console.error(e);

@@ -166,7 +166,7 @@ const initializeFirebase = (dispatch) => {
   });
 };
 
-const loadProfile = async (dispatch, getState) => {
+export const loadProfile = async (dispatch, getState) => {
   let {
     user: {firebase, vkInfo: {viewerId}},
   } = getState();
