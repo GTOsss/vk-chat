@@ -17,7 +17,8 @@ const initialState = {
   groupsCount: 0,
   step: 0,
   progressGroup: 0,
-  btnSaveShow: true
+  btnSaveShow: true,
+  currentSearchId: 0
 };
 
 export default function searchResults(state = initialState, action) {
@@ -47,7 +48,10 @@ export default function searchResults(state = initialState, action) {
         groupsCount: action.groupsCount,
         searchParams: action.searchParams,
         groups: action.groups && action.groups.length ? [...action.groups] : [],
-        noSearch: false
+        noSearch: false,
+        currentSearchId: action.currentSearchId,
+          progressGroup: 0,
+        step: 0
       };
     case SEARCH_USERS_IN_GROUPS_STEP:
       return {

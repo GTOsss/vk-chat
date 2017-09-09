@@ -14,6 +14,7 @@ import {
 
 export const searchInSearchObjects = ({city, ageFrom, ageTo, sex}) => {
   return async (dispatch, getState) => {
+    const currentSearchId = Math.random().toString(36).substr(2, 9);
     dispatch({type: CLEAR_USERS});
 
     const {searchObjects: {objects: searchObjects}, user: {firebase, vkInfo: {viewerId}}} = getState();
@@ -29,7 +30,8 @@ export const searchInSearchObjects = ({city, ageFrom, ageTo, sex}) => {
       type: SEARCH_USERS_IN_GROUPS_START,
       groupsCount: groups.length,
       searchParams: {city, ageFrom, ageTo, sex, deepSearch: 'searchObjects'},
-      groups
+      groups,
+      currentSearchId
     });
 
     let arraysUsers = [];
@@ -47,6 +49,10 @@ export const searchInSearchObjects = ({city, ageFrom, ageTo, sex}) => {
 
       let countIter = ids.length / 500;
       for (let j = 0; j < countIter; j++) {
+        if(getState().searchResults.currentSearchId !== currentSearchId) {
+          return;
+        }
+
         let response = await vkApiTimeout('users.get', {
           'user_ids': ids.splice(0,500).join(','),
           'fields': 'city, bdate, sex',
@@ -86,6 +92,7 @@ export const searchInSearchObjects = ({city, ageFrom, ageTo, sex}) => {
 };
 
 export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, deepSearch, accessToken}) => {
+  const currentSearchId = Math.random().toString(36).substr(2, 9);
   const fields = `${city ? 'city,' : ''} ${sex ? 'sex,' : ''} ${ageTo || ageFrom ? 'bdate,' : ''} deactivated`;
   return async (dispatch, getState) => {
     dispatch({type: CLEAR_USERS});
@@ -93,7 +100,8 @@ export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, deepSearch, acces
     dispatch({
       type: SEARCH_USERS_IN_GROUPS_START,
       groupsCount: groups.length,
-      searchParams: {city, ageFrom, ageTo, sex, deepSearch}
+      searchParams: {city, ageFrom, ageTo, sex, deepSearch},
+      currentSearchId
     });
 
     let searchResults = [];
@@ -110,6 +118,10 @@ export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, deepSearch, acces
       let counter = 0;
       let progress = 0;
       for(let j = 0; j <= countRequest; j++) {
+        if(getState().searchResults.currentSearchId !== currentSearchId) {
+          return;
+        }
+
         let currentGroupMembersThisIter = [];
         let response;
 
@@ -167,17 +179,23 @@ export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, deepSearch, acces
 export const searchUsersInGroups = ({country, city, ageFrom, ageTo, sex, deepSearch, accessToken}) => {
   return async (dispatch, getState) => {
     dispatch({type: CLEAR_USERS});
+    const currentSearchId = Math.random().toString(36).substr(2, 9);
     const groups = getState().user.groups.filter((el) => el.isMarked);
     const length = groups.length;
     dispatch({
       type: SEARCH_USERS_IN_GROUPS_START,
       groupsCount: length,
-      searchParams: {city, ageFrom, ageTo, sex, deepSearch}
+      searchParams: {city, ageFrom, ageTo, sex, deepSearch},
+      currentSearchId
     });
 
     city = city && city.value;
     let searchResults = [];
     for(let i = 0; i < length; i++) {
+      if(getState().searchResults.currentSearchId !== currentSearchId) {
+        return;
+      }
+
       const response = await vkApi('users.search', {
         'access_token': accessToken,
         'offset': 0,
