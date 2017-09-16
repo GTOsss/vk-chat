@@ -3,8 +3,8 @@ import cx from 'classnames'
 
 import style from './header-list-panel.scss'
 
-const HeaderListPanel = ({headerText, className, headerClickHandler}) => (
-  <div className={style['group-items']}>
+const HeaderListPanel = ({headerText, className, headerClickHandler, css}) => (
+  <div className={style['group-items']} style={css || {}}>
     <div className={style['ul-header-left-right']}/>
     <div className={cx(style['ul-header'], className)}
          onClick={headerClickHandler ? headerClickHandler : ''}>

@@ -1,0 +1,49 @@
+@import '../../../style/main';
+
+.ul-messages {
+  composes: ul-default;
+}
+
+.ul-screen {
+  composes: panel;
+  padding-top: 0;
+}
+
+.message-item {
+  composes: li-default;
+  height: auto;
+  border: none;
+}
+
+.message-photo {
+  border-radius: 50%;
+  height: 36px;
+  width: 36px;
+}
+
+.message-text {
+  composes: text-default;
+}
+
+.message-title {
+  composes: text-title;
+  width: auto;
+}
+
+.message-date {
+  composes: label-default;
+  width: auto;
+  margin: 0 6px;
+  font-size: 13px;
+}
+
+.header-list-groups {
+  border-bottom: 1px #a5a5a5 solid;
+  margin: 0 -16px;
+}
+
+.message-line-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

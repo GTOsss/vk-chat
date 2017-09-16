@@ -6,6 +6,10 @@ import GroupsFilter from '../../forms/groups-filter/index'
 
 import style from './list-groups.scss'
 
+const marginHeaderPanel = {
+  marginBottom: '10px'
+};
+
 const isMarked = (groups) => {
   for (let i = 0; i < groups.length; i++) {
     if (groups[i].isMarked) return true;
@@ -21,15 +25,18 @@ const createList = (groups, onClickItemListHandler) => groups.map((el, i) => (
              isMarked={el.isMarked}/>
 ));
 
-const ListGroups = ({groups, onClickItemListHandler, onClickItemHeaderListHandler}) => (
+const ListGroups = ({groups, onClickItemListHandler, onClickItemHeaderListHandler, noHeaderListGroups,
+                      headerText = 'Выбранные группы'}) => (
   <div className={style['ul-screen']}>
     <ul className={style['ul-groups']}>
-      <HeaderListPanel headerText='Выбранные группы'/>
-      {isMarked(groups)
-        ? <HeaderListGroups groups={groups} className={[style['header-list-groups']]}
-                            onClick={onClickItemHeaderListHandler}/>
-        : <div className={style['header-list-groups-text']}>Выберите группы из списка</div>}
-
+      <HeaderListPanel headerText={headerText} css={noHeaderListGroups ? marginHeaderPanel : ''}/>
+      {
+        noHeaderListGroups ? '' :
+          isMarked(groups)
+            ? <HeaderListGroups groups={groups} className={[style['header-list-groups']]}
+                                onClick={onClickItemHeaderListHandler}/>
+            : <div className={style['header-list-groups-text']}>Выберите группы из списка</div>
+      }
       <GroupsFilter/>
 
       {groups ? createList(groups, onClickItemListHandler) : ''}
