@@ -13,6 +13,7 @@ const Main = ({children, onChangeActiveLink, activeLinkIndex, location: {pathnam
     <NavBar>
       <NavLink to='/menu'>Меню</NavLink>
       <NavLink to='/search'>Поиск</NavLink>
+      <NavLink to='/chat'>Чат</NavLink>
       {profile && profile.dateTo ? <IconCertificate profile={profile}/> : ''}
     </NavBar>
     <div className={style['app-body']}>

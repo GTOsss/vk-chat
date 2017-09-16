@@ -1,0 +1,10 @@
+@import '../../../style/variables';
+@import '../../../style/main';
+
+.wrap-scroll {
+  composes: body-scroll;
+}
+
+.col-fix {
+  composes: padding-fix;
+}

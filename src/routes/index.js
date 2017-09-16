@@ -5,6 +5,7 @@ import Main from './main'
 import Groups from './search'
 import SearchResultsMenu from './menu/search-results'
 import SearchResultsSearch from './search/search-results'
+import Chat from './chat'
 
 const redirect = (e) => {
   if(e.location.pathname === '/')
@@ -19,6 +20,7 @@ const createRoutes = () => (
     <Route path='search' component={Groups}>
       <Route path='search-results' component={SearchResultsSearch}/>
     </Route>
+    <Route path='chat' component={Chat}/>
   </Route>
 );
 
