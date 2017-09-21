@@ -10,6 +10,7 @@ class Search extends React.Component {
     this.onClickItemListHandler = this.onClickItemListHandler.bind(this);
     this.refSetList = this.refSetList.bind(this);
     this.onScrollHandler = this.onScrollHandler.bind(this);
+    this.onClickItemConnectIconHandler = this.onClickItemConnectIconHandler.bind(this);
   }
 
   componentDidMount() {
@@ -29,8 +30,12 @@ class Search extends React.Component {
     }
   }
 
-  onClickItemListHandler(i) {
-    this.props.markGroup(i);
+  onClickItemListHandler(id) {
+    this.props.selectGroup(id);
+  }
+
+  onClickItemConnectIconHandler(id) {
+    this.props.connectGroupToggle(id);
   }
 
   refSetList(el) {
@@ -47,7 +52,8 @@ class Search extends React.Component {
                          loading={loadingObj.groups}
                          sliceLoading={loadingObj.sliceGroups}
                          setRefList={this.refSetList}
-                         onScrollHandler={this.onScrollHandler}/>}
+                         onScrollHandler={this.onScrollHandler}
+                         onClickItemConnectIconHandler={this.onClickItemConnectIconHandler}/>}
       </div>
     )
   }

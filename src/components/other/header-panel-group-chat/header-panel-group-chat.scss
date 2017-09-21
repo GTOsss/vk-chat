@@ -1,0 +1,29 @@
+@import '../../../style/main';
+
+.header-panel {
+  text-align: center;
+  border-bottom: 1px #e3e4e8 solid;
+  margin: 0 -16px;
+  padding: 10px 0 10px 0;
+  position: fixed;
+  background-color: white;
+  z-index: 10;
+}
+
+.img {
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  right: 10px;
+  top: 5px;
+}
+
+.group-name {
+  display: inline-block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 70%;
+  margin: 0;
+}

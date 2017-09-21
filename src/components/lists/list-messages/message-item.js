@@ -7,7 +7,7 @@ const MessageItem = ({title, text, srcImg50, date, onClick}) => (
     <div>
       <img src={srcImg50} className={style['message-photo']}/>
     </div>
-    <div>
+    <div className={style['message-group']}>
       <div className={style['message-line-title']}>
         <div className={style['message-title']}>{title}</div>
         <div className={style['message-date']}>{date}</div>

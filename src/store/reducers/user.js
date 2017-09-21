@@ -5,7 +5,9 @@ import {
   MARK_GROUP,
   UPDATE_VK_INFO,
   INIT_FIREBASE,
-  LOAD_PROFILE
+  LOAD_PROFILE,
+  SELECT_GROUP,
+  TOGGLE_GROUP_CONNECT
 } from '../constans/index'
 
 const initialState = {
@@ -23,13 +25,34 @@ export default function user(state = initialState, action) {
     case MARK_GROUP:
       let newGroups = [...state.groups];
       for (let i = 0; i < newGroups.length; i++) {
-        if(newGroups[i].id === action.idGroup) {
+        if (newGroups[i].id === action.idGroup) {
           newGroups[i].isMarked = !newGroups[i].isMarked;
           newGroups[i].timeMarked = Date.now();
           break;
         }
       }
       return {...state, groups: newGroups, isLoadingGroups: false};
+    case SELECT_GROUP:
+      newGroups = state.groups.map((el) => {
+        if (el.id === action.idGroup) {
+          el.isSelect = true;
+          return el;
+        }
+
+        el.isSelect = false;
+        return el;
+
+      });
+      return {...state, groups: newGroups};
+    case TOGGLE_GROUP_CONNECT:
+      newGroups = state.groups.map((el) => {
+        if (el.id === action.idGroup) {
+          el.isConnect = !el.isConnect;
+        }
+
+        return el;
+      });
+      return {...state, groups: newGroups};
     case UPDATE_VK_INFO:
       return {...state, groups: [...state.groups], vkInfo: action.vkInfo};
     case INIT_FIREBASE:

@@ -6,10 +6,12 @@ import {
   UPDATE_GROUPS_SUCCESS,
   UPDATE_SLICE_GROUPS_SUCCESS,
   MARK_GROUP,
+  SELECT_GROUP,
   TOGGLE_LOADING,
   UPDATE_VK_INFO,
   INIT_FIREBASE,
-  LOAD_PROFILE
+  LOAD_PROFILE,
+  TOGGLE_GROUP_CONNECT
 } from '../constans/index'
 
 let getURLParam = require('get-url-param');
@@ -132,6 +134,16 @@ export const loadSliceGroups = (offset, count) => {
 
 export const markGroup = (id) => ({
   type: MARK_GROUP,
+  idGroup: id
+});
+
+export const selectGroup = (id) => ({
+  type: SELECT_GROUP,
+  idGroup: id
+});
+
+export const connectGroupToggle = (id) => ({
+  type: TOGGLE_GROUP_CONNECT,
   idGroup: id
 });
 

@@ -11,9 +11,9 @@ const TitleNavBar = () => <span className='navbar-brand'>vkChat</span>;
 const Main = ({children, onChangeActiveLink, activeLinkIndex, location: {pathname}, profile}) => (
   <div className={style['app']}>
     <NavBar>
-      <NavLink to='/menu'>Меню</NavLink>
-      <NavLink to='/search'>Поиск</NavLink>
-      <NavLink to='/chat'>Чат</NavLink>
+      <NavLink to='/menu'>меню</NavLink>
+      <NavLink to='/search'>поиск</NavLink>
+      <NavLink to='/chat'>чат</NavLink>
       {profile && profile.dateTo ? <IconCertificate profile={profile}/> : ''}
     </NavBar>
     <div className={style['app-body']}>

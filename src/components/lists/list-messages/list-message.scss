@@ -1,12 +1,18 @@
 @import '../../../style/main';
 
+.wrap-scroll {
+  composes: body-scroll;
+}
+
 .ul-messages {
   composes: ul-default;
+  margin-top: 45px;
 }
 
 .ul-screen {
   composes: panel;
   padding-top: 0;
+  height: calc((100vh - 3.2rem * 2) - 30px);
 }
 
 .message-item {
@@ -46,4 +52,8 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.message-group {
+  width: 100%;
 }

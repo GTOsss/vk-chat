@@ -1,0 +1,23 @@
+@import '../../../style/main';
+
+.wrap-icons {
+  position: relative;
+  height: 30px;
+  line-height: 30px;
+  margin-left: 4px;
+}
+
+.circle-painted-icon {
+  position: absolute;
+  top: 12px;
+  left: 6px;
+}
+
+
+.label {
+  composes: label-default;
+  position: absolute;
+  right: -27px;
+  top: 1px;
+  margin: 0;
+}

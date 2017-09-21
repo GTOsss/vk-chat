@@ -8,10 +8,10 @@ const extractPlugin = new ExtractTextPlugin({
 module.exports = {
   watch: true,
   watchOptions: {
-    aggregateTimeout: 300,
-    poll: 10*1000
+    aggregateTimeout: 100,
+    poll: false
   },
-  devtool: "inline-source-map",
+  devtool: "eval",
   entry: ['babel-polyfill', './src/index.js'],
   output: {
     filename: 'bundle.js',
