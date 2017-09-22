@@ -1,23 +1,44 @@
 @import '../../../style/main';
 
-.wrap-icons {
-  position: relative;
-  height: 30px;
-  line-height: 30px;
+.table {
+  display: table;
+  width: 70px;
   margin-left: 4px;
+  cursor: pointer;
+  height: inherit;
+  position: absolute;
+  top: 0;
+  left: 2px;
+  text-align: left;
+}
+
+.middle {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.inner {
+  position: relative;
+  height: 28px;
+}
+
+.circle-icon {
+  position: absolute;
+  top: 2px;
 }
 
 .circle-painted-icon {
   position: absolute;
-  top: 12px;
+  top: 8px;
   left: 6px;
 }
-
 
 .label {
   composes: label-default;
   position: absolute;
-  right: -27px;
-  top: 1px;
+  right: -5px;
+  top: 0;
+  line-height: 24px;
   margin: 0;
+  width: 50px;
 }

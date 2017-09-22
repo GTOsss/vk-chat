@@ -57,9 +57,10 @@ const messages = [
 class Chat extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {isMinimized: false, updateStyle: true};
+    this.state = {isMinimized: false, filterConnect: 2, listMessage: true};
     this.minimizeToggle = this.minimizeToggle.bind(this);
     this.updateStyle = this.updateStyle.bind(this);
+    this.onClickFilterConnects = this.onClickFilterConnects.bind(this);
   }
 
   componentDidUpdate() {
@@ -71,24 +72,30 @@ class Chat extends React.Component {
   minimizeToggle() {
     this.setState({isMinimized: !this.state.isMinimized});
     if (this.state.isMinimized)
-      this.updateStyle(250, 600);
+      this.updateStyle(250, 600, 'listMessage');
     else
-      this.updateStyle(0, 450);
+      this.updateStyle(0, 450, 'listMessage');
   }
 
-  updateStyle(time1, time2) {
+  onClickFilterConnects() {
+    let i = this.state.filterConnect + 1;
+    if (i > 2) i = 0;
+    this.setState({filterConnect: i});
+  }
+
+  updateStyle(time1, time2, name) {
     setTimeout(() => {
-      this.setState({updateStyle: false});
+      this.setState({[name]: false});
     }, time1);
 
     setTimeout(() => {
-      this.setState({updateStyle: true});
+      this.setState({[name]: true});
     }, time2);
   }
 
   render() {
     const {groups, loading, sliceLoading, onScrollHandler, setRefList, onClickItemListHandler,
-      onClickItemConnectIconHandler} = this.props;
+      onClickItemConnectHandler} = this.props;
     const selectGroup = groups.filter((el) => el.isSelect)[0];
 
     return (
@@ -104,13 +111,21 @@ class Chat extends React.Component {
               !this.state.isMinimized ? style['t-300-300'] : style['t-300'])}>
               <div className={style['panel-list-groups']}>
                 <div className={style['wrap-scroll-groups']} onScroll={onScrollHandler}>
-                  <ListGroups groups={groups}
-                              headerPanel={<ResizePanel onClickResize={this.minimizeToggle}/>}
+                  <ListGroups groups={groups.filter(el => (
+                    (this.state.filterConnect === 0) && !el.isConnect ||
+                    (this.state.filterConnect === 1) && el.isConnect ||
+                    (this.state.filterConnect === 2)
+                  ))}
+                              headerPanel={<ResizePanel onClickResize={this.minimizeToggle}
+                                                        onClickFilter={this.onClickFilterConnects}
+                                                        isConnect={this.state.filterConnect}
+                                                        inverseIcon
+                                                        showOtherIcon={this.state.filterConnect === 2} />}
                               noHeaderListGroups
                               noMargin
                               minimize={this.state.isMinimized}
-                              onClickItemListHandler={onClickItemListHandler}
-                              onClickItemConnectIconHandler={onClickItemConnectIconHandler}
+                              onClickItemListHandler={this.state.isMinimized
+                                ? onClickItemConnectHandler : onClickItemListHandler}
                               typeList={this.state.isMinimized ? 'connects' : undefined}/>
                   {sliceLoading ? <Loader mini/> : ''}
                 </div>
@@ -132,7 +147,7 @@ class Chat extends React.Component {
 
                   <ListMessages messages={messages}
                                 selectGroup={selectGroup}
-                                ulStyle={this.state.updateStyle ? {
+                                ulStyle={this.state.listMessage ? {
                                   opacity: 1,
                                   transition: 'opacity 300ms linear 0s'
                                 } : {

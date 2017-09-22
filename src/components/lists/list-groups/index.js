@@ -17,11 +17,9 @@ const formattingStringForNumber = (number) => (
   `${number.toString().replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ')}`
 );
 
-const ListGroups = ({
-                      groups, onClickItemListHandler, onClickItemHeaderListHandler, noHeaderListGroups,
+const ListGroups = ({groups, onClickItemListHandler, onClickItemHeaderListHandler, noHeaderListGroups,
                       headerText = 'Выбранные группы', noMargin, minimize, headerPanel,
-                      typeList = 'default', onClickItemConnectIconHandler
-                    }) => (
+                      typeList = 'default'}) => (
   <div className={minimize ? style['ul-screen-minimize'] : style['ul-screen']}
        style={noMargin ? {margin: '0 0'} : {}}>
 
@@ -49,13 +47,14 @@ const ListGroups = ({
                             title={el.name}
                             text={formattingStringForNumber(el.members_count) + ' участников'}
                             srcImg50={el.photo_50}
-                            onClick={onClickItemListHandler ? () => onClickItemListHandler(el.id) : ''}
+                            onClick={() => onClickItemListHandler(el.id)}
                             isMarked={el.isMarked && typeList === 'default'}
                             minimize={minimize}
                             showConnect={typeList === 'connects'}
-                            onClickItemConnectIconHandler={() => onClickItemConnectIconHandler(el.id)}
                             online={el.isConnect && typeList === 'connects'}
-                            isSelect={el.isSelect && ['default-select', 'connects', 'chat'].indexOf(typeList) !== 0}
+                            isSelect={
+                              el.isSelect && ['default', 'default-select', 'chat'].indexOf(typeList) !== -1
+                            }
                             isOnline={el.isOnline}/>
       })}
     </ul>

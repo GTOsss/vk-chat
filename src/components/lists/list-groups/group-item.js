@@ -6,13 +6,11 @@ import PropTypes from 'prop-types'
 
 import style from './list-groups.scss'
 
-const GroupItem = ({title, text, srcImg50, onClick, onClickConnect, onClickItemConnectIconHandler, online,
+const GroupItem = ({title, text, srcImg50, onClick, onClickConnect, online,
                      isMarked, isOnline, isSelect, minimize, showConnect, showMarked = true}) => (
-  <li
-    className={minimize
+  <li className={minimize
       ? cx(style['group-item-minimize'], isSelect ? style['group-item-minimize-active'] : '')
       : cx(style['group-item'], isSelect ? style['group-item-active'] : '')}
-
       onClick={onClick ? () => onClick() : ''}>
     <div>
       <img src={srcImg50} className={minimize ? style['group-photo-minimize'] : style['group-photo']}/>
@@ -23,7 +21,7 @@ const GroupItem = ({title, text, srcImg50, onClick, onClickConnect, onClickItemC
         <div className={style['group-text']}>{text}</div>
       </div>
     }
-    {showConnect ? <ConnectInfo online={online} onClick={onClickItemConnectIconHandler}/> : ''}
+    {showConnect ? <ConnectInfo online={online} leftIndent={40}/> : ''}
     {isMarked && showMarked ?  <MarkCircle size='22' color='#314963' className={style['mark-circle']} /> : ''}
   </li>
 );
