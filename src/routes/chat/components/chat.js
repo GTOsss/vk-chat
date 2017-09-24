@@ -57,7 +57,13 @@ const messages = [
 class Chat extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {isMinimized: false, filterConnect: 2, listMessage: true};
+    this.state = {
+      isMinimized: false,
+      filterConnect: 2,
+      listMessage: true,
+      listConnects: true,
+      listConnectsHeaderMinimize: false
+    };
     this.minimizeToggle = this.minimizeToggle.bind(this);
     this.updateStyle = this.updateStyle.bind(this);
     this.onClickFilterConnects = this.onClickFilterConnects.bind(this);
@@ -71,10 +77,17 @@ class Chat extends React.Component {
 
   minimizeToggle() {
     this.setState({isMinimized: !this.state.isMinimized});
-    if (this.state.isMinimized)
-      this.updateStyle(250, 600, 'listMessage');
-    else
-      this.updateStyle(0, 450, 'listMessage');
+
+    if (this.state.isMinimized) {
+      this.updateStyle(250, 700, 'listMessage');
+      this.updateStyle(0, 700, 'listConnects');
+      this.updateStyle(0, -1, 'listConnectsHeaderMinimize');
+    }
+    else {
+      this.updateStyle(0, 550, 'listMessage');
+      this.updateStyle(0, 550, 'listConnects');
+      this.updateStyle(-1, 100, 'listConnectsHeaderMinimize');
+    }
   }
 
   onClickFilterConnects() {
@@ -84,18 +97,24 @@ class Chat extends React.Component {
   }
 
   updateStyle(time1, time2, name) {
-    setTimeout(() => {
-      this.setState({[name]: false});
-    }, time1);
+    // time1 = time1 * 3;
+    // time2 = time2 * 3;
+    if (time1 !== -1)
+      setTimeout(() => {
+        this.setState({[name]: !this.state[name]});
+      }, time1);
 
-    setTimeout(() => {
-      this.setState({[name]: true});
-    }, time2);
+    if (time2 !== -1)
+      setTimeout(() => {
+        this.setState({[name]: !this.state[name]});
+      }, time2);
   }
 
   render() {
-    const {groups, loading, sliceLoading, onScrollHandler, setRefList, onClickItemListHandler,
-      onClickItemConnectHandler} = this.props;
+    const {
+      groups, loading, sliceLoading, onScrollHandler, setRefList, onClickItemListHandler,
+      onClickItemConnectHandler
+    } = this.props;
     const selectGroup = groups.filter((el) => el.isSelect)[0];
 
     return (
@@ -120,7 +139,30 @@ class Chat extends React.Component {
                                                         onClickFilter={this.onClickFilterConnects}
                                                         isConnect={this.state.filterConnect}
                                                         inverseIcon
-                                                        showOtherIcon={this.state.filterConnect === 2} />}
+                                                        showOtherIcon={this.state.filterConnect === 2}
+                                                        css={!this.state.listConnectsHeaderMinimize ? {
+                                                          marginTop: '-50px',
+                                                          transition: 'margin-top 150ms linear 0ms'
+                                                        } : {
+                                                          marginTop: '0px',
+                                                          transition: 'margin-top 300ms linear 0s'
+                                                        }}
+                                                        noHeader/>}
+                              ulStyle={this.state.listConnects ? {
+                                // opacity: 1,
+                                //transition: 'opacity 300ms linear 0s'
+                              } : {
+                                // opacity: 0,
+                                //transition: 'opacity 0ms linear 0s'
+                              }}
+                              headerStyle={this.state.listConnects ? {
+                                marginTop: '0',
+                                transition: 'margin-top 150ms linear 0s'
+                              } : {
+                                marginTop: '-72px',
+                                minWidth: '300px',
+                                transition: 'margin-top 0ms linear 0s'
+                              }}
                               noHeaderListGroups
                               noMargin
                               minimize={this.state.isMinimized}

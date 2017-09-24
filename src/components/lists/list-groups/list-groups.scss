@@ -2,11 +2,12 @@
 
 .ul-groups {
   composes: ul-default;
+  overflow-x: hidden;
 }
 
 .group-item {
   composes: li-default;
-  transition: background-color 250ms linear 0s;
+  transition: all 250ms linear 0s;
 }
 
 .group-item-active {
@@ -80,6 +81,7 @@
 .ul-screen {
   composes: panel;
   padding-top: 0;
+  transition: all 300ms linear 0s;
 }
 
 .ul-screen-minimize {

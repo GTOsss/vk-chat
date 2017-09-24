@@ -18,16 +18,17 @@ const formattingStringForNumber = (number) => (
 );
 
 const ListGroups = ({groups, onClickItemListHandler, onClickItemHeaderListHandler, noHeaderListGroups,
-                      headerText = 'Выбранные группы', noMargin, minimize, headerPanel,
+                      headerText = 'Выбранные группы', noMargin, minimize, headerPanel, ulStyle, headerStyle,
                       typeList = 'default'}) => (
   <div className={minimize ? style['ul-screen-minimize'] : style['ul-screen']}
        style={noMargin ? {margin: '0 0'} : {}}>
 
-    {headerPanel && minimize ? headerPanel : ''}
+    {headerPanel ? headerPanel : ''}
 
-    <ul className={style['ul-groups']} style={minimize ? {marginTop: '28px'} : {}}>
+    <ul className={style['ul-groups']} style={{...ulStyle, ...(minimize ? {marginTop: '28px'} : {})}}>
       {minimize ? '' :
-        <HeaderListPanel headerText={headerText} css={noHeaderListGroups ? {marginBottom: '10px'} : ''}/>
+        <HeaderListPanel headerText={headerText}
+                         css={{...headerStyle, ...(noHeaderListGroups ? {marginBottom: '10px'} : {})}}/>
       }
 
       {noHeaderListGroups ? '' :

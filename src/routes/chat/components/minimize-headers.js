@@ -4,13 +4,15 @@ import ConnectInfoIcon from '../../../components/icons/connect-info'
 
 import style from './chat.scss'
 
-const ResizePanel = ({onClickResize, onClickFilter, inverseIcon, isConnect, showOtherIcon}) => (
+const ResizePanel = ({onClickResize, onClickFilter, inverseIcon, isConnect, showOtherIcon, css}) => (
   <div className={style['minimize-group-list-header']}>
-    <div>
-      <ConnectInfoIcon size={22} onClick={onClickFilter}
-                       inverse={inverseIcon} online={isConnect} showOtherIcon={showOtherIcon}/>
+    <div className={style['inner-wrap']} style={css}>
+      <div>
+        <ConnectInfoIcon size={22} onClick={onClickFilter}
+                         inverse={inverseIcon} online={isConnect} showOtherIcon={showOtherIcon}/>
+      </div>
+      <ResizeIcon size={24} color={'#FFF'} style={{cursor: 'pointer'}} onClick={onClickResize}/>
     </div>
-    <ResizeIcon size={24} color={'#FFF'} style={{cursor: 'pointer'}} onClick={onClickResize}/>
   </div>
 );
 

@@ -63,22 +63,34 @@
 
 .minimize-group-list-header {
   height: 28px;
-  width: 138px;
+  width: 142px;
   text-align: right;
   position: fixed;
   z-index: 10;
-  margin: -1px -8px;
-  background-color: #507299;
+  margin: -1px -12px;
   padding: 0 4px;
+  overflow-y: hidden;
+}
+
+.inner-wrap {
+  composes: minimize-group-list-header;
+  background-color: #507299;
+  margin: 0;
+  width: 138px;
+  position: absolute;
 }
 
 .minimize-group-list-header-connects {
   composes: minimize-group-list-header;
   composes: label-default;
+  position: fixed;
   color: white;
   font-size: 14px;
   text-align: center;
   line-height: 28px;
+  background-color: #507299;
+  width: 139px;
+  margin: 0 0 0 -8px;
 }
 
 .t-300 {
