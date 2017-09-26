@@ -10,7 +10,7 @@ const ConnectInfo = ({
                        leftIndent, showOtherIcon
                      }) => (
   <div className={style['table']} onClick={onClick}
-       style={{left: leftIndent ? leftIndent + 'px' : 0, marginTop: inverse ? '1px' : 0}}>
+       style={{left: leftIndent ? leftIndent + 'px' : 0, marginTop: inverse ? '1px' : '-8px'}}>
     <div className={style['middle']}>
       <div className={style['inner']}>
         {showOtherIcon
@@ -37,7 +37,6 @@ const ConnectInfo = ({
             </div>
           </div>
         }
-
       </div>
     </div>
   </div>
@@ -49,8 +48,11 @@ ConnectInfo.propTypes = {
   onClick: PropTypes.func,
   circleColor: PropTypes.string,
   circlePaintedColor: PropTypes.string,
-  online: PropTypes.bool,
   inverse: PropTypes.bool,
   showOtherIcon: PropTypes.bool,
-  leftIndent: PropTypes.number
+  leftIndent: PropTypes.number,
+  online: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.number
+  ])
 };

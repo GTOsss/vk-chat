@@ -17,7 +17,7 @@ const ResizePanel = ({onClickResize, onClickFilter, inverseIcon, isConnect, show
 );
 
 const TitlePanel = ({title}) => (
-  <div className={style['minimize-group-list-header-connects']} style={{color: 'white'}}>
+  <div className={style['minimize-group-list-header-chat']} style={{color: 'white'}}>
     {title}
   </div>
 );

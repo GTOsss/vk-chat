@@ -1,13 +1,17 @@
+@import '../../../style/variables';
 @import '../../../style/main';
 
 .ul-groups {
   composes: ul-default;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .group-item {
   composes: li-default;
-  transition: all 250ms linear 0s;
+  transition-property: width, height;
+  transition-duration: 250ms;
+  transition-delay: 0s;
+  transition-timing-function: linear;
 }
 
 .group-item-active {
@@ -30,6 +34,14 @@
   line-height: 31px;
 }
 
+.group-item-minimize:nth-child(1) {
+  border-top: 1px #a5a5a5 solid;
+}
+
+.group-item-minimize-active:nth-child(1) {
+  padding-top: 6px !important;
+}
+
 .group-item-minimize-active {
   composes: group-item-active;
   padding-top: 5px;
@@ -42,6 +54,8 @@
 
 .group-photo {
   border-radius: 50%;
+  width: 50px;
+  height: 50px;
 }
 
 .group-photo-minimize {
@@ -87,4 +101,6 @@
 .ul-screen-minimize {
   composes: ul-screen;
   padding: 0 8px 8px 8px;
+  margin-top: 4px;
+  min-height: $body-height-margin;
 }

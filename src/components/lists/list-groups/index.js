@@ -19,13 +19,13 @@ const formattingStringForNumber = (number) => (
 
 const ListGroups = ({groups, onClickItemListHandler, onClickItemHeaderListHandler, noHeaderListGroups,
                       headerText = 'Выбранные группы', noMargin, minimize, headerPanel, ulStyle, headerStyle,
-                      typeList = 'default'}) => (
+                      typeList = 'default', cssItem = {}, listConnectsMinimize}) => (
   <div className={minimize ? style['ul-screen-minimize'] : style['ul-screen']}
        style={noMargin ? {margin: '0 0'} : {}}>
 
     {headerPanel ? headerPanel : ''}
 
-    <ul className={style['ul-groups']} style={{...ulStyle, ...(minimize ? {marginTop: '28px'} : {})}}>
+    <ul className={style['ul-groups']} style={{...ulStyle, ...(minimize ? {marginTop: '36px'} : {})}}>
       {minimize ? '' :
         <HeaderListPanel headerText={headerText}
                          css={{...headerStyle, ...(noHeaderListGroups ? {marginBottom: '10px'} : {})}}/>
@@ -51,12 +51,15 @@ const ListGroups = ({groups, onClickItemListHandler, onClickItemHeaderListHandle
                             onClick={() => onClickItemListHandler(el.id)}
                             isMarked={el.isMarked && typeList === 'default'}
                             minimize={minimize}
+                            listConnectsMinimize={listConnectsMinimize}
                             showConnect={typeList === 'connects'}
                             online={el.isConnect && typeList === 'connects'}
                             isSelect={
                               el.isSelect && ['default', 'default-select', 'chat'].indexOf(typeList) !== -1
                             }
-                            isOnline={el.isOnline}/>
+                            isOnline={el.isOnline}
+                            cssItem={cssItem}
+                            isChat={typeList === 'chat'} />
       })}
     </ul>
   </div>

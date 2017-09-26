@@ -62,7 +62,8 @@ class Chat extends React.Component {
       filterConnect: 2,
       listMessage: true,
       listConnects: true,
-      listConnectsHeaderMinimize: false
+      listConnectsHeaderMinimize: false,
+      listConnectsMinimize: false
     };
     this.minimizeToggle = this.minimizeToggle.bind(this);
     this.updateStyle = this.updateStyle.bind(this);
@@ -78,15 +79,23 @@ class Chat extends React.Component {
   minimizeToggle() {
     this.setState({isMinimized: !this.state.isMinimized});
 
+    if(!this.state.isMinimized) {
+      let group = this.props.groups.filter((el) => el.isSelect)[0];
+      if (!group.isConnect)
+        this.props.onClickItemConnectHandler(group.id);
+    }
+
     if (this.state.isMinimized) {
       this.updateStyle(250, 700, 'listMessage');
       this.updateStyle(0, 700, 'listConnects');
       this.updateStyle(0, -1, 'listConnectsHeaderMinimize');
+      this.updateStyle(700, -1, 'listConnectsMinimize');
     }
     else {
       this.updateStyle(0, 550, 'listMessage');
       this.updateStyle(0, 550, 'listConnects');
       this.updateStyle(-1, 100, 'listConnectsHeaderMinimize');
+      this.updateStyle(700, -1, 'listConnectsMinimize');
     }
   }
 
@@ -97,8 +106,6 @@ class Chat extends React.Component {
   }
 
   updateStyle(time1, time2, name) {
-    // time1 = time1 * 3;
-    // time2 = time2 * 3;
     if (time1 !== -1)
       setTimeout(() => {
         this.setState({[name]: !this.state[name]});
@@ -148,13 +155,6 @@ class Chat extends React.Component {
                                                           transition: 'margin-top 300ms linear 0s'
                                                         }}
                                                         noHeader/>}
-                              ulStyle={this.state.listConnects ? {
-                                // opacity: 1,
-                                //transition: 'opacity 300ms linear 0s'
-                              } : {
-                                // opacity: 0,
-                                //transition: 'opacity 0ms linear 0s'
-                              }}
                               headerStyle={this.state.listConnects ? {
                                 marginTop: '0',
                                 transition: 'margin-top 150ms linear 0s'
@@ -168,7 +168,8 @@ class Chat extends React.Component {
                               minimize={this.state.isMinimized}
                               onClickItemListHandler={this.state.isMinimized
                                 ? onClickItemConnectHandler : onClickItemListHandler}
-                              typeList={this.state.isMinimized ? 'connects' : undefined}/>
+                              typeList={this.state.listConnectsMinimize ? 'connects' : undefined}
+                              listConnectsMinimize={this.state.listConnectsMinimize} />
                   {sliceLoading ? <Loader mini/> : ''}
                 </div>
               </div>
@@ -225,7 +226,8 @@ class Chat extends React.Component {
                               headerPanel={<TitlePanel title={'включенные'}/>}
                               minimize
                               onClickItemListHandler={onClickItemListHandler}
-                              typeList={'chat'}/>
+                              typeList={'chat'}
+                              listConnectsMinimize={this.state.listConnectsMinimize} />
                   {sliceLoading ? <Loader mini/> : ''}
                 </div>
               </div>

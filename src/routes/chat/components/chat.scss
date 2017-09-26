@@ -8,6 +8,7 @@
 .wrap-scroll-groups {
   composes: body-scroll;
   height: $body-height-margin;
+  min-height: $body-height-margin;
 }
 
 .col-fix {
@@ -78,9 +79,11 @@
   margin: 0;
   width: 138px;
   position: absolute;
+  display: flex;
+  justify-content: space-between;
 }
 
-.minimize-group-list-header-connects {
+.minimize-group-list-header-chat {
   composes: minimize-group-list-header;
   composes: label-default;
   position: fixed;
@@ -90,7 +93,7 @@
   line-height: 28px;
   background-color: #507299;
   width: 139px;
-  margin: 0 0 0 -8px;
+  margin: -1px 0 0 -8px;
 }
 
 .t-300 {

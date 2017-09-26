@@ -2,7 +2,7 @@ import React from 'react'
 import NavBar from '../../../components/nav-bar'
 import NavLink from '../../../components/nav-bar/nav-link'
 import Breadcrumb from '../../../components/breadcrumb'
-import IconCertificate from '../../../components/icon-ceritficate'
+import IconCertificate from '../../../components/icons/ceritficate'
 
 import style from '../../../style/main.scss'
 
