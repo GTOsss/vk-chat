@@ -19,7 +19,7 @@ const formattingStringForNumber = (number) => (
 
 const ListGroups = ({groups, onClickItemListHandler, onClickItemHeaderListHandler, noHeaderListGroups,
                       headerText = 'Выбранные группы', noMargin, minimize, headerPanel, ulStyle, headerStyle,
-                      typeList = 'default', cssItem = {}, listConnectsMinimize}) => (
+                      typeList = 'default', cssItem = {}, listConnectsMinimize, filter = 'all'}) => (
   <div className={minimize ? style['ul-screen-minimize'] : style['ul-screen']}
        style={noMargin ? {margin: '0 0'} : {}}>
 
@@ -43,7 +43,10 @@ const ListGroups = ({groups, onClickItemListHandler, onClickItemHeaderListHandle
       {groups.map((el, i) => {
         let connect = (typeList === 'chat') && el.isConnect;
         let other = ['default', 'default-select', 'connects'].indexOf(typeList) !== -1;
-        if (connect || other)
+        let filterOK = ((filter === 'disconnect') && !el.isConnect)
+          || ((filter === 'connect') && el.isConnect)
+          || (filter === 'all');
+        if ((connect || other) && filterOK)
           return <GroupItem key={i}
                             title={el.name}
                             text={formattingStringForNumber(el.members_count) + ' участников'}
@@ -77,5 +80,6 @@ ListGroups.propTypes = {
   minimize: PropTypes.bool,
   headerPanel: PropTypes.element,
   noHeaderListGroups: PropTypes.bool,
-  typeList: PropTypes.oneOf(['', 'default', 'default-select', 'connects', 'chat'])
+  typeList: PropTypes.oneOf(['', 'default', 'default-select', 'connects', 'chat']),
+  filter: PropTypes.oneOf(['', 'all', 'connect', 'disconnect'])
 };

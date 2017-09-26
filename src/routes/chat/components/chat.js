@@ -59,7 +59,8 @@ class Chat extends React.Component {
     super(props);
     this.state = {
       isMinimized: false,
-      filterConnect: 2,
+      filterCount: 2,
+      filterValue: 'all',
       listMessage: true,
       listConnects: true,
       listConnectsHeaderMinimize: false,
@@ -79,7 +80,7 @@ class Chat extends React.Component {
   minimizeToggle() {
     this.setState({isMinimized: !this.state.isMinimized});
 
-    if(!this.state.isMinimized) {
+    if (!this.state.isMinimized) {
       let group = this.props.groups.filter((el) => el.isSelect)[0];
       if (!group.isConnect)
         this.props.onClickItemConnectHandler(group.id);
@@ -100,9 +101,26 @@ class Chat extends React.Component {
   }
 
   onClickFilterConnects() {
-    let i = this.state.filterConnect + 1;
+    let i = this.state.filterCount + 1;
     if (i > 2) i = 0;
-    this.setState({filterConnect: i});
+
+    let filterValue;
+    switch (i) {
+      case 0:
+        filterValue = 'connect';
+        break;
+      case 1:
+        filterValue = 'disconnect';
+        break;
+      case 2:
+        filterValue = 'all';
+        break;
+    }
+
+    this.setState({
+      filterCount: i,
+      filterValue
+    });
   }
 
   updateStyle(time1, time2, name) {
@@ -137,16 +155,13 @@ class Chat extends React.Component {
               !this.state.isMinimized ? style['t-300-300'] : style['t-300'])}>
               <div className={style['panel-list-groups']}>
                 <div className={style['wrap-scroll-groups']} onScroll={onScrollHandler}>
-                  <ListGroups groups={groups.filter(el => (
-                    (this.state.filterConnect === 0) && !el.isConnect ||
-                    (this.state.filterConnect === 1) && el.isConnect ||
-                    (this.state.filterConnect === 2)
-                  ))}
+                  <ListGroups groups={groups}
+                              filter={(!this.state.listConnectsMinimize ? 'all' : '') || this.state.filterValue}
                               headerPanel={<ResizePanel onClickResize={this.minimizeToggle}
                                                         onClickFilter={this.onClickFilterConnects}
-                                                        isConnect={this.state.filterConnect}
+                                                        isConnect={this.state.filterValue === 'connect'}
                                                         inverseIcon
-                                                        showOtherIcon={this.state.filterConnect === 2}
+                                                        showOtherIcon={this.state.filterValue === 'all'}
                                                         css={!this.state.listConnectsHeaderMinimize ? {
                                                           marginTop: '-50px',
                                                           transition: 'margin-top 150ms linear 0ms'
@@ -169,7 +184,7 @@ class Chat extends React.Component {
                               onClickItemListHandler={this.state.isMinimized
                                 ? onClickItemConnectHandler : onClickItemListHandler}
                               typeList={this.state.listConnectsMinimize ? 'connects' : undefined}
-                              listConnectsMinimize={this.state.listConnectsMinimize} />
+                              listConnectsMinimize={this.state.listConnectsMinimize}/>
                   {sliceLoading ? <Loader mini/> : ''}
                 </div>
               </div>
@@ -227,7 +242,7 @@ class Chat extends React.Component {
                               minimize
                               onClickItemListHandler={onClickItemListHandler}
                               typeList={'chat'}
-                              listConnectsMinimize={this.state.listConnectsMinimize} />
+                              listConnectsMinimize={this.state.listConnectsMinimize}/>
                   {sliceLoading ? <Loader mini/> : ''}
                 </div>
               </div>
