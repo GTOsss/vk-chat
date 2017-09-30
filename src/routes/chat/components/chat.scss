@@ -64,7 +64,7 @@
 
 .minimize-group-list-header {
   height: 28px;
-  width: 142px;
+  width: 154px;
   text-align: right;
   position: fixed;
   z-index: 10;
@@ -77,7 +77,7 @@
   composes: minimize-group-list-header;
   background-color: #507299;
   margin: 0;
-  width: 138px;
+  width: 148px;
   position: absolute;
   display: flex;
   justify-content: space-between;
@@ -92,8 +92,12 @@
   text-align: center;
   line-height: 28px;
   background-color: #507299;
-  width: 139px;
-  margin: -1px 0 0 -8px;
+  width: 148px;
+  margin: -1px -9px 0 0;
+}
+
+.chat-panel {
+  direction: rtl;
 }
 
 .t-300 {

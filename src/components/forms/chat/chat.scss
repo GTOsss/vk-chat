@@ -1,0 +1,17 @@
+.send-icon {
+  cursor: pointer;
+  position: absolute;
+  right: 22px;
+  bottom: 17px;
+}
+
+.wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: #FAFBFC;
+  border: 1px solid #E3E4E8;
+  padding: 8px;
+  width: inherit;
+  position: relative;
+}

@@ -4,6 +4,7 @@ import HeaderListGroups from '../../other/header-list-groups/index'
 import HeaderListPanel from '../../other/header-list-panel/index'
 import GroupsFilter from '../../forms/groups-filter/index'
 import PropTypes from 'prop-types'
+import cx from 'classnames'
 
 import style from './list-groups.scss'
 
@@ -19,8 +20,8 @@ const formattingStringForNumber = (number) => (
 
 const ListGroups = ({groups, onClickItemListHandler, onClickItemHeaderListHandler, noHeaderListGroups,
                       headerText = 'Выбранные группы', noMargin, minimize, headerPanel, ulStyle, headerStyle,
-                      typeList = 'default', cssItem = {}, listConnectsMinimize, filter = 'all'}) => (
-  <div className={minimize ? style['ul-screen-minimize'] : style['ul-screen']}
+                      typeList = 'default', cssItem = {}, listConnectsMinimize, filter = 'all', className}) => (
+  <div className={cx(minimize ? style['ul-screen-minimize'] : style['ul-screen'], className)}
        style={noMargin ? {margin: '0 0'} : {}}>
 
     {headerPanel ? headerPanel : ''}

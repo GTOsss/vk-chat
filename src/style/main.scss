@@ -30,11 +30,6 @@ body {
   width: 100%;
 }
 
-.body-scroll {
-  overflow-y: scroll;
-  height: $body-height;
-}
-
 .ul-default {
   list-style-type: none;
   font-size: 13px;
@@ -117,3 +112,43 @@ body {
 .padding-fix {
   padding: 0 5px;
 }
+
+.body-scroll {
+  overflow-y: scroll;
+  height: $body-height;
+}
+
+.body-scroll::-webkit-scrollbar-track {  }
+
+.body-scroll::-webkit-scrollbar
+{
+  border-left: 2px solid #F5F5F5;
+  background-color: #EDEEF0;
+  width: 8px;
+}
+
+.body-scroll::-webkit-scrollbar-thumb
+{
+  border-left: 2px solid #507299;
+}
+
+.default-scroll {
+  height: auto;
+  background-color: white;
+}
+
+.default-scroll::-webkit-scrollbar-track {  }
+
+
+.default-scroll::-webkit-scrollbar
+{
+  border-right: 2px solid #F5F5F5;
+  background-color: #fcfdff;
+  width: 8px;
+}
+
+.default-scroll::-webkit-scrollbar-thumb
+{
+  border-right: 2px solid #507299;
+}
+

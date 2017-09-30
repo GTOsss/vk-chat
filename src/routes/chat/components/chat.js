@@ -4,8 +4,6 @@ import ListMessages from '../../../components/lists/list-messages'
 import Loader from '../../../components/loader'
 import {TitlePanel, ResizePanel} from './minimize-headers'
 
-import {Input} from 'reactstrap'
-
 import cx from 'classnames'
 import style from './chat.scss'
 
@@ -64,7 +62,8 @@ class Chat extends React.Component {
       listMessage: true,
       listConnects: true,
       listConnectsHeaderMinimize: false,
-      listConnectsMinimize: false
+      listConnectsMinimize: false,
+      chat: false
     };
     this.minimizeToggle = this.minimizeToggle.bind(this);
     this.updateStyle = this.updateStyle.bind(this);
@@ -91,12 +90,14 @@ class Chat extends React.Component {
       this.updateStyle(0, 700, 'listConnects');
       this.updateStyle(0, -1, 'listConnectsHeaderMinimize');
       this.updateStyle(700, -1, 'listConnectsMinimize');
+      this.updateStyle(250, -1, 'chat');
     }
     else {
       this.updateStyle(0, 550, 'listMessage');
       this.updateStyle(0, 550, 'listConnects');
       this.updateStyle(-1, 100, 'listConnectsHeaderMinimize');
       this.updateStyle(700, -1, 'listConnectsMinimize');
+      this.updateStyle(0, -1, 'chat');
     }
   }
 
@@ -133,6 +134,10 @@ class Chat extends React.Component {
       setTimeout(() => {
         this.setState({[name]: !this.state[name]});
       }, time2);
+  }
+
+  onSubmitHandler(values) {
+    console.log(values);
   }
 
   render() {
@@ -205,6 +210,8 @@ class Chat extends React.Component {
 
                   <ListMessages messages={messages}
                                 selectGroup={selectGroup}
+                                showChat={this.state.chat}
+                                onSubmitHandler={this.onSubmitHandler}
                                 ulStyle={this.state.listMessage ? {
                                   opacity: 1,
                                   transition: 'opacity 300ms linear 0s'
@@ -213,11 +220,11 @@ class Chat extends React.Component {
                                   transition: 'opacity 0ms linear 0s'
                                 }}
                                 headerStyle={this.state.isMinimized ? {
-                                    width: '638px',
+                                    width: '647px',
                                     transition: 'width 300ms linear 0s'
                                   } :
                                   {
-                                    width: '471px',
+                                    width: '480px',
                                     transition: 'width 300ms linear 300ms'
                                   }}
                                 refWrapScroll={(el) => {
@@ -236,6 +243,7 @@ class Chat extends React.Component {
               <div className={cx(style['panel-list-groups'])}>
                 <div className={style['wrap-scroll-groups']} onScroll={onScrollHandler}>
                   <ListGroups groups={groups}
+                              className={style['chat-panel']}
                               noHeaderListGroups
                               noMargin
                               headerPanel={<TitlePanel title={'включенные'}/>}
