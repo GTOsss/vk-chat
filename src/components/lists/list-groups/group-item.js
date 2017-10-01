@@ -1,6 +1,7 @@
 import React from 'react'
 import MarkCircle from 'react-icons/lib/fa/check-circle-o'
 import ConnectInfo from '../../icons/connect-info'
+import MessageInfo from './message-info'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 
@@ -8,7 +9,8 @@ import style from './list-groups.scss'
 
 const GroupItem = ({
                      title, text, srcImg50, onClick, onClickConnect, online, listConnectsMinimize,
-                     isMarked, isOnline, isSelect, minimize, showConnect, showMarked = true, isChat
+                     isMarked, isOnline, isSelect, minimize, showConnect, showMarked = true, isChat,
+                     countMsg = 1, countMsgPrivate = 1
                    }) => (
   <li className={listConnectsMinimize
     ? cx(style['group-item-minimize'], isSelect ? style['group-item-minimize-active'] : '')
@@ -35,7 +37,12 @@ const GroupItem = ({
       <div className={style['group-title']}>{title}</div>
       <div className={style['group-text']}>{text}</div>
     </div>
-    {isChat ? 'chat-info' :
+    {isChat ?
+      <div className={style['wrap-massage-info']}>
+        <MessageInfo count={countMsg} color={'#484848'}/>
+        <MessageInfo count={countMsgPrivate} color={'#006800'}/>
+      </div>
+      :
       <div style={{
         transition: 'opacity 200ms linear 0s',
         opacity: !minimize ? 0 : 1,

@@ -104,3 +104,15 @@
   margin-top: 4px;
   min-height: $body-height-margin;
 }
+
+.wrap-massage-info {
+  display: flex;
+  flex-direction: row;
+}
+
+.message-info {
+  font-size: 16px;
+  font-weight: 800;
+  height: inherit;
+  margin: 0 4px;
+}
