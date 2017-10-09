@@ -115,6 +115,7 @@ body {
 
 .body-scroll {
   overflow-y: scroll;
+  overflow-x: hidden;
   height: $body-height;
 }
 

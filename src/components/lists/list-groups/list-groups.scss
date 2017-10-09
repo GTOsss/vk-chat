@@ -8,10 +8,6 @@
 
 .group-item {
   composes: li-default;
-  transition-property: width, height;
-  transition-duration: 250ms;
-  transition-delay: 0s;
-  transition-timing-function: linear;
 }
 
 .group-item-active {
@@ -95,7 +91,6 @@
 .ul-screen {
   composes: panel;
   padding-top: 0;
-  transition: all 300ms linear 0s;
 }
 
 .ul-screen-minimize {

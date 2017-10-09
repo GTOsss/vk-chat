@@ -57,3 +57,43 @@
 .message-group {
   width: 100%;
 }
+
+.wrap-chat-input {
+  overflow-y: hidden;
+  margin-bottom: -10px;
+}
+
+.is-animate {
+  .chat-animate-to-minimize {
+    animation: to-minimize 900ms linear 0s 1 normal;
+  }
+
+  .chat-animate-from-minimize {
+    animation: from-minimize 900ms linear 0s 1 normal;
+  }
+
+  .t-to-up {
+    transition: margin-bottom 150ms linear 750ms;
+    margin-bottom: 10px;
+  }
+
+  .t-to-down {
+    transition: margin-bottom 150ms linear 0s;
+    margin-bottom: -60px;
+  }
+}
+
+@keyframes to-minimize {
+  0% { opacity: 1}
+  12% { opacity: 0 }
+  30% { white-space: nowrap; }
+  80% { opacity: 0; white-space: normal; }
+  100% { opacity: 1 }
+}
+
+@keyframes from-minimize {
+  0% { opacity: 1 }
+  20% { opacity: 0 }
+  75% { opacity: 0 }
+  100%{ opacity: 1 }
+}

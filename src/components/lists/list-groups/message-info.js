@@ -1,17 +1,19 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import style from './list-groups.scss'
+import style from './list-groups.scss';
 
-const MessageInfo = ({count, color}) => (
+const MessageInfo = ({ count, color: colorStr }) => (
   count ?
-    <div className={style['message-info']} style={{color: color}}>
+    <div className={style['message-info']} style={{ color: colorStr }}>
       {count}+
     </div> : null
 );
 
-export default MessageInfo
-
 MessageInfo.propTypes = {
-  count: PropTypes.number
+  count: PropTypes.number.isRequired,
+  color: PropTypes.string.isRequired,
 };
+
+
+export default MessageInfo;

@@ -66,7 +66,7 @@
   height: 28px;
   width: 154px;
   text-align: right;
-  position: fixed;
+  position: absolute;
   z-index: 10;
   margin: -1px -12px;
   padding: 0 4px;
@@ -76,9 +76,10 @@
 .inner-wrap {
   composes: minimize-group-list-header;
   background-color: #507299;
-  margin: 0;
+  margin: 0 0 0 4px;
   width: 148px;
   position: absolute;
+  left: 0;
   display: flex;
   justify-content: space-between;
 }
@@ -86,7 +87,7 @@
 .minimize-group-list-header-chat {
   composes: minimize-group-list-header;
   composes: label-default;
-  position: fixed;
+  position: absolute;
   color: white;
   font-size: 14px;
   text-align: center;
@@ -100,16 +101,17 @@
   direction: rtl;
 }
 
-.t-300 {
-  transition-property: max-width, flex;
+.t-300-150 {
+  transition-property: max-width, flex-basis;
   transition-timing-function: linear;
-  transition-duration: 300ms;
+  transition-duration: 150ms;
+  transition-delay: 300ms;
 }
 
 .t-300-300 {
-  transition-property: max-width, flex;
+  transition-property: max-width, flex-basis;
   transition-timing-function: linear;
-  transition-duration: 300ms;
+  transition-duration: 150ms;
   transition-delay: 300ms;
 }
 

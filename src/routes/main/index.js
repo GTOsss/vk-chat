@@ -1,8 +1,8 @@
-import React from 'react'
-import * as userActions from '../../store/actions/user'
-import MainComponent from './components/main'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
+import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as userActions from '../../store/actions/user';
+import MainComponent from './components/main';
 
 class Main extends React.Component {
   componentWillMount() {
@@ -12,16 +12,16 @@ class Main extends React.Component {
   render() {
     return (
       <MainComponent {...this.props} />
-    )
+    );
   }
 }
 
-const mapStateToProps = (state) => ({
-  profile: state.user.profile
+const mapStateToProps = state => ({
+  profile: state.user.profile,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   ...bindActionCreators(userActions, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main)
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
