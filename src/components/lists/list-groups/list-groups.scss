@@ -111,3 +111,25 @@
   height: inherit;
   margin: 0 4px;
 }
+
+.is-animate {
+  .ul-groups-animate-to-minimize {
+    animation: to-minimize 900ms linear 0s normal;
+  }
+
+  .ul-groups-animate-from-minimize {
+    animation: from-minimize 900ms linear 0s normal;
+  }
+}
+
+@keyframes to-minimize {
+  0% { visibility: hidden; opacity: 0;}
+  83% { visibility: visible; opacity: 0; }
+  100% { opacity: 1;}
+}
+
+@keyframes from-minimize {
+  0% { visibility: hidden; opacity: 0;}
+  65% { visibility: visible; opacity: 0; }
+  85% { opacity: 1;}
+}

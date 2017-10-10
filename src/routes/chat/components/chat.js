@@ -154,6 +154,7 @@ class Chat extends React.Component {
               <div className={style['panel-list-groups']}>
                 <div className={style['wrap-scroll-groups']} onScroll={onScrollHandler}>
                   <ListGroups
+                    isAnimate={this.state.listMessagesAnimate}
                     groups={groups}
                     filter={(!this.state.isMinimized ? 'all' : '') || this.state.filterValue}
                     headerPanel={<ResizePanel

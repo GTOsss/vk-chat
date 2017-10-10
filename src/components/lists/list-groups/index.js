@@ -14,12 +14,13 @@ const formattingStringForNumber = number =>
 const ListGroups = ({
   groups, onClickItemListHandler, onClickItemHeaderListHandler, noHeaderListGroups,
   headerText, noMargin, minimize, headerPanel, ulStyle, headerStyle,
-  typeList, filter, className, noHeader,
+  typeList, filter, className, noHeader, isAnimate,
 }) => (
   <div
     className={cx(
       minimize ? style['ul-screen-minimize'] : style['ul-screen'],
       className,
+      isAnimate ? style['is-animate'] : '',
     )}
     style={{
       margin: noMargin ? '0 0' : '',
@@ -29,7 +30,10 @@ const ListGroups = ({
     {headerPanel || ''}
 
     <ul
-      className={style['ul-groups']}
+      className={cx(
+        style['ul-groups'],
+        minimize ? style['ul-groups-animate-to-minimize'] : style['ul-groups-animate-from-minimize'],
+      )}
       style={{
         ...ulStyle,
         ...minimize ? { marginTop: '36px' } : {},
@@ -100,8 +104,10 @@ ListGroups.propTypes = {
   minimize: PropTypes.bool,
   headerPanel: PropTypes.element,
   noHeaderListGroups: PropTypes.bool,
+  noHeader: PropTypes.bool,
   typeList: PropTypes.oneOf(['', 'default', 'default-select', 'connects', 'chat']),
   filter: PropTypes.oneOf(['', 'all', 'connect', 'disconnect']),
+  isAnimate: PropTypes.bool,
 };
 
 ListGroups.defaultProps = {
@@ -117,6 +123,8 @@ ListGroups.defaultProps = {
   minimize: false,
   headerPanel: null,
   noHeaderListGroups: false,
+  noHeader: false,
+  isAnimate: false,
 };
 
 
