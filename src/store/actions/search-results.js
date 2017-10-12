@@ -1,5 +1,5 @@
-import {vkApi, vkApiTimeout} from '../../services/vk-service'
-import {intersectionArrays, validateUser} from '../../services/operations'
+import { vkApi, vkApiTimeout } from '../../services/vk-service';
+import { intersectionArrays, validateUser } from '../../services/operations';
 import {
   SEARCH_USERS_IN_GROUPS_START,
   SEARCH_USERS_IN_GROUPS_STEP,
@@ -9,116 +9,152 @@ import {
   SEARCH_USERS_IN_GROUPS_SUCCESS,
   TOGGLE_LOADING,
   CLEAR_USERS,
-  CURRENT_GROUP_SEARCH
-} from '../constans/index'
+  CURRENT_GROUP_SEARCH,
+} from '../constans/index';
 
-export const searchInSearchObjects = ({city, ageFrom, ageTo, sex}) => {
-  return async (dispatch, getState) => {
+export const loadSliceUsers = (offset, count) => async (dispatch, getState) => {
+  dispatch({
+    type: TOGGLE_LOADING,
+    loadingObj: { sliceUsers: true },
+  });
+
+  const searchResults = getState().searchResults.searchResults;
+
+  const resp = await vkApi('users.get', {
+    user_ids: searchResults.slice(offset, offset + count).join(','),
+    fields: 'photo_100, followers_count',
+  });
+  const users = resp.response;
+
+  dispatch({
+    type: LOAD_SLICE_USERS_SUCCESS,
+    users: users || [],
+  });
+
+  dispatch({
+    type: TOGGLE_LOADING,
+    loadingObj: { sliceUsers: false },
+  });
+};
+
+export const searchInSearchObjects = ({ city, ageFrom, ageTo, sex }) =>
+  async (dispatch, getState) => {
     const currentSearchId = Math.random().toString(36).substr(2, 9);
-    dispatch({type: CLEAR_USERS});
+    dispatch({ type: CLEAR_USERS });
 
-    const {searchObjects: {objects: searchObjects}, user: {firebase, vkInfo: {viewerId}}} = getState();
+    const { searchObjects: { objects: searchObjects },
+      user: { firebase, vkInfo: { viewerId } } } = getState();
     let groups = [];
-    let objects = searchObjects.filter((el) => {
-      if(el.isMarked) {
+    const objects = searchObjects.filter((el) => {
+      if (el.isMarked) {
         groups = [...groups, ...el.groups];
       }
-      return el.isMarked
+      return el.isMarked;
     });
 
     dispatch({
       type: SEARCH_USERS_IN_GROUPS_START,
       groupsCount: groups.length,
-      searchParams: {city, ageFrom, ageTo, sex, deepSearch: 'searchObjects'},
+      searchParams: { city, ageFrom, ageTo, sex, deepSearch: 'searchObjects' },
       groups,
-      currentSearchId
+      currentSearchId,
     });
 
-    let arraysUsers = [];
-    for (let i = 0; i < objects.length; i++) {
-      let users = await firebase.database()
-        .ref(`/users/${viewerId}/searchObjects/users/${objects[i].id}`).once('value');
-      arraysUsers.push(users.val());
+    const results = [];
+    for (let i = 0; i < objects.length; i += 1) {
+      results.push(firebase.database()
+        .ref(`/users/${viewerId}/searchObjects/users/${objects[i].id}`).once('value'));
     }
 
-    let resultArrays = [];
-    for (let i = 0; i < arraysUsers.length; i++) {
-      let el = arraysUsers[i];
-      let currentUsers = [];
-      let ids = JSON.parse(el);
+    let arraysUsers = await Promise.all(results);
+    arraysUsers = arraysUsers.map(el => el.val());
 
-      let countIter = ids.length / 500;
-      for (let j = 0; j < countIter; j++) {
-        if(getState().searchResults.currentSearchId !== currentSearchId) {
+    const responsesArrays = [];
+    for (let i = 0; i < arraysUsers.length; i += 1) {
+      const element = arraysUsers[i];
+      const ids = JSON.parse(element);
+      const responsesCurrentObj = [];
+      const countIter = ids.length / 500;
+      for (let j = 0; j < countIter; j += 1) {
+        if (getState().searchResults.currentSearchId !== currentSearchId) {
           return;
         }
 
-        let response = await vkApiTimeout('users.get', {
-          'user_ids': ids.splice(0,500).join(','),
-          'fields': 'city, bdate, sex',
-          'version': 5.68
-        }, 0);
+        responsesCurrentObj.push(vkApiTimeout('users.get', {
+          user_ids: ids.splice(0, 500).join(','),
+          fields: 'city, bdate, sex',
+          version: 5.68,
+        }, 0, undefined, () => {
+          dispatch({
+            type: SEARCH_USERS_IN_GROUP_STEP,
+            progress: (j / countIter) * 100,
+          });
 
-        response = response.response.filter((el) => {
-          return validateUser(el, {city, ageFrom, ageTo, sex});
-        });
-
-        currentUsers = currentUsers.concat(response.map((el) => el.id));
-
-        dispatch({
-          type: SEARCH_USERS_IN_GROUP_STEP,
-          progress: j / countIter * 100
-        });
+          const progressGroup = getState().searchResults.progressGroup;
+          if (progressGroup !== (i + 1)) {
+            dispatch({
+              type: SEARCH_USERS_IN_GROUPS_STEP,
+              step: i + 1,
+            });
+          }
+        }));
       }
-      resultArrays.push(currentUsers);
-
-      dispatch({
-        type: SEARCH_USERS_IN_GROUPS_STEP,
-        step: i+1
-      });
+      responsesArrays.push(responsesCurrentObj);
     }
 
-    let searchResults = resultArrays.reduce((a, b) => {
-      return intersectionArrays(a, b);
+    const arrayPromiseResults = responsesArrays.map(async (el) => {
+      const vkResponse = await Promise.all(el);
+      return vkResponse.reduce((prev, curr) => {
+        let currentResponse = curr.response;
+        currentResponse = currentResponse
+          .filter(user => validateUser(user, { city, ageFrom, ageTo, sex }));
+
+        return [...prev, ...currentResponse];
+      }, []);
     });
 
+    const arrayResults = await Promise.all(arrayPromiseResults);
+
+    console.log(arrayResults);
+    const searchResults = arrayResults.reduce((a, b) => intersectionArrays(a, b));
+    console.log(searchResults);
     dispatch({
       type: SEARCH_USERS_IN_GROUPS_SUCCESS,
-      searchResults
+      searchResults,
     });
 
     loadSliceUsers(0, 20)(dispatch, getState);
-  }
-};
+  };
 
-export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, deepSearch, accessToken}) => {
+export const deepSearchInGroups = ({ city, ageFrom, ageTo, sex, deepSearch, accessToken }) => {
   const currentSearchId = Math.random().toString(36).substr(2, 9);
-  const fields = `${city ? 'city,' : ''} ${sex ? 'sex,' : ''} ${ageTo || ageFrom ? 'bdate,' : ''} deactivated`;
+  const fields = `${city ? 'city,' : ''} ${sex ? 'sex,' : ''} ${
+    ageTo || ageFrom ? 'bdate,' : ''} deactivated`;
   return async (dispatch, getState) => {
-    dispatch({type: CLEAR_USERS});
-    const groups = getState().user.groups.filter((el) => el.isMarked);
+    dispatch({ type: CLEAR_USERS });
+    const groups = getState().user.groups.filter(el => el.isMarked);
     dispatch({
       type: SEARCH_USERS_IN_GROUPS_START,
       groupsCount: groups.length,
-      searchParams: {city, ageFrom, ageTo, sex, deepSearch},
-      currentSearchId
+      searchParams: { city, ageFrom, ageTo, sex, deepSearch },
+      currentSearchId,
     });
 
     let searchResults = [];
-    city = city && city.value;
-    for(let i = 0; i < groups.length; i++) {
+    const cityValue = city && city.value;
+    for (let i = 0; i < groups.length; i += 1) {
       dispatch({
         type: CURRENT_GROUP_SEARCH,
-        group: groups[i]
+        group: groups[i],
       });
-      let countMembers = groups[i].members_count;
-      let countRequest = Math.ceil(countMembers / 1000);
+      const countMembers = groups[i].members_count;
+      const countRequest = Math.ceil(countMembers / 1000);
       let currentGroupMembers = [];
-      const onePercent = (countRequest / 100);
+      const onePercent = countRequest / 100;
       let counter = 0;
       let progress = 0;
-      for(let j = 0; j <= countRequest; j++) {
-        if(getState().searchResults.currentSearchId !== currentSearchId) {
+      for (let j = 0; j <= countRequest; j += 1) {
+        if (getState().searchResults.currentSearchId !== currentSearchId) {
           return;
         }
 
@@ -127,132 +163,99 @@ export const deepSearchInGroups = ({city, ageFrom, ageTo, sex, deepSearch, acces
 
         try {
           response = await vkApiTimeout('groups.getMembers', {
-            'fields': fields,
-            'access_token': accessToken,
-            'offset': j * 1000,
-            'count': 1000,
-            'group_id': groups[i].id,
-            'version': 5.67
+            fields,
+            access_token: accessToken,
+            offset: j * 1000,
+            count: 1000,
+            group_id: groups[i].id,
+            version: 5.67,
           }, 200);
         } catch (e) {
           console.error(e);
         }
 
-        currentGroupMembersThisIter = response.response.items.filter((el) => {
-          return validateUser(el, {city, ageFrom, ageTo, sex});
-        });
+        currentGroupMembersThisIter = response.response.items.filter(el =>
+          validateUser(el, { city: cityValue, ageFrom, ageTo, sex }));
 
-        if(counter >= onePercent) {
+        if (counter >= onePercent) {
           counter = 0;
-          progress = j / countRequest * 100;
+          progress = (j / countRequest) * 100;
 
           dispatch({
             type: SEARCH_USERS_IN_GROUP_STEP,
-            progress
+            progress,
           });
         }
-        counter++;
+        counter += 1;
 
         currentGroupMembers = [...currentGroupMembers, ...currentGroupMembersThisIter];
       }
-      searchResults.push(currentGroupMembers.map((el) => el.id));
+      searchResults.push(currentGroupMembers.map(el => el.id));
 
       dispatch({
         type: SEARCH_USERS_IN_GROUPS_STEP,
-        step: i+1
+        step: i + 1,
       });
     }
 
-    searchResults = searchResults.reduce((a, b) => {
-      return intersectionArrays(a, b);
-    });
+    searchResults = searchResults.reduce((a, b) => intersectionArrays(a, b));
 
     dispatch({
       type: SEARCH_USERS_IN_GROUPS_SUCCESS,
-      searchResults: searchResults
+      searchResults,
     });
 
     loadSliceUsers(0, 20)(dispatch, getState);
-  }
+  };
 };
 
-export const searchUsersInGroups = ({country, city, ageFrom, ageTo, sex, deepSearch, accessToken}) => {
-  return async (dispatch, getState) => {
-    dispatch({type: CLEAR_USERS});
-    const currentSearchId = Math.random().toString(36).substr(2, 9);
-    const groups = getState().user.groups.filter((el) => el.isMarked);
-    const length = groups.length;
-    dispatch({
-      type: SEARCH_USERS_IN_GROUPS_START,
-      groupsCount: length,
-      searchParams: {city, ageFrom, ageTo, sex, deepSearch},
-      currentSearchId
-    });
+export const searchUsersInGroups = ({ country, city, ageFrom,
+  ageTo, sex, deepSearch, accessToken }) => async (dispatch, getState) => {
+  dispatch({ type: CLEAR_USERS });
+  const currentSearchId = Math.random().toString(36).substr(2, 9);
+  const groups = getState().user.groups.filter(el => el.isMarked);
+  const length = groups.length;
+  dispatch({
+    type: SEARCH_USERS_IN_GROUPS_START,
+    groupsCount: length,
+    searchParams: { city, ageFrom, ageTo, sex, deepSearch },
+    currentSearchId,
+  });
 
-    city = city && city.value;
-    let searchResults = [];
-    for(let i = 0; i < length; i++) {
-      if(getState().searchResults.currentSearchId !== currentSearchId) {
-        return;
-      }
-
-      const response = await vkApi('users.search', {
-        'access_token': accessToken,
-        'offset': 0,
-        'count': 1000,
-        'country': country ? country : undefined,
-        'city': city ? city : undefined,
-        'sex': sex ? sex : undefined,
-        'age_from': ageFrom ? ageFrom : undefined,
-        'age_to': ageTo ? ageTo : undefined,
-        'group_id': groups[i].id,
-        'version': 5.67
-      });
-
-      dispatch({
-        type: SEARCH_USERS_IN_GROUPS_STEP,
-        step: i+1
-      });
-
-      searchResults.push(response.response.items.map((el) => el.id));
+  const cityValue = city && city.value;
+  let searchResults = [];
+  for (let i = 0; i < length; i += 1) {
+    if (getState().searchResults.currentSearchId !== currentSearchId) {
+      return;
     }
 
-    searchResults = searchResults.reduce((a, b) => {
-      return intersectionArrays(a, b);
+    const response = await vkApi('users.search', {
+      access_token: accessToken,
+      offset: 0,
+      count: 1000,
+      country: country || undefined,
+      city: cityValue || undefined,
+      sex: sex || undefined,
+      age_from: ageFrom || undefined,
+      age_to: ageTo || undefined,
+      group_id: groups[i].id,
+      version: 5.67,
     });
 
     dispatch({
-      type: SEARCH_USERS_IN_GROUPS_SUCCESS,
-      searchResults
+      type: SEARCH_USERS_IN_GROUPS_STEP,
+      step: i + 1,
     });
 
-    loadSliceUsers(0, 20)(dispatch, getState);
+    searchResults.push(response.response.items.map(el => el.id));
   }
-};
 
-export const loadSliceUsers = (offset, count) => {
-  return async (dispatch, getState) => {
-    dispatch({
-      type: TOGGLE_LOADING,
-      loadingObj: {sliceUsers: true}
-    });
+  searchResults = searchResults.reduce((a, b) => intersectionArrays(a, b));
 
-    let searchResults = getState().searchResults.searchResults;
+  dispatch({
+    type: SEARCH_USERS_IN_GROUPS_SUCCESS,
+    searchResults,
+  });
 
-    let resp = await vkApi('users.get', {
-      user_ids: searchResults.slice(offset, offset+count).join(','),
-      fields: 'photo_100, followers_count'
-    });
-    let users = resp.response;
-
-    dispatch({
-      type: LOAD_SLICE_USERS_SUCCESS,
-      users: users ? users : []
-    });
-
-    dispatch({
-      type: TOGGLE_LOADING,
-      loadingObj: {sliceUsers: false}
-    });
-  }
+  loadSliceUsers(0, 20)(dispatch, getState);
 };

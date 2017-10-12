@@ -22,10 +22,11 @@ export const vkApi = (method, params) => {
   })
 };
 
-export const vkApiTimeout = async (method, params, time, timeoutError = 5000) => {
+export const vkApiTimeout = async (method, params, time, timeoutError = 5000, callback) => {
   for(let i = 0; i < 5; i++) {
     let result = await vkApiTimeoutRequest(method, params, time, timeoutError);
     if(result !== 'timeout') {
+      if (callback) callback();
       return new Promise((resolve) => {
         resolve(result);
       });

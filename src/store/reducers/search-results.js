@@ -7,8 +7,8 @@ import {
   CLEAR_USERS,
   CURRENT_GROUP_SEARCH,
   SET_INFO_OBJECT_SEARCH,
-  SAVE_OBJECT
-} from '../constans'
+  SAVE_OBJECT,
+} from '../constans';
 
 const initialState = {
   searchResults: [],
@@ -18,21 +18,21 @@ const initialState = {
   step: 0,
   progressGroup: 0,
   btnSaveShow: true,
-  currentSearchId: 0
+  currentSearchId: 0,
 };
 
 export default function searchResults(state = initialState, action) {
   switch (action.type) {
     case SAVE_OBJECT:
-      return {...state, btnSaveShow: action.btnSaveShow};
+      return { ...state, btnSaveShow: action.btnSaveShow };
     case CURRENT_GROUP_SEARCH:
       return {
         ...state,
         currentGroupSearch: action.group,
-        noSearch: false
+        noSearch: false,
       };
     case CLEAR_USERS:
-      return {...state, users: [], step: 0, progressGroup: 0};
+      return { ...state, users: [], step: 0, progressGroup: 0 };
     case SET_INFO_OBJECT_SEARCH:
       return {
         ...state,
@@ -40,7 +40,7 @@ export default function searchResults(state = initialState, action) {
         searchParams: action.searchParams,
         searchResults: action.searchResults,
         groups: action.groups && action.groups.length ? [...action.groups] : [],
-        noSearch: true
+        noSearch: true,
       };
     case SEARCH_USERS_IN_GROUPS_START:
       return {
@@ -50,8 +50,8 @@ export default function searchResults(state = initialState, action) {
         groups: action.groups && action.groups.length ? [...action.groups] : [],
         noSearch: false,
         currentSearchId: action.currentSearchId,
-          progressGroup: 0,
-        step: 0
+        progressGroup: 0,
+        step: 0,
       };
     case SEARCH_USERS_IN_GROUPS_STEP:
       return {
@@ -67,15 +67,16 @@ export default function searchResults(state = initialState, action) {
     case SEARCH_USERS_IN_GROUPS_SUCCESS:
       return {
         ...state,
-        searchResults: action.searchResults && action.searchResults.length ? [...action.searchResults] : [],
-        btnSaveShow: true
+        searchResults: action.searchResults && action.searchResults.length
+          ? [...action.searchResults] : [],
+        btnSaveShow: true,
       };
     case LOAD_SLICE_USERS_SUCCESS:
       return {
         ...state,
         users: action.users && action.users.length
-          ? [...state.users.map((el) => ({...el})), ...action.users.map((el) => ({...el}))]
-          : [...state.users.map((el) => ({...el}))]
+          ? [...state.users.map(el => ({ ...el })), ...action.users.map(el => ({ ...el }))]
+          : [...state.users.map(el => ({ ...el }))],
       };
     default:
       return state;
