@@ -107,17 +107,16 @@ export const searchInSearchObjects = ({ city, ageFrom, ageTo, sex }) =>
       return vkResponse.reduce((prev, curr) => {
         let currentResponse = curr.response;
         currentResponse = currentResponse
-          .filter(user => validateUser(user, { city, ageFrom, ageTo, sex }));
+          .filter(user => validateUser(user, { city, ageFrom, ageTo, sex }))
+          .map(user => user.id);
 
         return [...prev, ...currentResponse];
       }, []);
     });
 
     const arrayResults = await Promise.all(arrayPromiseResults);
-
-    console.log(arrayResults);
     const searchResults = arrayResults.reduce((a, b) => intersectionArrays(a, b));
-    console.log(searchResults);
+
     dispatch({
       type: SEARCH_USERS_IN_GROUPS_SUCCESS,
       searchResults,
