@@ -18,6 +18,7 @@ const initialState = {
   step: 0,
   progressGroup: 0,
   btnSaveShow: true,
+  endSearch: false,
   currentSearchId: 0,
 };
 
@@ -49,6 +50,7 @@ export default function searchResults(state = initialState, action) {
         searchParams: action.searchParams,
         groups: action.groups && action.groups.length ? [...action.groups] : [],
         noSearch: false,
+        endSearch: false,
         currentSearchId: action.currentSearchId,
         progressGroup: 0,
         step: 0,
@@ -70,6 +72,8 @@ export default function searchResults(state = initialState, action) {
         searchResults: action.searchResults && action.searchResults.length
           ? [...action.searchResults] : [],
         btnSaveShow: true,
+        endSearch: action.endSearch ? action.endSearch : false,
+        progressGroup: action.progress ? action.progress : state.progressGroup,
       };
     case LOAD_SLICE_USERS_SUCCESS:
       return {

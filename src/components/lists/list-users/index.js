@@ -1,27 +1,28 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import * as searchObjectsActions from '../../../store/actions/search-objects'
-import UserItem from './user-item'
-import HeaderListGroups from '../../other/header-list-groups/index'
+import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Modal, ModalBody, ModalFooter } from 'reactstrap';
+import * as searchObjectsActions from '../../../store/actions/search-objects';
+import UserItem from './user-item';
+import HeaderListGroups from '../../other/header-list-groups/index';
 import SearchParams from '../../other/search-params/index';
-import HeaderListPanel from '../../other/header-list-panel/index'
-import Button from '../../forms/inputs/button/index'
-import {Modal, ModalBody, ModalFooter} from 'reactstrap'
+import HeaderListPanel from '../../other/header-list-panel/index';
+import Button from '../../forms/inputs/button/index';
+import ProgressBar from '../../progress-bar';
 
-import style from './list-users.scss'
+import style from './list-users.scss';
 
 class ListUsers extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {isModalOpen: false};
+    this.state = { isModalOpen: false };
     this.modalToggle = this.modalToggle.bind(this);
     this.okModalHandler = this.okModalHandler.bind(this);
   }
 
   okModalHandler() {
     this.props.showOrderBoxModal();
-    this.setState({isModalOpen: false});
+    this.setState({ isModalOpen: false });
   }
 
   modalToggle() {
@@ -36,17 +37,25 @@ class ListUsers extends React.Component {
 
   createListUsers(users) {
     return users.map((el, i) => (
-      <a href={`https://www.vk.com/id${el.id}`} key={i} target='_blank' className={style['user-item']}>
-        <UserItem name={`${el.first_name} ${el.last_name}`}
-                  followersCount={`${this.addSpaceNumber(el.followers_count || 0)} подписчиков`}
-                  srcImg100={el.photo_100} />
-      </a>
+      el ?
+        <a
+          href={`https://www.vk.com/id${el.id}`}
+          key={el.id} target="_blank"
+          className={style['user-item']}
+        >
+          <UserItem
+            name={`${el.first_name} ${el.last_name}`}
+            followersCount={`${this.addSpaceNumber(el.followers_count || 0)} подписчиков`}
+            srcImg100={el.photo_100}
+          />
+        </a> : ''
     ));
   }
 
-  render(){
-    const {users, headerText, groups, searchParams, noSearch, btnSaveShow, addObject, isSearchSO} = this.props;
-    return(
+  render() {
+    const { users, headerText, groups, searchParams, noSearch, btnSaveShow, addObject,
+      isSearchSO, progressFilter } = this.props;
+    return (
       <div className={style['ul-screen']}>
         <Modal isOpen={this.state.isModalOpen} toggle={this.modalToggle}>
           <ModalBody>
@@ -59,31 +68,40 @@ class ListUsers extends React.Component {
         </Modal>
 
         <ul className={style['ul-users']}>
-          {headerText ? <HeaderListPanel headerText={headerText}/> : ''}
-          <HeaderListGroups groups={groups}/>
-          <SearchParams searchParams={searchParams}/>
-          <div className={style['wrap-button-save']}>
-            {btnSaveShow && !noSearch ?
-                <Button className={style['button-save']}
-                        onClick={() => addObject(this.modalToggle, isSearchSO)}>
+          {headerText ? <HeaderListPanel headerText={headerText} /> : ''}
+          <HeaderListGroups groups={groups} />
+          <SearchParams searchParams={searchParams} />
+          <div
+            className={style['wrap-button-save']}
+            style={{ border: users && users.length ? '' : 'none' }}
+          >
+            {!noSearch && (progressFilter < 100) ?
+              <ProgressBar progress={progressFilter}>
+                Фильтрация
+              </ProgressBar> : ''}
+            {progressFilter === 100 && btnSaveShow && !noSearch ?
+              <Button
+                className={style['button-save']}
+                onClick={() => addObject(this.modalToggle, isSearchSO)}
+              >
                   Сохранить результаты поиска
-                </Button>
+              </Button>
               : ''}
           </div>
 
           {users ? this.createListUsers(users) : ''}
         </ul>
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = (state) => ({
-  btnSaveShow: state.searchResults.btnSaveShow
+const mapStateToProps = state => ({
+  btnSaveShow: state.searchResults.btnSaveShow,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  ...bindActionCreators(searchObjectsActions, dispatch)
+const mapDispatchToProps = dispatch => ({
+  ...bindActionCreators(searchObjectsActions, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListUsers)
+export default connect(mapStateToProps, mapDispatchToProps)(ListUsers);

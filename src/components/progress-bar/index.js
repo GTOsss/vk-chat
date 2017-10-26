@@ -9,7 +9,7 @@ const styleLine = {
   transition: '500ms',
 };
 
-const ProgressBar = ({className, progress, lineColor, children}) => (
+const ProgressBar = ({className, progress, lineColor = '#5e81a8', children}) => (
   <div>
     {children ? <div className={style['text-label']}>{children}</div> : ''}
     <div className={cx(className, style['progress-bar-box'])}>

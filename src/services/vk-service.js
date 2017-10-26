@@ -1,5 +1,5 @@
 class ErrorVkResponse {
-  constructor({error: {error_code, error_msg}}) {
+  constructor({ error: { error_code, error_msg } }) {
     console.error(`---> VK API Error ${error_code}: ${error_msg}`);
     this.message = 'Ошибка при обращении к VK API';
     this.vkErrorCode = error_code;
@@ -13,58 +13,69 @@ export const testResponse = (resp) => {
   }
 };
 
-export const vkApi = (method, params) => {
-  return new Promise((resolve) => {
+export const vkApi = (method, params) => new Promise((resolve) => {
+  VK.api(method, params, (response) => {
+    testResponse(response);
+    resolve(response);
+  });
+});
+
+const vkApiTimeoutRequest = (method, params, timeoutErrorTime = 10000) => {
+  let timerId;
+  const requestPromise = new Promise((resolve) => {
     VK.api(method, params, (response) => {
+      clearTimeout(timerId);
       testResponse(response);
       resolve(response);
     });
-  })
-};
-
-export const vkApiTimeout = async (method, params, time, timeoutError = 5000, callback) => {
-  for(let i = 0; i < 5; i++) {
-    let result = await vkApiTimeoutRequest(method, params, time, timeoutError);
-    if(result !== 'timeout') {
-      if (callback) callback();
-      return new Promise((resolve) => {
-        resolve(result);
-      });
-    }
-  }
-
-  return new Promise((resolve, reject) => {
-    reject(`Timeout error (${timeoutError*5/100}s)`);
-  })
-};
-
-const vkApiTimeoutRequest = (method, params, time, timeoutError) => {
-  let timerId;
-
-  let requestPromise = new Promise((resolve) => {
-    setTimeout(() => {
-      VK.api(method, params, (response) => {
-        clearTimeout(timerId);
-        testResponse(response);
-        resolve(response);
-      })
-    }, time);
   });
 
-  let timeoutPromise = new Promise((resolve) => {
-    timerId = setTimeout(() => {
+  const timeoutPromise = new Promise(() => {
+    timerId = setTimeout((resolve) => {
       console.warn('timeout');
       resolve('timeout');
-    }, timeoutError)
+    }, timeoutErrorTime);
   });
 
-  return Promise.race([requestPromise, timeoutPromise])
+  return Promise.race([requestPromise, timeoutPromise]);
 };
 
+// export const vkApiSetTimeout = async (method, params, time, timeoutError = 5000, callback) => {
+//   for (let i = 0; i < 5; i += 1) {
+//     // eslint-disable-next-line no-await-in-loop
+//     const result = await vkApiTimeoutRequest(method, params, time, timeoutError);
+//     if (result !== 'timeout') {
+//       if (callback) callback();
+//       return new Promise((resolve) => {
+//         resolve(result);
+//       });
+//     }
+//   }
+//
+//   return new Promise((resolve, reject) => {
+//     reject(`Timeout error (${timeoutError * 5 / 100}s)`);
+//   });
+// };
+
+export const vkApiTimeout = (method, params, timeoutErrorTime = 10000,
+  attemptCount = 5) => new Promise(async (resolve, reject) => {
+  for (let i = 0; i < attemptCount; i += 1) {
+    const result = await vkApiTimeoutRequest(method, params, timeoutErrorTime);
+    if (result !== 'timeout') {
+      resolve(result);
+      return;
+    }
+
+    if (i === attemptCount) {
+      reject(result);
+    }
+  }
+});
+
 export const showOrderBox = () => {
-  let params = {
+  const params = {
     type: 'votes',
-    votes: 7
+    votes: 7,
   };
 
   return new Promise((resolve, reject) => {

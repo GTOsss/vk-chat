@@ -1,15 +1,18 @@
-import React from 'react'
-import ListUsersComponent from '../../lists/list-users/index'
+import React from 'react';
+import ListUsersComponent from '../../lists/list-users/index';
 
-const listUsers = ({isSearchSO, users, groups, searchParams, usersCount, noSearch}) => (
+const listUsers = ({ isSearchSO, users, groups, searchParams, usersCount, noSearch, progressFilter }) => (
   <div>
-    { (users && users.length) ? <ListUsersComponent users={users}
-                                                    groups={groups}
-                                                    searchParams={searchParams}
-                                                    headerText={`Найдено ${usersCount}`}
-                                                    noSearch={noSearch}
-                                                    isSearchSO={isSearchSO}/> : '' }
+    <ListUsersComponent
+      users={users}
+      groups={groups}
+      searchParams={searchParams}
+      headerText={`Найдено ${usersCount}`}
+      noSearch={noSearch}
+      isSearchSO={isSearchSO}
+      progressFilter={progressFilter}
+    />
   </div>
 );
 
-export default listUsers
+export default listUsers;

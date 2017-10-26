@@ -9,6 +9,12 @@
   height: auto;
 }
 
+.user-item-wrap {
+  composes: li-default;
+  height: auto;
+  border: none;
+}
+
 .user-photo {
   border-radius: 15%;
 }

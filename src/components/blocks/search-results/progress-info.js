@@ -14,11 +14,11 @@ const ProgressInfo = ({count, value, progressGroup, groups, searchParams, curren
     <HeaderListGroups groups={groups}/>
     <SearchParams searchParams={searchParams}/>
     {progressGroup
-      ? <ProgressBar lineColor='#5e81a8' progress={progressGroup}>
+      ? <ProgressBar progress={progressGroup}>
         {`Поиск в текущей группе: ${addSpaceNumber(currentMembersCount)} участников`}
       </ProgressBar> : ''}
 
-    <ProgressBar lineColor='#5e81a8' progress={value / count * 100}>
+    <ProgressBar progress={value / count * 100}>
       {`Произведен поиск в группах: ${value} из ${count}`}
     </ProgressBar>
   </div>

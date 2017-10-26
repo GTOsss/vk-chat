@@ -3,7 +3,7 @@ import React from 'react'
 import style from './list-users.scss'
 
 const GroupItem = ({name, followersCount, srcImg100}) => (
-  <li className={style['user-item']}>
+  <li className={style['user-item-wrap']}>
     <div>
       <img src={srcImg100} className={style['user-photo']}/>
     </div>

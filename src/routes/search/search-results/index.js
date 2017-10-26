@@ -47,7 +47,7 @@ const mapStateToProps = (state) => {
     step: state.searchResults.step,
     searchParams: state.searchResults.searchParams,
     progressGroup: state.searchResults.progressGroup,
-    loadingSlice: state.loading.loadingObj.sliceUsers
+    loadingSlice: state.loading.loadingObj.sliceUsers,
   })
 };
 
