@@ -14,10 +14,13 @@ export const intersectionArrays = (ar1, ar2) => {
         return false;
       }
     }
+    return false;
   });
 };
 
-export const validateUser = (el, { city, ageFrom, ageTo, sex }) => {
+export const validateUser = (el, { city, ageFromArg, ageToArg, sex }) => {
+  let ageFrom = ageFromArg;
+  let ageTo = ageToArg;
   const filterCity = !city || (el.city && (city === el.city.id));
   const filterSex = (!sex || sex === '0') || (sex.toString() === el.sex.toString());
   const age = moment().diff(moment(el.bdate, 'DD.MM.YYYY'), 'years');
@@ -26,6 +29,6 @@ export const validateUser = (el, { city, ageFrom, ageTo, sex }) => {
     ageTo = !ageTo ? 100 : ageTo;
     ageFrom = !ageFrom ? 0 : ageFrom;
   }
-  const filterAge = (!ageTo && !ageFrom) || isAgeFilter && ((age <= ageTo) && (age >= ageFrom));
+  const filterAge = (!ageTo && !ageFrom) || (isAgeFilter && ((age <= ageTo) && (age >= ageFrom)));
   return filterCity && filterSex && filterAge && !el.deactivated;
 };

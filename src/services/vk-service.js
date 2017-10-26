@@ -1,9 +1,9 @@
 class ErrorVkResponse {
-  constructor({ error: { error_code, error_msg } }) {
-    console.error(`---> VK API Error ${error_code}: ${error_msg}`);
+  constructor({ error: { error_code: errorCode, error_msg } }) {
+    console.error(`---> VK API Error ${errorCode}: ${errorCode}`);
     this.message = 'Ошибка при обращении к VK API';
-    this.vkErrorCode = error_code;
-    this.vkErrorMsg = error_msg;
+    this.vkErrorCode = errorCode;
+    this.vkErrorMsg = errorCode;
   }
 }
 
@@ -40,26 +40,10 @@ const vkApiTimeoutRequest = (method, params, timeoutErrorTime = 10000) => {
   return Promise.race([requestPromise, timeoutPromise]);
 };
 
-// export const vkApiSetTimeout = async (method, params, time, timeoutError = 5000, callback) => {
-//   for (let i = 0; i < 5; i += 1) {
-//     // eslint-disable-next-line no-await-in-loop
-//     const result = await vkApiTimeoutRequest(method, params, time, timeoutError);
-//     if (result !== 'timeout') {
-//       if (callback) callback();
-//       return new Promise((resolve) => {
-//         resolve(result);
-//       });
-//     }
-//   }
-//
-//   return new Promise((resolve, reject) => {
-//     reject(`Timeout error (${timeoutError * 5 / 100}s)`);
-//   });
-// };
-
 export const vkApiTimeout = (method, params, timeoutErrorTime = 10000,
   attemptCount = 5) => new Promise(async (resolve, reject) => {
   for (let i = 0; i < attemptCount; i += 1) {
+    // eslint-disable-next-line
     const result = await vkApiTimeoutRequest(method, params, timeoutErrorTime);
     if (result !== 'timeout') {
       resolve(result);
@@ -79,23 +63,27 @@ export const showOrderBox = () => {
   };
 
   return new Promise((resolve, reject) => {
+    let onSuccess;
+    let onFail;
+    let onCancel;
+
     const clearCallbacks = () => {
       VK.removeCallback('onOrderSuccess', onSuccess);
       VK.removeCallback('onOrderFail', onFail);
       VK.removeCallback('onOrderCancel', onCancel);
     };
 
-    const onSuccess = (res) => {
+    onSuccess = (res) => {
       resolve(res);
       clearCallbacks();
     };
 
-    const onFail = () => {
+    onFail = () => {
       reject('Order fail.');
       clearCallbacks();
     };
 
-    const onCancel = () => {
+    onCancel = () => {
       reject('Order cancel.');
       clearCallbacks();
     };
