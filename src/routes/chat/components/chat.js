@@ -123,10 +123,6 @@ class Chat extends React.Component {
         this.props.onClickItemConnectHandler(group.id);
       }
     }
-
-    // if (this.state.isMinimized) {
-    // } else {
-    // }
   }
 
   render() {
@@ -175,16 +171,9 @@ class Chat extends React.Component {
                     headerStyle={!this.state.isMinimized ? {
                       marginTop: '0px',
                       transition: 'margin-top 150ms linear 600ms',
-                      // visibility: 'visible',
-                      // position: 'static',
-                      // transition: 'visibility 0ms linear 600ms',
                     } : {
-                      // visibility: 'hidden',
-                      // position: 'absolute',
                       marginTop: '-72px',
                       transition: 'margin-top  150ms linear 0ms',
-                      // minWidth: '300px',
-                      // transition: 'margin-top 200ms linear 0s',
                     }}
                     noHeaderListGroups
                     noMargin
