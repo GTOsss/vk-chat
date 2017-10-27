@@ -1,59 +1,63 @@
-import React from 'react'
-import SearchResultsComponent from '../../../components/blocks/search-results'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-import * as usersAction from '../../../store/actions/user'
-import * as searchResultsAction from '../../../store/actions/search-results'
+import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
+import SearchResultsComponent from '../../../components/blocks/search-results';
+import * as usersAction from '../../../store/actions/user';
 
-class SearchResults extends React.Component {
+class SearchResults extends React.PureComponent {
   constructor(props) {
     super(props);
     this.onScrollHandler = this.onScrollHandler.bind(this);
     this.setRefList = this.setRefList.bind(this);
   }
 
-  setRefList(el) {
-    this.list = el;
-  }
-
   componentDidUpdate(previousProps) {
-    if(previousProps.users.length !== this.props.users.length){
+    if (previousProps.countUsers !== this.props.countUsers) {
       this.load = false;
     }
   }
 
-  onScrollHandler({target}) {
-    if(!this.load && (target.scrollTop + target.clientHeight + 100 >= this.list.clientHeight)) {
-      this.props.loadSliceUsers(this.props.users.length, 20);
+  onScrollHandler({ target }) {
+    if (!this.load && (target.scrollTop + target.clientHeight + 100 >= this.list.clientHeight)) {
+      this.props.actions.loadSliceUsers(this.props.countUsers, 20);
       this.load = true;
     }
   }
 
+  setRefList(el) {
+    this.list = el;
+  }
+
   render() {
     return (
-      <SearchResultsComponent {...this.props}
-                              onScroll={this.onScrollHandler}
-                              setRefList={this.setRefList}/>
-    )
+      <SearchResultsComponent
+        {...this.props}
+        onScroll={this.onScrollHandler}
+        setRefList={this.setRefList}
+      />
+    );
   }
 }
 
-const mapStateToProps = (state) => {
-  return ({
-    users: state.searchResults.users,
-    usersCount: state.searchResults.searchResults.length,
-    groups: state.user.groups,
-    groupsCount: state.searchResults.groupsCount,
-    step: state.searchResults.step,
-    searchParams: state.searchResults.searchParams,
-    progressGroup: state.searchResults.progressGroup,
-    loadingSlice: state.loading.loadingObj.sliceUsers,
-  })
+SearchResults.propTypes = {
+  actions: PropTypes.objectOf(PropTypes.func).isRequired,
+  countUsers: PropTypes.number,
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  ...bindActionCreators(usersAction, dispatch),
-  ...bindActionCreators(searchResultsAction, dispatch)
+SearchResults.defaultProps = {
+  countUsers: 0,
+};
+
+const mapStateToProps = state => ({
+  countUsers: state.searchResults.users.length,
+  groups: state.user.groups,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchResults)
+const mapDispatchToProps = dispatch => ({
+  actions: {
+    ...bindActionCreators(usersAction, dispatch),
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);

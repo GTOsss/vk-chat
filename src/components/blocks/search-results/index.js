@@ -8,7 +8,7 @@ import style from './search-results.scss';
 
 const SearchResults = ({ users, groupsCount, step, progressGroup, setRefList, loadingSlice,
   currentMembersCount, endSearch, groups, searchParams, onScroll, usersCount, noSearch,
-  isSearchSO }) => (
+  isSearchSO, actions }) => (
   <div className={style['wrap-scroll']} onScroll={onScroll}>
       <div className="container-fluid">
       <div className="row" ref={setRefList}>
@@ -44,7 +44,15 @@ const SearchResults = ({ users, groupsCount, step, progressGroup, setRefList, lo
 );
 
 const mapStateToProps = state => ({
+  users: state.searchResults.users,
   endSearch: state.searchResults.endSearch,
+  usersCount: state.searchResults.searchResults.length,
+  groupsCount: state.searchResults.groupsCount,
+  step: state.searchResults.step,
+  searchParams: state.searchResults.searchParams,
+  progressGroup: state.searchResults.progressGroup,
+  loadingSlice: state.loading.loadingObj.sliceUsers,
+  noSearch: state.searchResults.noSearch,
   currentMembersCount: (state.searchResults.currentGroupSearch
     && state.searchResults.currentGroupSearch.members_count) || 0,
 });
