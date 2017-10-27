@@ -1,14 +1,24 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import MenuComponent from './comopnents/menu'
-import * as searchObjectsActions from '../../store/actions/search-objects'
-import * as searchResultsActions from '../../store/actions/search-results'
+import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
+import MenuComponent from './comopnents/menu';
+import * as searchObjectsActions from '../../store/actions/search-objects';
+import * as searchResultsActions from '../../store/actions/search-results';
 
 class Menu extends React.Component {
+  static isBtnSearchDisable(searchObjects) {
+    for (let i = 0; i < searchObjects.length; i += 1) {
+      if (searchObjects[i].isMarked) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   constructor(props) {
     super(props);
-    this.state = {isModalOpen: false};
+    this.state = { isModalOpen: false };
     this.onIconClickHandle = this.onIconClickHandle.bind(this);
     this.deleteSearchObject = this.deleteSearchObject.bind(this);
     this.onSubmitHandle = this.onSubmitHandle.bind(this);
@@ -17,72 +27,81 @@ class Menu extends React.Component {
   }
 
   componentWillMount() {
-    this.props.updateSearchObjects();
+    this.props.actions.updateSearchObjects();
   }
 
   onSubmitHandle(values) {
-    this.props.searchInSearchObjects({...values});
+    this.props.actions.searchInSearchObjects({ ...values });
     this.props.router.push('/menu/search-results');
   }
 
   onIconClickHandle(id) {
-    this.props.markObject(id);
+    this.props.actions.markObject(id);
   }
 
   deleteSearchObject() {
-    if(this.state.currentId) {
-      this.props.deleteObject(this.state.currentId);
+    if (this.state.currentId) {
+      this.props.actions.deleteObject(this.state.currentId);
     }
-    this.setState({isModalOpen: false})
+    this.setState({ isModalOpen: false });
   }
 
   modalToggle(id) {
     this.setState({
       isModalOpen: !this.state.isModalOpen,
-      currentId: id
+      currentId: id,
     });
   }
 
   headerClickHandler(obj) {
-    this.props.loadUsers(obj);
+    this.props.actions.loadUsers(obj);
     this.props.router.push('/menu/search-results');
   }
 
-  isBtnSearchDisable(searchObjects) {
-    for(let i = 0; i < searchObjects.length; i++) {
-      if(searchObjects[i].isMarked) {
-        return false;
-      }
-    }
-    return true;
-  }
-
   render() {
-    const {children, searchObjects, loadingObj} = this.props;
+    const { children, searchObjects, loadingObj } = this.props;
     return (
       <div>
-        { children ? children : <MenuComponent searchObjects={searchObjects}
-                                               onSubmitHandle={this.onSubmitHandle}
-                                               iconClickHandler={this.onIconClickHandle}
-                                               loading={loadingObj.searchObjects}
-                                               isModalOpen={this.state.isModalOpen}
-                                               modalToggle={this.modalToggle}
-                                               deleteSearchObject={this.deleteSearchObject}
-                                               headerClickHandler={this.headerClickHandler}
-                                               isBtnSearchDisable={this.isBtnSearchDisable(searchObjects)}/> }
+        { children || <MenuComponent
+          searchObjects={searchObjects}
+          onSubmitHandle={this.onSubmitHandle}
+          iconClickHandler={this.onIconClickHandle}
+          loading={loadingObj.searchObjects}
+          isModalOpen={this.state.isModalOpen}
+          modalToggle={this.modalToggle}
+          deleteSearchObject={this.deleteSearchObject}
+          headerClickHandler={this.headerClickHandler}
+          isBtnSearchDisable={Menu.isBtnSearchDisable(searchObjects)}
+        /> }
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = (state) => ({
+Menu.propTypes = {
+  children: PropTypes.any, // eslint-disable-line
+  actions: PropTypes.objectOf(PropTypes.func).isRequired,
+  router: PropTypes.objectOf(PropTypes.any),
+  searchObjects: PropTypes.arrayOf(PropTypes.any),
+  loadingObj: PropTypes.objectOf(PropTypes.bool),
+};
+
+Menu.defaultProps = {
+  searchObjects: [],
+  loadingObj: true,
+  router: {},
+};
+
+const mapStateToProps = state => ({
   searchObjects: state.searchObjects.objects,
-  loadingObj: state.loading.loadingObj
+  loadingObj: state.loading.loadingObj,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  ...bindActionCreators(searchObjectsActions, dispatch),
-  ...bindActionCreators(searchResultsActions, dispatch)
+const mapDispatchToProps = dispatch => ({
+  actions: {
+    ...bindActionCreators(searchObjectsActions, dispatch),
+    ...bindActionCreators(searchResultsActions, dispatch),
+  },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Menu)
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);
