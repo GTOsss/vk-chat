@@ -1,15 +1,15 @@
 import React from 'react';
 import ResizeIcon from 'react-icons/lib/md/aspect-ratio';
+import PropTypes from 'prop-types';
 import ConnectInfoIcon from '../../../components/icons/connect-info';
 
 import style from './chat.scss';
 
-const ResizePanel = ({
-  onClickResize, onClickFilter, inverseIcon, isConnect, showOtherIcon, css, isMinimized,
+const ResizePanel = ({ onClickResize, onClickFilter, inverseIcon, isConnect, showOtherIcon,
+  css, isMinimized,
 }) => (
   <div
     className={style['minimize-group-list-header']}
-    // style={{ marginLeft: isMinimized ? '-8px' : '-16px' }}
   >
     <div className={style['inner-wrap']} style={css}>
       <div>
@@ -23,10 +23,34 @@ const ResizePanel = ({
   </div>
 );
 
+ResizePanel.propTypes = {
+  onClickResize: PropTypes.func,
+  onClickFilter: PropTypes.func,
+  inverseIcon: PropTypes.bool,
+  isConnect: PropTypes.bool,
+  showOtherIcon: PropTypes.bool,
+  isMinimized: PropTypes.bool,
+  css: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
+};
+
+ResizePanel.defaultProps = {
+  onClickResize: null,
+  onClickFilter: null,
+  inverseIcon: false,
+  isConnect: false,
+  showOtherIcon: false,
+  isMinimized: false,
+  css: {},
+};
+
 const TitlePanel = ({ title }) => (
   <div className={style['minimize-group-list-header-chat']} style={{ color: 'white' }}>
     {title}
   </div>
 );
+
+TitlePanel.propTypes = {
+  title: PropTypes.any, // eslint-disable-line
+};
 
 export { ResizePanel, TitlePanel };
