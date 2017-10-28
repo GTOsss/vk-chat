@@ -1,10 +1,16 @@
-import React from 'react'
-import ChatForm from '../../forms/chat'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const Chat = ({onSubmit}) => (
+import ChatForm from '../../forms/chat';
+
+const Chat = ({ onSubmit }) => (
   <div>
-    <ChatForm onSubmit={onSubmit}/>
+    <ChatForm onSubmit={onSubmit} />
   </div>
 );
 
-export default Chat
+Chat.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
+
+export default Chat;

@@ -1,28 +1,39 @@
-import React from 'react'
+import React from 'react';
 import cx from 'classnames';
+import PropTypes from 'prop-types';
 
-import style from './header-list-groups.scss'
+import style from './header-list-groups.scss';
 
-const createListGroups = (groups, onClick) => {
-  let listGroups = groups.filter((el) => el.isMarked);
-  listGroups.sort((a, b) => (a.timeMarked > b.timeMarked) ? 1 : -1);
-  return listGroups.map((el, i) => {
-    if (el.isMarked) {
-      return (
-        <div key={i} className={style['group-item']}>
-          <img src={el.photo_50}
-               onClick={onClick ? () => onClick(el.id) : ''}
-               className={style['group-photo']}/>
-        </div>
-      )
-    }
-  });
-};
-
-const HeaderListGroups = ({groups, onClick, className}) => (
+const HeaderListGroups = ({ groups, onClick, className }) => (
   <div className={cx(style['header-list'], className)}>
-    {createListGroups(groups, onClick)}
+    {groups.map((el) => {
+      if (el.isMarked) {
+        return (
+          <div key={el.id} className={style['group-item']}>
+            <img
+              src={el.photo_50}
+              alt={'загрузка...'}
+              onClick={onClick ? () => onClick(el.id) : ''}
+              className={style['group-photo']}
+            />
+          </div>
+        );
+      }
+      return null;
+    })}
   </div>
 );
 
-export default HeaderListGroups
+HeaderListGroups.propTypes = {
+  groups: PropTypes.arrayOf(PropTypes.object),
+  onClick: PropTypes.func,
+  className: PropTypes.string,
+};
+
+HeaderListGroups.defaultProps = {
+  groups: [],
+  onClick: null,
+  className: '',
+};
+
+export default HeaderListGroups;
