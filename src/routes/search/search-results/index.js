@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import SearchResultsComponent from '../../../components/blocks/search-results';
 import * as usersAction from '../../../store/actions/user';
+import * as searchResultsActions from '../../../store/actions/search-results';
 
 class SearchResults extends React.PureComponent {
   constructor(props) {
@@ -57,6 +58,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   actions: {
     ...bindActionCreators(usersAction, dispatch),
+    ...bindActionCreators(searchResultsActions, dispatch),
   },
 });
 

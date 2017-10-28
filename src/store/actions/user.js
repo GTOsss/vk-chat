@@ -15,11 +15,13 @@ import {
 
 const getURLParam = require('get-url-param');
 
-export const updateGroups = (userId, idMarkedGroups) => (dispatch) => {
+export const updateGroups = (userId, idMarkedGroups) => (dispatch, getState) => {
   dispatch({
     type: TOGGLE_LOADING,
     loadingObj: { groups: true },
   });
+
+  const accessToken = getState().user.vkInfo.accessToken;
 
   VK.api('groups.get', {
     user_id: userId,
@@ -29,6 +31,7 @@ export const updateGroups = (userId, idMarkedGroups) => (dispatch) => {
     offset: 0,
     count: 100,
     version: 5.67,
+    access_token: accessToken,
   }, (resp) => {
     try {
       testResponse(resp);

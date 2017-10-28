@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import SearchResultsComponent from '../../../components/blocks/search-results';
 import * as userActions from '../../../store/actions/user';
+import * as searchResultsActions from '../../../store/actions/search-results';
 
 class SearchResults extends React.Component {
   constructor(props) {
@@ -51,13 +52,16 @@ SearchResults.defaultProps = {
 };
 
 const mapStateToProps = state => ({
+  countUsers: state.searchResults.users.length,
   groups: state.searchResults.groups,
 });
 
 const mapDispatchToProps = dispatch => ({
   actions: {
     ...bindActionCreators(userActions, dispatch),
+    ...bindActionCreators(searchResultsActions, dispatch),
   },
 });
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);
