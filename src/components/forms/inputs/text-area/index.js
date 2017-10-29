@@ -1,14 +1,15 @@
-import React from 'react'
-import Textarea from 'react-textarea-autosize'
-import cx from 'classnames'
+import React from 'react';
+import Textarea from 'react-textarea-autosize';
+import PropTypes from 'prop-types';
+import cx from 'classnames';
 
-import style from './text-area.scss'
+import style from './text-area.scss';
 
 class TextArea extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      inputValue: ''
+      inputValue: '',
     };
 
     this.onBlurHandler = this.onBlurHandler.bind(this);
@@ -16,24 +17,24 @@ class TextArea extends React.PureComponent {
     this.onChangeHandler = this.onChangeHandler.bind(this);
   }
 
-  onBlurHandler({target: {value}}) {
+  onBlurHandler({ target: { value } }) {
     this.props.input.onChange(value);
   }
 
-  onChangeHandler({target: {value}}) {
-    this.setState({'inputValue': value});
+  onChangeHandler({ target: { value } }) {
+    this.setState({ inputValue: value });
   }
 
 
   clearInput() {
     this.props.input.onChange('');
     this.setState({
-      inputValue: ''
-    })
+      inputValue: '',
+    });
   }
 
   render() {
-    const {input: {value}, placeholder, isClearBtn, cssWrap} = this.props;
+    const { input: { value }, placeholder, isClearBtn, cssWrap } = this.props;
     if (this.didMount) {
       this.input.textContent = value;
       this.didMount = false;
@@ -41,16 +42,20 @@ class TextArea extends React.PureComponent {
 
     return (
       <div className={style['wrap-input']} style={cssWrap}>
-        <Textarea className={cx(style['input'], style['scroll'])}
-                  defaultValue={value}
-                  placeholder={placeholder}
-                  onChange={this.onChangeHandler}
-                  onBlur={this.onBlurHandler}
-                  minRows={1}
-                  maxRows={4}/>
+        <Textarea
+          className={cx(style.input, style.scroll)}
+          defaultValue={value}
+          placeholder={placeholder}
+          onChange={this.onChangeHandler}
+          onBlur={this.onBlurHandler}
+          minRows={1}
+          maxRows={4}
+        />
         {!this.state.inputValue && isClearBtn ?
-          <div className={style['clear-btn']}
-               onClick={this.clearInput}>
+          <div
+            className={style['clear-btn']}
+            onClick={this.clearInput}
+          >
             ×
           </div> : ''}
       </div>
@@ -58,4 +63,18 @@ class TextArea extends React.PureComponent {
   }
 }
 
-export default TextArea
+TextArea.propTypes = {
+  input: PropTypes.objectOf(PropTypes.any),
+  placeholder: PropTypes.string,
+  isClearBtn: PropTypes.bool,
+  cssWrap: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
+};
+
+TextArea.defaultProps = {
+  input: {},
+  placeholder: '',
+  isClearBtn: false,
+  cssWrap: {},
+};
+
+export default TextArea;
