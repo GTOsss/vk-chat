@@ -10,42 +10,49 @@ import style from './chat.scss';
 
 const messages = [
   {
+    id: 0,
     sender: 'Вася Петрович',
     date: '16.09.2017 18:24',
     message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias animi architecto at, consequuntur culpa deleniti distinctio doloremque doloribus ea eos exercitationem illum incidunt labore molestias mollitia neque nesciunt non numquam pariatur perferendis perspiciatis quibusdam, quidem quis quisquam sit totam, voluptates.',
     photo_50: 'https://pp.userapi.com/c837233/v837233689/3c60f/SBpJx01HHn0.jpg',
   },
   {
+    id: 1,
     sender: 'Вася Петрович',
     date: '16.09.2017 18:24',
     message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias animi architecto at, consequuntur culpa deleniti distinctio doloremque doloribus ea eos exercitationem illum incidunt labore molestias mollitia neque nesciunt non numquam pariatur perferendis perspiciatis quibusdam, quidem quis quisquam sit totam, voluptates.',
     photo_50: 'https://pp.userapi.com/c837233/v837233689/3c60f/SBpJx01HHn0.jpg',
   },
   {
+    id: 2,
     sender: 'Вася Петрович',
     date: '16.09.2017 18:24',
     message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias animi architecto at, consequuntur culpa deleniti distinctio doloremque doloribus ea eos exercitationem illum incidunt labore molestias mollitia neque nesciunt non numquam pariatur perferendis perspiciatis quibusdam, quidem quis quisquam sit totam, voluptates.',
     photo_50: 'https://pp.userapi.com/c837233/v837233689/3c60f/SBpJx01HHn0.jpg',
   },
   {
+    id: 3,
     sender: 'Вася Петрович',
     date: '16.09.2017 18:24',
     message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias animi architecto at, consequuntur culpa deleniti distinctio doloremque doloribus ea eos exercitationem illum incidunt labore molestias mollitia neque nesciunt non numquam pariatur perferendis perspiciatis quibusdam, quidem quis quisquam sit totam, voluptates.',
     photo_50: 'https://pp.userapi.com/c837233/v837233689/3c60f/SBpJx01HHn0.jpg',
   },
   {
+    id: 4,
     sender: 'Вася Петрович',
     date: '16.09.2016 18:24',
     message: 'erspiciatis quibusdam, quidem quis quisquam sit totam, voluptates.',
     photo_50: 'https://pp.userapi.com/c836729/v836729561/15160/nhtiK9bdKcY.jpg',
   },
   {
+    id: 5,
     sender: 'Вася Петрович',
     date: '16.09.2015 18:24',
     message: 'piciatis quibusdam, quidem quis quisquam sipiciatis quibusdam, quidem quis quisquam si',
     photo_50: 'https://pp.userapi.com/c837233/v837233689/3c60f/SBpJx01HHn0.jpg',
   },
   {
+    id: 6,
     sender: 'Вася Петрович',
     date: '16.09.2014 18:24',
     message: ' untur culpa deleniti distinctio doloremque doloribus ea eos exercitats molliiunt non numquam pariatur perferendis perspiciatis quibusdam, quidem quis uptates.',
