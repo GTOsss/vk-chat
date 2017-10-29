@@ -102,7 +102,7 @@ ListUsers.propTypes = {
   noSearch: PropTypes.bool,
   btnSaveShow: PropTypes.bool,
   isSearchSO: PropTypes.bool,
-  addObject: PropTypes.func.isRequired,
+  addObject: PropTypes.func,
   progressFilter: PropTypes.number,
   actions: PropTypes.objectOf(PropTypes.func).isRequired,
 };
@@ -116,6 +116,7 @@ ListUsers.defaultProps = {
   btnSaveShow: false,
   isSearchSO: false,
   progressFilter: 0,
+  addObject: null,
 };
 
 const mapStateToProps = state => ({
