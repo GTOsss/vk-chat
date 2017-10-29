@@ -83,7 +83,7 @@ Menu.propTypes = {
   actions: PropTypes.objectOf(PropTypes.func).isRequired,
   router: PropTypes.objectOf(PropTypes.any),
   searchObjects: PropTypes.arrayOf(PropTypes.any),
-  loadingObj: PropTypes.objectOf(PropTypes.bool),
+  loadingObj: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.bool, PropTypes.number])),
 };
 
 Menu.defaultProps = {
