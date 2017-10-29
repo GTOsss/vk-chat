@@ -32,7 +32,7 @@ const ListMessages = ({
     >
       {messages.map((el, i) => (
         <MessageItem
-          key={i} // TODO set id
+          key={el.id} // TODO set id
           title={el.sender}
           text={el.message}
           date={el.date}

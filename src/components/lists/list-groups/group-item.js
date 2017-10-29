@@ -35,8 +35,6 @@ class GroupItem extends React.PureComponent {
           : cx(style['group-item'], isSelect ? style['group-item-active'] : '')}
         onClick={this.onClickHandler}
         style={{
-          //  transition: '300ms linear 0s',
-          //  transitionProperty: 'height, width',
           height: minimize ? '51px' : '74px',
           padding: cssPaddingItem,
         }}
@@ -45,15 +43,12 @@ class GroupItem extends React.PureComponent {
           <img
             src={srcImg50}
             alt={'загрузка...'}
-            // style={{transition: 'height 300ms linear 0s, width'}}
             className={minimize ? style['group-photo-minimize'] : style['group-photo']}
           />
         </div>
 
         <div
           style={{
-          //   transition: 'opacity 200ms linear',
-          //   transitionDelay: !listConnectsMinimize ? '0ms' : '700ms',
             position: minimize ? 'absolute' : 'static',
             opacity: minimize ? 0 : 1,
             width: minimize ? '130px' : 'auto',
@@ -67,10 +62,7 @@ class GroupItem extends React.PureComponent {
         <div
           className={style['wrap-massage-info']}
           style={{
-          //   transition: 'opacity 200ms linear 0s',
-          //   opacity: listConnectsMinimize ? 1 : 0,
             visibility: isChat ? 'visible' : 'hidden',
-            //   transitionDelay: listConnectsMinimize ? '0ms' : '700ms',
             position: minimize && isChat ? 'static' : 'absolute',
             height: 'inherit',
           }}
@@ -81,10 +73,7 @@ class GroupItem extends React.PureComponent {
 
         <div
           style={{
-          //   transition: 'opacity 200ms linear 0s',
-          //   opacity: minimize ? 1 : 0,
             visibility: minimize && !isChat ? 'visible' : 'hidden',
-            //   transitionDelay: listConnectsMinimize ? '0ms' : '700ms',
             position: minimize && !isChat ? 'static' : 'absolute',
             height: 'inherit',
           }}

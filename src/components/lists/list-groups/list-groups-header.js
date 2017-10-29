@@ -16,7 +16,7 @@ const ListGroupsHeader = ({ onClick, groups }) => (
     {isMarked(groups) ?
       <HeaderListGroups
         groups={groups}
-        className={[style['header-list-groups']]}
+        className={style['header-list-groups']}
         onClick={onClick}
       /> :
       <div className={style['header-list-groups-text']}>Выберите группы из списка</div>}
