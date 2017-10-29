@@ -16,10 +16,10 @@ InputRadio.propTypes = {
   children: PropTypes.any, // eslint-disable-line
   name: PropTypes.string,
   className: PropTypes.string,
+  labelFor: PropTypes.string,
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   onClick: PropTypes.func,
   active: PropTypes.bool,
-  labelFor: PropTypes.bool,
 };
 
 InputRadio.defaultProps = {
