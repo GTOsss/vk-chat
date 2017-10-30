@@ -1,6 +1,11 @@
 @import '../../../style/variables';
 @import '../../../style/main';
 
+.wrap-filter {
+  padding-bottom: 16px;
+  border-bottom: 1px #a5a5a5 solid;
+}
+
 .ul-groups {
   composes: ul-default;
   overflow: hidden;

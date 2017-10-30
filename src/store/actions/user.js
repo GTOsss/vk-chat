@@ -64,41 +64,6 @@ export const updateGroups = (userId, idMarkedGroups) => (dispatch, getState) => 
   });
 };
 
-export const groupsFilter = filterStr => (dispatch, getState) => {
-  if (filterStr === '') {
-    const groups = getState().user.groups;
-    const markedGroups = [];
-    groups.forEach((el) => {
-      if (el.isMarked) {
-        markedGroups.push({
-          id: el.id,
-          timeMarked: el.timeMarked,
-        });
-      }
-    });
-
-    dispatch({
-      type: UPDATE_GROUPS_SUCCESS,
-      groups: [],
-    });
-
-    dispatch(updateGroups(getState().user.vkInfo.viewerId, markedGroups));
-    return;
-  }
-
-  const groups = getState().user.groups;
-  groups.sort((a, b) => {
-    const aIndex = a.name.toLowerCase().indexOf(filterStr.toLowerCase());
-    const bIndex = b.name.toLowerCase().indexOf(filterStr.toLowerCase());
-    return aIndex > bIndex ? -1 : 1;
-  });
-
-  dispatch({
-    type: UPDATE_GROUPS_SUCCESS,
-    groups,
-  });
-};
-
 export const loadSliceGroups = (offset, count) => async (dispatch, getState) => {
   dispatch({
     type: TOGGLE_LOADING,
