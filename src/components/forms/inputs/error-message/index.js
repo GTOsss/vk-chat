@@ -1,9 +1,14 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import style from './error-message.scss'
+import style from './error-message.scss';
 
-const ErrorMessage = ({error}) => (
+const ErrorMessage = ({ error }) => (
   <span className={style['error-message']}>{error}</span>
 );
 
-export default ErrorMessage
+ErrorMessage.propTypes = {
+  error: PropTypes.string.isRequired,
+};
+
+export default ErrorMessage;
