@@ -18,9 +18,9 @@ export const intersectionArrays = (ar1, ar2) => {
   });
 };
 
-export const validateUser = (el, { city, ageFromArg, ageToArg, sex }) => {
-  let ageFrom = ageFromArg;
-  let ageTo = ageToArg;
+export const validateUser = (el, params) => {
+  let { ageFrom, ageTo } = params;
+  const { city, sex } = params;
   const filterCity = !city || (el.city && (city === el.city.id));
   const filterSex = (!sex || sex === '0') || (sex.toString() === el.sex.toString());
   const age = moment().diff(moment(el.bdate, 'DD.MM.YYYY'), 'years');
